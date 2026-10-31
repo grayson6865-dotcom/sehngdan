@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>活动管理 - XPPen 21周年庆</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+    .section-panel { display: none; }
+    .section-panel.active { display: block; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 16px; border-radius: 12px; font-size: 14px; font-weight: 600;
+      color: #6b7280; cursor: pointer; transition: all 0.15s ease; border: 0; background: transparent; width: 100%; text-align: left;
+    }
+    .sidebar-link:hover { background: #f5f5f5; color: #374151; }
+    .sidebar-link.active { background: #eff6ff; color: #1677ff; font-weight: 700; }
+    .toast-msg {
+      position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); z-index: 9999;
+      padding: 10px 22px; border-radius: 999px; background: #1f2937; color: #fff;
+      font-size: 13px; font-weight: 600; box-shadow: 0 4px 16px rgba(0,0,0,.15);
+      pointer-events: none; opacity: 0; transition: opacity 0.25s ease;
+    }
+    .toast-msg.show { opacity: 1; }
+    .field-error { border-color: #ef4444 !important; box-shadow: 0 0 0 2px rgba(239,68,68,.15) !important; }
+    .drag-source { opacity: 0.3 !important; transform: scale(0.92) !important; border: 2px dashed #1677ff !important; box-shadow: none !important; }
+    .drag-target { transform: scale(1.04) !important; border: 2px solid #1677ff !important; box-shadow: 0 0 0 4px rgba(22,119,255,.2), 0 8px 20px rgba(0,0,0,.1) !important; background: #f0f7ff !important; transition: all 0.12s ease !important; }
+    .modal[hidden] { display: none; }
+    .modal { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; padding: 24px; }
+    .modal-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,.3); backdrop-filter: blur(4px); }
+    .modal-card {
+      position: relative; width: min(520px, 100%); max-height: min(720px, calc(100vh - 48px));
+      overflow: auto; background: #fff; border-radius: 16px; padding: 24px; box-shadow: 0 20px 50px rgba(15,23,42,.18);
+    }
+    .modal-close {
+      position: absolute; top: 14px; right: 14px; width: 32px; height: 32px; border: 0;
+      border-radius: 999px; background: #f3f4f6; color: #4b5563; font-size: 20px; line-height: 1; cursor: pointer;
+    }
+    .modal-close:hover { background: #e5e7eb; color: #111827; }
+    .prize-icon {
+      width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center;
+      margin-bottom: 12px; background: #eff6ff; color: #1677ff; font-size: 22px; font-weight: 800;
+    }
+    .modal[data-modal-kind="activity-form"] .prize-icon { display: none; }
+    .eyebrow { margin: 0 0 6px; font-size: 12px; line-height: 1.4; color: #6b7280; font-weight: 700; }
+    .modal-card h2 { margin: 0 0 16px; font-size: 18px; line-height: 1.4; font-weight: 800; color: #111827; }
+    .modal-actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 20px; }
+  </style>
+  <style id="prd-annotation-style">
+    .prd-badge {
+      position: absolute;
+      top: -8px;
+      right: -4px;
+      display: inline-block;
+      vertical-align: top;
+      padding: 0 4px;
+      border: 0;
+      border-radius: 2px;
+      background: rgb(250, 173, 20);
+      color: #fff;
+      font-size: 10px;
+      font-weight: bold;
+      line-height: 14px;
+      cursor: pointer;
+      z-index: 9998;
+      font-family: Arial, sans-serif;
+      box-sizing: border-box;
+    }
+    .prd-badge[data-prd-floating="true"] { right: auto; }
+    .prd-popover {
+      position: fixed;
+      z-index: 9999;
+      width: 450px;
+      min-height: 260px;
+      max-width: calc(100vw - 24px);
+      max-height: 78vh;
+      background: #f0efef;
+      border-radius: 4px;
+      box-shadow: 0 12px 36px rgba(0,0,0,.18);
+      color: #1f2937;
+      font-family: Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+      overflow: hidden;
+      resize: both;
+    }
+    .prd-popover-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-bottom: 1px solid #d8d8d8;
+      cursor: move;
+      font-weight: 700;
+      user-select: none;
+      touch-action: none;
+    }
+    .prd-popover-header .prd-badge { position: static; line-height: 14px; }
+    .prd-popover-title { flex: 1; font-size: 14px; }
+    .prd-popover-close { border: 0; background: transparent; font-size: 18px; line-height: 1; cursor: pointer; color: #111; padding: 2px 6px; }
+    .prd-popover-meta { padding: 10px 14px 0; font-size: 12px; color: #555; line-height: 1.55; }
+    .prd-popover-meta div { margin-bottom: 4px; }
+    .prd-popover-body { padding: 10px 14px 16px; overflow: auto; height: calc(100% - 96px); max-height: calc(78vh - 96px); font-size: 13px; line-height: 1.6; }
+    .prd-popover-body p { margin: 0 0 12px; line-height: 1.6; }
+    .prd-popover-body h3 { font-size: 16px; margin: 10px 0 10px; color: #111827; }
+    .prd-popover-body h4 { font-size: 14px; margin: 14px 0 8px; color: #111827; }
+    .prd-popover-body ul, .prd-popover-body ol { margin: 0 0 12px 20px; padding-left: 16px; }
+    .prd-popover-body li { margin: 4px 0; }
+    .prd-popover-body blockquote { margin: 0 0 12px; padding: 8px 10px; border-left: 3px solid #c7c7c7; background: #e7e7e7; color: #444; }
+    .prd-popover-body code { font-family: Menlo, Consolas, monospace; background: #e2e2e2; padding: 1px 4px; border-radius: 3px; }
+    .prd-state-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 5px; vertical-align: middle; }
+    .prd-dot-success { background: #16a34a; }
+    .prd-dot-warning { background: #f97316; }
+    .prd-dot-error { background: #dc2626; }
+    .prd-dot-disabled { background: #9ca3af; }
+    .prd-manager-toggle, .prd-flow-toggle, .prd-related-toggle {
+      position: fixed;
+      right: 18px;
+      z-index: 9997;
+      border: 0;
+      border-radius: 999px;
+      background: #111827;
+      color: #fff;
+      padding: 10px 14px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(0,0,0,.18);
+    }
+    .prd-manager-toggle { top: 18px; }
+    .prd-flow-toggle { top: 72px; }
+    .prd-related-toggle { top: 126px; }
+    .prd-manager {
+      position: fixed;
+      right: 0;
+      top: 0;
+      width: 320px;
+      height: 100vh;
+      z-index: 9999;
+      background: #fff;
+      box-shadow: -8px 0 30px rgba(0,0,0,.16);
+      transform: translateX(100%);
+      transition: transform .2s ease;
+      display: flex;
+      flex-direction: column;
+      font-family: Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+    .prd-manager.is-open { transform: translateX(0); }
+    .prd-manager header { padding: 16px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+    .prd-manager header button { border: 0; background: #f3f4f6; border-radius: 6px; padding: 4px 8px; cursor: pointer; }
+    .prd-manager-list { padding: 12px; overflow-y: auto; flex: 1; min-height: 0; }
+    .prd-manager-item { display: grid; grid-template-columns: 28px 1fr auto auto; gap: 6px; align-items: center; padding: 8px; border: 1px solid #eee; border-radius: 8px; margin-bottom: 8px; font-size: 12px; }
+    .prd-manager-item .prd-badge { position: static; justify-self: start; }
+    .prd-manager-item strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .prd-manager-actions { padding: 12px; border-top: 1px solid #eee; display: flex; flex-direction: column; gap: 8px; }
+    .prd-manager-actions button, .prd-manager-item button, .prd-panel button { border: 1px solid #ddd; background: #fff; border-radius: 6px; padding: 6px 8px; cursor: pointer; font-weight: 700; }
+    .prd-edit-modal, .prd-panel-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      background: rgba(0,0,0,.25);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-family: Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+    .prd-edit-modal.is-open, .prd-panel-modal.is-open { display: flex; }
+    .prd-edit-card, .prd-panel {
+      width: min(960px, calc(100vw - 40px));
+      max-height: min(760px, calc(100vh - 40px));
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 18px 48px rgba(0,0,0,.22);
+      padding: 20px;
+      overflow: auto;
+      color: #111827;
+    }
+    .prd-edit-card h3, .prd-panel h3 { margin: 0 0 12px; font-size: 16px; }
+    .prd-edit-card label { display: block; font-size: 12px; font-weight: 700; margin: 8px 0 4px; }
+    .prd-edit-card input, .prd-edit-card textarea { width: 100%; box-sizing: border-box; border: 1px solid #ddd; border-radius: 6px; padding: 8px; font: 13px/1.6 Arial, "PingFang SC", "Microsoft YaHei", sans-serif; }
+    .prd-edit-card textarea { min-height: 320px; font-family: Menlo, Consolas, monospace; }
+    .prd-edit-actions, .prd-panel-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; }
+    .prd-pick-mask { position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,.15); cursor: crosshair; display: none; }
+    .prd-pick-mask.is-open { display: block; }
+    .prd-highlight-target { outline: 2px dashed rgb(250, 173, 20) !important; outline-offset: 2px !important; }
+    .prd-flow-grid { display: grid; gap: 10px; }
+    .prd-flow-node { border: 1px solid #e5e7eb; border-radius: 8px; padding: 10px; background: #f9fafb; }
+    .prd-flow-node strong { display: block; margin-bottom: 4px; }
+    .prd-related-upload { border: 1px dashed #cbd5e1; border-radius: 10px; padding: 18px; color: #64748b; margin-bottom: 14px; }
+    .prd-related-page { border: 1px solid #e5e7eb; border-radius: 8px; padding: 10px; margin: 8px 0; }
+  </style>
+</head>
+<body class="bg-[#f5f5f5] text-gray-900 min-h-screen">
+  <div id="admin-toast" class="toast-msg"></div>
+
+  <div class="flex min-h-screen">
+    <!-- ── Sidebar ── -->
+    <aside class="w-[260px] bg-white border-r border-gray-100 flex flex-col shrink-0 sticky top-0 h-screen">
+      <div class="px-5 py-6 border-b border-gray-100">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-[#1677ff] flex items-center justify-center text-white text-sm font-bold shadow-sm">XP</div>
+          <div>
+            <div class="text-base font-bold text-gray-900 leading-tight">活动管理</div>
+            <div class="text-xs text-gray-400 font-medium">XPPen 21周年庆</div>
+          </div>
+        </div>
+      </div>
+      <nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto" id="admin-sidebar-nav">
+        <button class="sidebar-link active" data-admin-section="participants"><span class="text-base">👥</span> 参与人信息</button>
+      </nav>
+      <div class="px-4 py-4 border-t border-gray-100">
+        <div class="text-xs text-gray-400 text-center" id="storage-meter">存储: 0 KB</div>
+      </div>
+    </aside>
+
+    <!-- ── Main ── -->
+    <main class="flex-1 min-w-0">
+      <div class="p-8 max-w-[1400px] w-full space-y-8">
+
+        <!-- ═══════════════ 活动配置 ═══════════════ -->
+        <section class="section-panel space-y-10" id="section-activity-config">
+
+          <!-- 子标题1: 每日素材 -->
+          <div id="subsection-daily-assets" class="space-y-4">
+            <h2 class="text-lg font-bold text-gray-900">📝 每日素材配置</h2>
+            <p class="text-sm text-gray-500">配置21天的临摹图案、临摹主题与事件描述。<span class="text-red-500">*</span> 必填。当前大奖日：<span class="text-[#1677ff] font-bold" id="special-days-summary">-</span></p>
+            <div class="flex items-center gap-3 flex-wrap">
+              <button class="bg-white text-gray-700 border border-gray-200 px-5 py-2 rounded-xl text-sm font-bold hover:bg-gray-50 transition-colors shadow-sm" data-action="batch-upload">📁 批量上传线稿</button>
+              <button class="text-gray-500 hover:text-gray-700 text-sm font-bold transition-colors" data-action="clear-all-images">清空全部线稿</button>
+            </div>
+            <div class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
+              <div class="grid grid-cols-7 gap-3" id="daily-assets-grid"></div>
+            </div>
+          </div>
+
+          <!-- 子标题2: 活动时间 -->
+          <div id="subsection-activity-time" class="space-y-4">
+            <h2 class="text-lg font-bold text-gray-900">⏰ 活动时间配置</h2>
+            <p class="text-sm text-gray-500">设置活动开始与结束时间（精确到秒）。<span class="text-red-500">*</span> 必填。</p>
+            <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm space-y-4">
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-sm font-bold text-gray-900 mb-1.5">活动开始时间 <span class="text-red-500">*</span> <span class="text-xs text-gray-400 font-medium">Start Time</span></label>
+                  <div class="flex items-center gap-2">
+                    <input type="datetime-local" step="1" id="input-start-time" class="bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-900 outline-none focus:border-[#1677ff] focus:ring-1 focus:ring-[#1677ff]/20 w-full transition-colors">
+                    <button class="text-gray-500 hover:text-gray-700 text-sm font-bold shrink-0 transition-colors" data-action="clear-start-time">清除</button>
+                  </div>
+                </div>
+                <div>
+                  <label class="block text-sm font-bold text-gray-900 mb-1.5">活动结束时间 <span class="text-red-500">*</span> <span class="text-xs text-gray-400 font-medium">End Time</span></label>
+                  <div class="flex items-center gap-2">
+                    <input type="datetime-local" step="1" id="input-end-time" class="bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-900 outline-none focus:border-[#1677ff] focus:ring-1 focus:ring-[#1677ff]/20 w-full transition-colors">
+                    <button class="text-gray-500 hover:text-gray-700 text-sm font-bold shrink-0 transition-colors" data-action="clear-end-time">清除</button>
+                  </div>
+                </div>
+              </div>
+              <div id="time-status" class="text-sm font-bold py-3 px-4 rounded-xl text-center"></div>
+            </div>
+          </div>
+
+          <!-- 子标题3: 抽奖活动配置 -->
+          <div id="subsection-prizes-rules" class="space-y-6">
+            <h2 class="text-lg font-bold text-gray-900">🎡 抽奖活动配置</h2>
+
+            <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm space-y-4">
+              <div>
+                <label class="block text-sm font-bold text-gray-900 mb-1.5">日常抽奖活动 <span class="text-xs text-gray-400 font-medium">Daily Lottery Activity</span></label>
+                <p class="text-sm text-gray-500 mb-3">选择积分商城中已创建的抽奖活动，用于非大奖日的转盘抽奖。</p>
+                <select id="select-daily-activity" class="bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-900 outline-none focus:border-[#1677ff] focus:ring-1 focus:ring-[#1677ff]/20 w-full transition-colors"></select>
+              </div>
+              <div class="border-t border-gray-100 pt-4">
+                <label class="block text-sm font-bold text-gray-900 mb-1.5">奖励日抽奖活动 <span class="text-xs text-gray-400 font-medium">Special Day Lottery Activity</span></label>
+                <p class="text-sm text-gray-500 mb-3">选择积分商城中已创建的抽奖活动，用于大奖日（Day 6/11/17/21）的转盘抽奖。</p>
+                <select id="select-special-activity" class="bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-900 outline-none focus:border-[#1677ff] focus:ring-1 focus:ring-[#1677ff]/20 w-full transition-colors"></select>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- 保存按钮 -->
+          <div class="flex justify-center pt-4 border-t border-gray-100">
+            <button class="bg-[#1677ff] text-white px-8 py-3 rounded-xl text-sm font-bold hover:bg-blue-700 transition-colors shadow-sm" data-action="save-all">💾 保存全部配置</button>
+          </div>
+        </section>
+
+        <!-- ═══════════════ 参与人信息 ═══════════════ -->
+        <section class="section-panel active space-y-6" id="section-participants">
+          <div id="participant-overview-panel" class="space-y-6">
+            <div>
+              <h2 class="text-lg font-bold text-gray-900 mb-1">参与人信息</h2>
+              <p class="text-sm text-gray-500 m-0">按活动维度查看参与规模，点击查看进入参与明细列表。</p>
+            </div>
+            <div class="flex items-center gap-3 flex-wrap">
+              <button class="bg-[#1677ff] text-white px-5 py-2 rounded-xl text-sm font-bold hover:bg-blue-700 transition-colors shadow-sm" data-action="add-activity">＋ 新增活动</button>
+              <button class="bg-white text-gray-700 border border-gray-200 px-5 py-2 rounded-xl text-sm font-bold hover:bg-gray-50 transition-colors shadow-sm" data-action="generate-mock-participants">🎲 生成模拟数据</button>
+            </div>
+            <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-x-auto">
+              <table class="w-full" id="activity-participant-table">
+                <thead><tr class="border-b border-gray-100"><th class="text-left text-xs text-gray-500 font-bold uppercase tracking-wider px-5 py-3">活动名称</th><th class="text-left text-xs text-gray-500 font-bold uppercase tracking-wider px-5 py-3">活动时间</th><th class="text-left text-xs text-gray-500 font-bold uppercase tracking-wider px-5 py-3">参与人数</th><th class="text-left text-xs text-gray-500 font-bold uppercase tracking-wider px-5 py-3">操作</th></tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div id="participant-detail-panel" class="space-y-6 hidden">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <button class="text-[#1677ff] text-sm font-bold mb-3 hover:underline" type="button" data-action="back-to-activity-participants">← 返回活动列表</button>
+                <h2 class="text-lg font-bold text-gray-900 mb-1">参与人数据明细列表</h2>
+                <p class="text-sm text-gray-500 m-0"><span id="participant-detail-activity-name">XPPen 21周年庆每日涂鸦活动</span> · <strong class="text-gray-900" id="participant-count">0</strong></p>
+              </div>
+            </div>
+            <div class="flex items-center gap-3 flex-wrap">
+              <input type="text" id="participant-search" placeholder="搜索昵称或会员编码…" class="bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-900 outline-none focus:border-[#1677ff] w-56 transition-colors">
+              <button class="bg-white text-gray-700 border border-gray-200 px-5 py-2 rounded-xl text-sm font-bold hover:bg-gray-50 transition-colors shadow-sm" data-action="generate-mock-participants">🎲 生成模拟数据</button>
+              <button class="bg-white text-gray-700 border border-gray-200 px-5 py-2 rounded-xl text-sm font-bold hover:bg-gray-50 transition-colors shadow-sm" data-action="export-participants">📥 导出 CSV</button>
+            </div>
+            <div class="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm flex items-center justify-between gap-3 flex-wrap">
+              <div class="text-sm font-bold text-gray-900">操作区 <span class="text-xs text-gray-400 font-medium" id="selected-participant-count">已选择 0 人</span></div>
+              <div class="flex items-center gap-3 flex-wrap">
+                <button class="bg-red-500 text-white px-5 py-2 rounded-xl text-sm font-bold hover:bg-red-600 transition-colors shadow-sm" data-action="set-selected-blacklist">批量加入黑名单</button>
+                <button class="bg-white text-gray-700 border border-gray-200 px-5 py-2 rounded-xl text-sm font-bold hover:bg-gray-50 transition-colors shadow-sm" data-action="remove-selected-blacklist">批量移除黑名单</button>
+              </div>
+            </div>
+            <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-x-auto">
+              <table class="w-full" id="participant-table">
+                <thead><tr class="border-b border-gray-100"><th class="text-left text-xs text-gray-500 font-bold uppercase tracking-wider px-5 py-3"><input type="checkbox" class="w-4 h-4 rounded border-gray-300" data-action="toggle-all-participant-selection"></th><th class="text-left text-xs text-gray-500 font-bold uppercase tracking-wider px-5 py-3">序号</th><th class="text-left text-xs text-gray-500 font-bold uppercase tracking-wider px-5 py-3">昵称</th><th class="text-left text-xs text-gray-500 font-bold uppercase tracking-wider px-5 py-3">会员编码</th><th class="text-left text-xs text-gray-500 font-bold uppercase tracking-wider px-5 py-3">参与次数</th><th class="text-left text-xs text-gray-500 font-bold uppercase tracking-wider px-5 py-3">中奖次数</th><th class="text-left text-xs text-gray-500 font-bold uppercase tracking-wider px-5 py-3">最近参与时间</th><th class="text-left text-xs text-gray-500 font-bold uppercase tracking-wider px-5 py-3">黑名单状态</th><th class="text-left text-xs text-gray-500 font-bold uppercase tracking-wider px-5 py-3">操作</th></tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <input type="file" id="batch-file-input" accept="image/png" multiple class="hidden">
+  <!-- Modal -->
+  <div class="modal" id="modal" hidden>
+    <div class="modal-backdrop" data-action="close-modal"></div>
+    <section class="modal-card t-modal" role="dialog" aria-modal="true">
+      <button class="modal-close" type="button" data-action="close-modal" aria-label="Close">×</button>
+      <div class="prize-icon" id="modal-icon">?</div>
+      <p class="eyebrow" id="modal-eyebrow">Detail</p>
+      <h2 id="modal-title">Title</h2>
+      <div id="modal-body">Content</div>
+      <div class="modal-actions" id="modal-actions"></div>
+    </section>
+  </div>
+  <script src="js/admin.js"></script>
+  <script id="prd-annotation-script">
+    (function () {
+      'use strict';
+
+      var annotations = [
+        {
+          id: 1,
+          module: '活动列表',
+          target: function () { return document.getElementById('activity-participant-table'); },
+          mountHint: '活动列表表格容器右上角或表头右侧',
+          aggregationBoundary: '活动名称、活动时间、参与人数、查看参与明细、编辑入口统一聚合到活动列表模块',
+          sourceSection: '详细需求描述总览表第 1 行 / 6.1 活动列表',
+          content: [
+            '### 6.1 活动列表',
+            '',
+            '#### 6.1.1 功能概述',
+            '活动列表用于让活动运营按活动维度查看参与规模，并进入参与人明细或编辑活动信息。页面默认进入「参与人信息」菜单，主区域展示活动列表。',
+            '',
+            '#### 6.1.2 页面结构',
+            '- 左侧导航区：展示 XP 标识、页面名称「活动管理」、活动名称说明「XPPen 21周年庆」和默认选中的「参与人信息」菜单。',
+            '- 活动列表顶部：展示标题「参与人信息」、说明文案、主按钮「新增活动」和次按钮「生成模拟数据」。',
+            '- 活动表格：包含活动名称、活动时间、参与人数和操作列。操作列包含「查看参与明细」和「编辑」。',
+            '',
+            '#### 6.1.3 逻辑说明',
+            '- 数据加载：页面加载时读取活动数据；若无活动数据，默认展示「XPPen 21周年庆每日涂鸦活动」。',
+            '- 参与人数口径：按会员编码去重统计；同一会员多次参与时，活动列表仍按 1 人计。',
+            '- 活动时间口径：新增或编辑活动时开始时间、结束时间均必填；列表按「开始时间 至 结束时间」展示，历史空时间数据可继续兜底展示「未设置活动时间」。',
+            '- 状态流转：点击「查看参与明细」进入当前活动明细；点击「编辑」打开活动信息弹窗并回填当前活动信息。',
+            '',
+            '#### 6.1.4 交互说明',
+            '- 默认态：页面默认展示活动列表，默认活动参与人数可为 0。',
+            '- 点击「新增活动」：打开活动信息弹窗，标题为「新增活动」，活动名称输入框默认聚焦。',
+            '- 点击「编辑」：打开活动信息弹窗，标题为「编辑活动」，回填活动名称、开始时间和结束时间。',
+            '- 点击「查看参与明细」：隐藏活动列表，展示参与人数据明细列表，明细标题下方展示当前活动名称和参与人数。',
+            '- 点击「生成模拟数据」：生成 20-50 名模拟用户，每名用户生成 1-5 条参与记录；刷新参与人数，并以 toast 提示生成结果。',
+            '',
+            '#### 6.1.5 异常场景说明',
+            '- 空数据：若活动列表为空，表格展示「暂无活动，请新增活动」。',
+            '- 数据读取失败：若本地活动数据异常，使用默认活动兜底展示。',
+            '- 模拟数据失败：若浏览器存储不可用，应提示用户刷新页面或检查浏览器权限；本期原型使用 toast 作为全局反馈。',
+            '- 权限不足：当前版本不区分角色权限；后续接入权限后，无权限用户应隐藏新增、编辑和模拟数据按钮。'
+          ].join('\n')
+        },
+        {
+          id: 2,
+          module: '活动信息弹窗',
+          target: function () {
+            var modal = document.getElementById('modal');
+            var title = document.getElementById('modal-title');
+            if (modal && modal.hasAttribute('data-open') && title && /新增活动|编辑活动/.test(title.textContent || '')) return title;
+            var add = document.querySelector('[data-action="add-activity"]');
+            return add ? add.parentElement : null;
+          },
+          mountHint: '新增活动弹窗标题右侧',
+          aggregationBoundary: '活动名称、开始时间、结束时间、保存、取消、关闭、字段校验统一聚合到活动信息弹窗',
+          sourceSection: '详细需求描述总览表第 2 行 / 6.2 活动信息弹窗',
+          content: [
+            '### 6.2 活动信息弹窗',
+            '',
+            '#### 6.2.1 功能概述',
+            '活动信息弹窗用于新增或编辑活动基础信息。运营可维护活动名称、开始时间和结束时间，保存后活动列表同步更新。',
+            '',
+            '#### 6.2.2 页面结构',
+            '- 弹窗基础结构：遮罩层、右上角关闭按钮、副标题「活动信息」、标题「新增活动」或「编辑活动」、说明文案。',
+            '- 表单字段：活动名称必填，最大 50 字符；展示字数计数；开始时间和结束时间均为必填。',
+            '- 按钮区：取消关闭弹窗且不保存；保存校验并提交活动信息。',
+            '',
+            '#### 6.2.3 逻辑说明',
+            '- 新增活动：保存成功后新增活动记录，开始时间和结束时间必须填写后才允许保存。',
+            '- 编辑活动：保存成功后更新当前活动记录，参与人数据不因编辑活动名称或时间而删除。',
+            '- 字段校验：活动名称不能为空；开始时间不能为空；结束时间不能为空；结束时间不能早于开始时间；活动名称超过 50 字符时不允许继续输入。',
+            '- 状态清理：弹窗关闭后清理编辑状态和字段错误。',
+            '',
+            '#### 6.2.4 交互说明',
+            '- 打开弹窗：新增场景标题展示「新增活动」，编辑场景标题展示「编辑活动」，打开后活动名称输入框默认聚焦。',
+            '- 输入活动名称：字数计数随输入实时更新。',
+            '- 点击「保存」：校验通过则关闭弹窗、刷新活动列表并展示「活动信息已保存」；校验失败时弹窗保持打开，错误字段增加红色边框并在字段下方展示错误文案。',
+            '- 点击「取消」、「×」、遮罩或按 Escape：关闭弹窗，不保存当前输入内容。',
+            '',
+            '#### 6.2.5 异常场景说明',
+            '- 活动名称为空：字段下方展示「请输入活动名称」，保存按钮不提交数据。',
+            '- 开始时间为空：字段下方展示「请选择开始时间」，保存按钮不提交数据。',
+            '- 结束时间为空：字段下方展示「请选择结束时间」，保存按钮不提交数据。',
+            '- 时间反向：结束时间字段下方展示「结束时间不能早于开始时间」，保存按钮不提交数据。',
+            '- 重复活动名称：当前版本允许重复；后续如业务要求唯一，应提示「活动名称已存在，请修改后保存」。',
+            '- 保存失败：应保留弹窗输入内容并提示「保存失败，请稍后重试」。'
+          ].join('\n')
+        },
+        {
+          id: 3,
+          module: '参与人明细',
+          target: function () { return document.getElementById('participant-table') || document.querySelector('[data-action="view-activity-participants"]'); },
+          mountHint: '参与人明细表格表头右上角',
+          aggregationBoundary: '搜索框、模拟数据、导出 CSV、表格列、参与次数、中奖次数、空态统一聚合到参与人明细模块',
+          sourceSection: '详细需求描述总览表第 3 行 / 6.3 参与人明细',
+          content: [
+            '### 6.3 参与人明细',
+            '',
+            '#### 6.3.1 功能概述',
+            '参与人明细用于按会员维度查看某个活动下的参与数据，帮助运营识别参与频次、中奖情况和最近参与时间，并支持导出明细。',
+            '',
+            '#### 6.3.2 页面结构',
+            '- 顶部导航：返回活动列表按钮、页面标题「参与人数据明细列表」、当前活动名称和参与人数。',
+            '- 工具区：搜索框、生成模拟数据按钮、导出 CSV 按钮。',
+            '- 明细表格：勾选列、序号、昵称、会员编码、参与次数、中奖次数、最近参与时间、黑名单状态和操作。',
+            '- 参与次数可点击查看参与详情；中奖次数可点击查看中奖详情。',
+            '',
+            '#### 6.3.3 逻辑说明',
+            '- 数据聚合：按会员编码聚合；同一会员多条参与记录合并为一行；参与次数等于该会员在当前活动下的参与记录条数；最近参与时间取最新参与记录时间。',
+            '- 搜索口径：支持按昵称或会员编码模糊搜索，搜索仅影响当前活动的参与人明细列表。',
+            '- 中奖次数口径：按会员编码聚合中奖记录，无中奖记录展示 0。',
+            '- 导出口径：导出当前活动下的参与记录，CSV 字段包含序号、活动名称、昵称、会员编码、黑名单状态、参与时间。',
+            '',
+            '#### 6.3.4 交互说明',
+            '- 点击「返回活动列表」：返回活动列表视图并清空当前选中参与人。',
+            '- 输入搜索词：短暂延迟后刷新列表，仅展示匹配昵称或会员编码的用户。',
+            '- 点击「生成模拟数据」：为当前活动生成模拟参与记录，刷新明细表，参与次数列应出现大于 1 的模拟数据。',
+            '- 点击「导出 CSV」：下载 participants.csv，成功后展示「已导出 participants.csv」。',
+            '- 点击参与次数：打开参与详情弹窗，展示该会员每一次参与时间。',
+            '- 点击中奖次数：打开中奖详情弹窗；有记录展示中奖物品和中奖时间，无记录展示「暂无中奖记录」。',
+            '',
+            '#### 6.3.5 异常场景说明',
+            '- 空数据或搜索无结果：表格展示「暂无参与数据」，搜索框保留用户输入。',
+            '- 导出空数据：当前版本允许导出仅含表头的 CSV。',
+            '- 数据异常：参与时间缺失展示「-」，昵称缺失展示「-」。',
+            '- 接口失败：后续接入服务端后，列表加载失败应展示「数据加载失败，请刷新重试」。'
+          ].join('\n')
+        },
+        {
+          id: 4,
+          module: '黑名单操作区',
+          target: function () { return document.getElementById('selected-participant-count') || document.querySelector('[data-action="set-selected-blacklist"]'); },
+          mountHint: '操作区按钮组右上角',
+          aggregationBoundary: '勾选、全选、已选择人数、批量加入、批量移除、单人加入/移除、黑名单状态统一聚合',
+          sourceSection: '详细需求描述总览表第 4 行 / 6.4 黑名单操作区',
+          content: [
+            '### 6.4 黑名单操作区',
+            '',
+            '#### 6.4.1 功能概述',
+            '黑名单操作区用于运营对异常参与人进行风险标记。运营可以单人设置，也可以勾选多个参与人后批量加入或移除黑名单。',
+            '',
+            '#### 6.4.2 页面结构',
+            '- 操作区：标题「操作区」、已选择人数、批量加入黑名单按钮、批量移除黑名单按钮。',
+            '- 表格选择能力：表头复选框用于全选或取消全选当前列表；行复选框用于选择单个参与人。',
+            '- 黑名单状态：正常展示灰色标签；黑名单展示红色标签。',
+            '- 单行操作：正常状态显示「加入黑名单」，黑名单状态显示「移除黑名单」。',
+            '',
+            '#### 6.4.3 逻辑说明',
+            '- 作用对象：黑名单状态按会员编码设置，同一会员所有参与记录共享同一黑名单状态。',
+            '- 选择范围：全选仅作用于当前搜索结果列表；搜索结果变化后，不在当前列表中的已选用户应从选择状态中移除。',
+            '- 批量加入：将已选会员状态更新为黑名单，保存后刷新明细表。',
+            '- 批量移除：将已选会员状态更新为正常，保存后刷新明细表。',
+            '- 单人切换：点击「加入黑名单」后状态变为黑名单；点击「移除黑名单」后状态变为正常。',
+            '',
+            '#### 6.4.4 交互说明',
+            '- 勾选或取消单个用户：行复选框状态变化，已选择人数同步增减。',
+            '- 点击表头全选：当前列表全部用户选中；再次点击则全部取消。',
+            '- 点击「批量加入黑名单」：有选中用户则更新为黑名单并提示「已加入黑名单」；无选中用户则提示「请先选择参与人」。',
+            '- 点击「批量移除黑名单」：有选中用户则更新为正常并提示「已移除黑名单」；无选中用户则提示「请先选择参与人」。',
+            '- 点击单行操作：状态标签和操作按钮文案立即切换。',
+            '',
+            '#### 6.4.5 异常场景说明',
+            '- 未选择用户执行批量操作：展示 toast「请先选择参与人」，不提交状态变更。',
+            '- 当前列表为空：表头全选不可产生有效选择，批量操作点击后提示「请先选择参与人」。',
+            '- 搜索后选择丢失：自动清理不可见选择，避免误操作。',
+            '- 保存失败：应保持原状态并提示「黑名单状态更新失败，请稍后重试」。',
+            '- 状态冲突：后续服务端版本应以最新状态为准，并在刷新后展示最新结果。'
+          ].join('\n')
+        },
+        {
+          id: 5,
+          module: '详情弹窗',
+          target: function () {
+            var modal = document.getElementById('modal');
+            var title = document.getElementById('modal-title');
+            if (modal && modal.hasAttribute('data-open') && title && /参与详情|中奖详情/.test(title.textContent || '')) return title;
+            return document.querySelector('[data-action="show-join-detail"]');
+          },
+          mountHint: '详情弹窗标题右侧',
+          aggregationBoundary: '参与次数入口、中奖次数入口、详情列表、空记录、关闭按钮统一聚合',
+          sourceSection: '详细需求描述总览表第 5 行 / 6.5 详情弹窗',
+          content: [
+            '### 6.5 详情弹窗',
+            '',
+            '#### 6.5.1 功能概述',
+            '详情弹窗用于查看某个参与人的参与记录或中奖记录，帮助运营核查用户行为和中奖情况。',
+            '',
+            '#### 6.5.2 页面结构',
+            '- 弹窗基础结构：遮罩层、关闭按钮、图标区、副标题、标题、内容区和关闭按钮。',
+            '- 参与详情内容：序号和参与时间。',
+            '- 中奖详情内容：序号、中奖物品和中奖时间。',
+            '',
+            '#### 6.5.3 逻辑说明',
+            '- 参与详情：点击参与次数后，按会员编码筛选参与记录，并按参与时间倒序展示。',
+            '- 中奖详情：点击中奖次数后，按会员编码筛选中奖记录，并按中奖时间倒序展示。',
+            '- 数据关联：详情弹窗仅展示当前会员记录；参与详情不受黑名单状态影响。',
+            '',
+            '#### 6.5.4 交互说明',
+            '- 打开参与详情：用户点击参与次数数字，弹窗打开并展示参与记录列表。',
+            '- 打开中奖详情：用户点击中奖次数数字，弹窗打开并展示中奖记录列表或空态。',
+            '- 关闭弹窗：点击「关闭」、右上角「×」、遮罩或按 Escape 均关闭弹窗；关闭后返回参与人明细页，列表状态保持不变。',
+            '',
+            '#### 6.5.5 异常场景说明',
+            '- 参与记录为空：若数据异常为空，应展示「暂无参与记录」。',
+            '- 中奖记录为空：弹窗展示「暂无中奖记录」。',
+            '- 数据缺失：时间缺失时展示「-」，昵称缺失时使用会员编码作为副标题。',
+            '- 权限不足：后续如需限制，未授权用户点击次数时应提示「暂无权限查看详情」。'
+          ].join('\n')
+        }
+      ];
+
+      var popovers = {};
+      var managerOpen = false;
+      var editTarget = null;
+      var pickMode = false;
+      var relatedPins = [];
+
+      window.__PRD_ANNOTATIONS__ = annotations;
+
+      function escapeHtml(value) {
+        return String(value || '').replace(/[&<>"']/g, function (ch) {
+          return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[ch];
+        });
+      }
+
+      function mdToHtml(md) {
+        var html = escapeHtml(md);
+        html = html.replace(/^### (.*)$/gm, '<h3>$1</h3>');
+        html = html.replace(/^#### (.*)$/gm, '<h4>$1</h4>');
+        html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+        html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+        html = html.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+        html = html.replace(/^&gt; (.*)$/gm, '<blockquote>$1</blockquote>');
+        html = html.replace(/^- (.*)$/gm, '<li>$1</li>');
+        html = html.replace(/(<li>[\s\S]*?<\/li>)(?!(\s*<li>))/g, '<ul>$1</ul>');
+        html = html.replace(/<\/ul>\s*<ul>/g, '');
+        html = html.replace(/\n{2,}/g, '</p><p>');
+        html = '<p>' + html + '</p>';
+        html = html.replace(/<p>\s*(<h[34]>)/g, '$1').replace(/(<\/h[34]>)\s*<\/p>/g, '$1');
+        html = html.replace(/<p>\s*(<ul>)/g, '$1').replace(/(<\/ul>)\s*<\/p>/g, '$1');
+        html = html.replace(/<p>\s*(<blockquote>)/g, '$1').replace(/(<\/blockquote>)\s*<\/p>/g, '$1');
+        html = html.replace(/(成功|正常|通过)/g, '<span class="prd-state-dot prd-dot-success"></span>$1');
+        html = html.replace(/(警告|提示|待补充)/g, '<span class="prd-state-dot prd-dot-warning"></span>$1');
+        html = html.replace(/(失败|错误|不能为空|不能早于|无权限)/g, '<span class="prd-state-dot prd-dot-error"></span>$1');
+        html = html.replace(/(禁用|不可)/g, '<span class="prd-state-dot prd-dot-disabled"></span>$1');
+        return html;
+      }
+
+      function isVisible(el) {
+        if (!el) return false;
+        var rect = el.getBoundingClientRect();
+        var style = window.getComputedStyle(el);
+        return rect.width > 0 && rect.height > 0 && style.display !== 'none' && style.visibility !== 'hidden';
+      }
+
+      function clearBadges() {
+        document.querySelectorAll('.prd-badge[data-prd-id][data-prd-page-badge]').forEach(function (node) { node.remove(); });
+      }
+
+      function renderBadges() {
+        clearBadges();
+        annotations.forEach(function (ann) {
+          var target = typeof ann.target === 'function' ? ann.target() : document.querySelector(ann.target);
+          if (!isVisible(target)) return;
+          var badge = document.createElement('button');
+          badge.type = 'button';
+          badge.className = 'prd-badge';
+          badge.textContent = ann.id;
+          badge.setAttribute('data-prd-id', ann.id);
+          badge.setAttribute('data-prd-page-badge', 'true');
+          badge.addEventListener('mouseenter', function (event) { event.stopPropagation(); openPopover(ann, badge); });
+          badge.addEventListener('click', function (event) { event.preventDefault(); event.stopPropagation(); openPopover(ann, badge); });
+          var rect = target.getBoundingClientRect();
+          badge.setAttribute('data-prd-floating', 'true');
+          if (ann.x !== undefined && ann.y !== undefined) {
+            badge.style.left = Math.max(8, window.scrollX + rect.left + (rect.width * ann.x / 100) - 8) + 'px';
+            badge.style.top = Math.max(8, window.scrollY + rect.top + (rect.height * ann.y / 100) - 8) + 'px';
+          } else {
+            badge.style.left = Math.max(8, window.scrollX + rect.right - 12) + 'px';
+            badge.style.top = Math.max(8, window.scrollY + rect.top - 8) + 'px';
+          }
+          document.body.appendChild(badge);
+        });
+      }
+
+      function positionPopover(pop, anchor) {
+        var rect = anchor.getBoundingClientRect();
+        var left = rect.left - 450 - 8;
+        var top = rect.bottom + 8;
+        if (left < 12) left = Math.min(rect.right + 8, window.innerWidth - 462);
+        if (top + 260 > window.innerHeight) top = Math.max(12, rect.top - 268);
+        pop.style.left = Math.max(12, left) + 'px';
+        pop.style.top = Math.max(12, top) + 'px';
+      }
+
+      function openPopover(ann, anchor) {
+        if (popovers[ann.id]) popovers[ann.id].remove();
+        var pop = document.createElement('section');
+        pop.className = 'prd-popover';
+        pop.setAttribute('data-prd-popover', ann.id);
+        pop.innerHTML =
+          '<div class="prd-popover-header"><span class="prd-badge">' + ann.id + '</span><span class="prd-popover-title">需求描述：[' + escapeHtml(ann.module) + ']</span><button class="prd-popover-close" type="button">X</button></div>' +
+          '<div class="prd-popover-meta"><div><strong>来源章节：</strong>' + escapeHtml(ann.sourceSection) + '</div><div><strong>聚合范围：</strong>' + escapeHtml(ann.aggregationBoundary) + '</div></div>' +
+          '<div class="prd-popover-body">' + mdToHtml(ann.content) + '</div>';
+        document.body.appendChild(pop);
+        popovers[ann.id] = pop;
+        positionPopover(pop, anchor);
+        pop.querySelector('.prd-popover-close').onclick = function (event) {
+          event.stopPropagation();
+          pop.remove();
+          delete popovers[ann.id];
+        };
+        ['click', 'mousedown', 'mousemove', 'dragstart'].forEach(function (name) {
+          pop.addEventListener(name, function (event) { event.stopPropagation(); });
+        });
+        makeDraggable(pop, pop.querySelector('.prd-popover-header'));
+      }
+
+      function makeDraggable(panel, handle) {
+        var sx = 0, sy = 0, sl = 0, st = 0, dragging = false;
+        handle.addEventListener('mousedown', function (event) {
+          dragging = true;
+          sx = event.clientX;
+          sy = event.clientY;
+          sl = parseFloat(panel.style.left || panel.getBoundingClientRect().left);
+          st = parseFloat(panel.style.top || panel.getBoundingClientRect().top);
+          event.preventDefault();
+          event.stopPropagation();
+        });
+        document.addEventListener('mousemove', function (event) {
+          if (!dragging) return;
+          panel.style.left = Math.max(8, Math.min(window.innerWidth - 80, sl + event.clientX - sx)) + 'px';
+          panel.style.top = Math.max(8, Math.min(window.innerHeight - 40, st + event.clientY - sy)) + 'px';
+        });
+        document.addEventListener('mouseup', function () { dragging = false; });
+      }
+
+      function setupManager() {
+        var managerButton = document.createElement('button');
+        managerButton.className = 'prd-manager-toggle';
+        managerButton.type = 'button';
+        managerButton.textContent = '批注管理';
+        var flowButton = document.createElement('button');
+        flowButton.className = 'prd-flow-toggle';
+        flowButton.type = 'button';
+        flowButton.textContent = '流程图';
+        var relatedButton = document.createElement('button');
+        relatedButton.className = 'prd-related-toggle';
+        relatedButton.type = 'button';
+        relatedButton.textContent = '关联系统';
+        var panel = document.createElement('aside');
+        panel.className = 'prd-manager';
+        panel.innerHTML = '<header><strong>批注管理</strong><button type="button" data-close>×</button></header><div class="prd-manager-list"></div><div class="prd-manager-actions"><button type="button" data-add>+ 新增批注</button><button type="button" data-export>导出 prd.md</button></div>';
+        document.body.appendChild(managerButton);
+        document.body.appendChild(flowButton);
+        document.body.appendChild(relatedButton);
+        document.body.appendChild(panel);
+        managerButton.onclick = function () { managerOpen = !managerOpen; panel.classList.toggle('is-open', managerOpen); };
+        flowButton.onclick = openFlowPanel;
+        relatedButton.onclick = openRelatedPanel;
+        panel.querySelector('[data-close]').onclick = function () { managerOpen = false; panel.classList.remove('is-open'); };
+        panel.querySelector('[data-add]').onclick = startPick;
+        panel.querySelector('[data-export]').onclick = exportPrd;
+        renderManagerList();
+      }
+
+      function renderManagerList() {
+        var list = document.querySelector('.prd-manager-list');
+        if (!list) return;
+        list.innerHTML = '';
+        annotations.forEach(function (ann) {
+          var row = document.createElement('div');
+          row.className = 'prd-manager-item';
+          row.innerHTML = '<span class="prd-badge">' + ann.id + '</span><strong>' + escapeHtml(ann.module) + '</strong><button type="button" data-edit>编辑</button><button type="button" data-del>删除</button>';
+          row.querySelector('[data-edit]').onclick = function () { openEditor(ann); };
+          row.querySelector('[data-del]').onclick = function () {
+            if (!confirm('确认删除批注 ' + ann.id + '？')) return;
+            annotations = annotations.filter(function (item) { return item.id !== ann.id; });
+            window.__PRD_ANNOTATIONS__ = annotations;
+            renderManagerList();
+            renderBadges();
+          };
+          list.appendChild(row);
+        });
+      }
+
+      function openEditor(ann) {
+        editTarget = ann;
+        var modal = document.querySelector('.prd-edit-modal') || createEditor();
+        modal.querySelector('[data-name]').value = ann.module;
+        modal.querySelector('[data-content]').value = ann.content;
+        modal.classList.add('is-open');
+      }
+
+      function createEditor() {
+        var modal = document.createElement('div');
+        modal.className = 'prd-edit-modal';
+        modal.innerHTML = '<section class="prd-edit-card"><h3>编辑批注</h3><label>模块名称</label><input data-name><label>Markdown 需求内容</label><textarea data-content></textarea><div class="prd-edit-actions"><button type="button" data-cancel>取消</button><button type="button" data-save>保存</button></div></section>';
+        document.body.appendChild(modal);
+        modal.querySelector('[data-cancel]').onclick = function () { modal.classList.remove('is-open'); };
+        modal.querySelector('[data-save]').onclick = function () {
+          if (!editTarget) return;
+          editTarget.module = modal.querySelector('[data-name]').value.trim() || editTarget.module;
+          editTarget.content = modal.querySelector('[data-content]').value;
+          modal.classList.remove('is-open');
+          renderManagerList();
+          renderBadges();
+        };
+        return modal;
+      }
+
+      function getCssSelector(el) {
+        if (!el || el === document.body || el === document.documentElement) return 'body';
+        if (el.id) return '#' + el.id;
+        var parts = [];
+        while (el && el.nodeType === Node.ELEMENT_NODE) {
+          if (el.id) {
+            parts.unshift('#' + el.id);
+            break;
+          }
+          var sibIndex = 0;
+          var sib = el.previousSibling;
+          while (sib) {
+            if (sib.nodeType === Node.ELEMENT_NODE && sib.nodeName === el.nodeName) {
+              sibIndex++;
+            }
+            sib = sib.previousSibling;
+          }
+          var tagName = el.nodeName.toLowerCase();
+          parts.unshift(tagName + ':nth-of-type(' + (sibIndex + 1) + ')');
+          el = el.parentNode;
+        }
+        return parts.join(' > ');
+      }
+
+      var lastHighlighted = null;
+      function startPick() {
+        var mask = document.querySelector('.prd-pick-mask') || document.body.appendChild(document.createElement('div'));
+        mask.className = 'prd-pick-mask is-open';
+        pickMode = true;
+
+        mask.onmousemove = function(e) {
+          mask.style.display = 'none';
+          var hoveredEl = document.elementFromPoint(e.clientX, e.clientY);
+          mask.style.display = 'block';
+
+          if (lastHighlighted && lastHighlighted !== hoveredEl) {
+            lastHighlighted.classList.remove('prd-highlight-target');
+          }
+
+          if (hoveredEl && hoveredEl !== document.body && hoveredEl !== document.documentElement && !hoveredEl.closest('.prd-manager') && !hoveredEl.closest('.prd-badge') && !hoveredEl.closest('.prd-popover') && !hoveredEl.closest('.prd-edit-modal')) {
+            hoveredEl.classList.add('prd-highlight-target');
+            lastHighlighted = hoveredEl;
+          } else {
+            lastHighlighted = null;
+          }
+        };
+      }
+
+      function exportPrd() {
+        var md = annotations.map(function (ann) {
+          return '### [' + ann.id + '] ' + ann.module + '\n\n来源章节：' + ann.sourceSection + '\n\n聚合范围：' + ann.aggregationBoundary + '\n\n' + ann.content;
+        }).join('\n\n---\n\n');
+        var blob = new Blob([md], { type: 'text/markdown;charset=utf-8' });
+        var url = URL.createObjectURL(blob);
+        var link = document.createElement('a');
+        link.href = url;
+        link.download = '活动管理批注导出.md';
+        link.click();
+        URL.revokeObjectURL(url);
+      }
+
+      function openFlowPanel() {
+        var modal = document.querySelector('[data-prd-flow-modal]') || createFlowPanel();
+        modal.classList.add('is-open');
+      }
+
+      function createFlowPanel() {
+        var modal = document.createElement('div');
+        modal.className = 'prd-panel-modal';
+        modal.setAttribute('data-prd-flow-modal', 'true');
+        modal.innerHTML = '<section class="prd-panel"><h3>流程图</h3><div class="prd-flow-grid"><div class="prd-flow-node"><strong>[1] 查看活动列表</strong>进入活动管理页面后读取活动数据；失败时使用默认活动兜底。</div><div class="prd-flow-node"><strong>[2] 新增/编辑活动</strong>点击新增或编辑打开活动信息弹窗，校验活动名称与时间顺序。</div><div class="prd-flow-node"><strong>校验分支</strong>校验失败时在字段下方展示错误提示；校验通过后保存并刷新活动列表。</div><div class="prd-flow-node"><strong>[3] 查看参与明细</strong>点击查看参与明细进入当前活动会员聚合列表，可搜索、生成模拟数据、导出 CSV。</div><div class="prd-flow-node"><strong>[4] 黑名单管理</strong>勾选用户后批量加入或移除黑名单，也可单行切换状态。</div><div class="prd-flow-node"><strong>[5] 详情查看</strong>点击参与次数或中奖次数打开详情弹窗，展示对应记录或空态。</div></div><div class="prd-panel-actions"><button type="button" data-close>关闭</button></div></section>';
+        document.body.appendChild(modal);
+        modal.querySelector('[data-close]').onclick = function () { modal.classList.remove('is-open'); };
+        return modal;
+      }
+
+      function openRelatedPanel() {
+        var modal = document.querySelector('[data-prd-related-modal]') || createRelatedPanel();
+        modal.classList.add('is-open');
+      }
+
+      function createRelatedPanel() {
+        var modal = document.createElement('div');
+        modal.className = 'prd-panel-modal';
+        modal.setAttribute('data-prd-related-modal', 'true');
+        modal.innerHTML = '<section class="prd-panel"><h3>关联系统</h3><div class="prd-related-upload"><strong>上传原型</strong><p>PRD 当前未定义必须跳转的外部系统。此处保留关联原型上传入口，后续可上传会员运营、奖品发放、积分商城等承接页面，并在关联原型内维护独立批注。</p><input type="file" accept="image/*,.html"></div><div class="prd-related-page"><strong>当前原型：活动管理后台</strong><p>页面集合：活动列表、活动信息弹窗、参与人明细、黑名单操作、详情弹窗。</p></div><div class="prd-related-page"><strong>待补充关联：积分商城/奖品发放系统</strong><p>PRD 未提供明确跳转页面和前后置条件，暂以待补充关系呈现，不生成业务节点。</p></div><div class="prd-panel-actions"><button type="button" data-add>+ 新增批注</button><button type="button" data-close>关闭</button></div></section>';
+        document.body.appendChild(modal);
+        modal.querySelector('[data-close]').onclick = function () { modal.classList.remove('is-open'); };
+        modal.querySelector('[data-add]').onclick = function () {
+          relatedPins.push({ id: 'R' + (relatedPins.length + 1), title: '关联系统批注', content: '请在上传关联原型后编辑该批注。' });
+          alert('已新增关联系统独立批注 ' + relatedPins[relatedPins.length - 1].id);
+        };
+        return modal;
+      }
+
+      document.addEventListener('click', function (event) {
+        if (pickMode) {
+          event.preventDefault();
+          event.stopPropagation();
+          pickMode = false;
+          var mask = document.querySelector('.prd-pick-mask');
+          if (mask) {
+            mask.classList.remove('is-open');
+            mask.onmousemove = null;
+          }
+          if (lastHighlighted) {
+            lastHighlighted.classList.remove('prd-highlight-target');
+          }
+          if (mask) mask.style.display = 'none';
+          var clickedEl = document.elementFromPoint(event.clientX, event.clientY);
+          if (mask) mask.style.display = '';
+          if (lastHighlighted) {
+            lastHighlighted.classList.remove('prd-highlight-target');
+            lastHighlighted = null;
+          }
+          if (!clickedEl || clickedEl === document.body || clickedEl === document.documentElement || clickedEl.closest('.prd-manager') || clickedEl.closest('.prd-badge') || clickedEl.closest('.prd-popover') || clickedEl.closest('.prd-edit-modal')) {
+            return;
+          }
+          var rect = clickedEl.getBoundingClientRect();
+          var x = ((event.clientX - rect.left) / rect.width) * 100;
+          var y = ((event.clientY - rect.top) / rect.height) * 100;
+          var selector = getCssSelector(clickedEl);
+          var next = Math.max.apply(null, annotations.map(function (ann) { return ann.id; })) + 1;
+          if (next === -Infinity || isNaN(next)) next = 1;
+          var ann = { id: next, module: '新增批注 ' + next, target: selector, x: Math.round(x * 10) / 10, y: Math.round(y * 10) / 10, mountHint: '用户手动选点', aggregationBoundary: '用户手动新增批注', sourceSection: '手动新增', content: '### 新增批注\n\n请编辑需求内容。' };
+          annotations.push(ann);
+          window.__PRD_ANNOTATIONS__ = annotations;
+          renderManagerList();
+          renderBadges();
+          openEditor(ann);
+        }
+        setTimeout(renderBadges, 0);
+      }, true);
+
+      window.addEventListener('resize', renderBadges);
+      setupManager();
+      renderBadges();
+    })();
+  </script>
+</body>
+</html>
