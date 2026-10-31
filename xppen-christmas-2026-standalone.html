@@ -1141,6 +1141,7 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
 
 .gifts-panel {
   display: block;
+  position: relative;
   padding: clamp(24px, 3.4vw, 44px);
   overflow: hidden;
 }
@@ -1156,51 +1157,242 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
   pointer-events: none;
 }
 .gift-copy { max-width: 820px; }
+.gifts .gift-copy .kicker::after {
+  content: "";
+  display: inline-block;
+  width: 34px;
+  height: 1px;
+  margin-left: 12px;
+  vertical-align: middle;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  opacity: .75;
+}
 .gift-copy p { color: var(--muted); font-size: 14px; line-height: 1.7; margin: 14px 0 22px; max-width: 66ch; }
-.gift-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.gift-actions { display: flex; gap: 10px; flex-wrap: wrap; position: absolute; top: clamp(24px, 3.4vw, 44px); right: clamp(24px, 3.4vw, 44px); z-index: 2; }
 
 .gift-pools {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-  margin-top: clamp(22px, 3vw, 32px);
+  gap: 18px;
+  margin-top: clamp(24px, 3vw, 32px);
 }
 .gift-pool {
+  --deco-box: #c23a32;
+  --deco-lid: #e05a45;
+  --deco-ribbon: #f7c869;
+  --deco-bow: #ffe7b0;
   position: relative;
-  border: 1px solid var(--stroke);
-  border-radius: 18px;
-  background: linear-gradient(170deg, rgba(255, 255, 255, .045), rgba(255, 255, 255, .012));
-  padding: 18px;
+  border: 1px solid rgba(178, 205, 255, .14);
+  border-radius: 20px;
+  background: linear-gradient(165deg, rgba(34, 53, 96, .8), rgba(10, 18, 40, .94));
+  padding: 24px 22px 20px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06), 0 24px 60px -32px rgba(0, 0, 0, .85);
+  overflow: hidden;
 }
 .gift-pool.is-special {
-  border-color: rgba(247, 200, 105, .3);
-  background: linear-gradient(170deg, rgba(247, 200, 105, .09), rgba(255, 255, 255, .012) 62%);
+  --deco-box: #efe4d2;
+  --deco-lid: #fff5e5;
+  --deco-ribbon: #d9483b;
+  --deco-bow: #f7c869;
+  border-color: rgba(247, 200, 105, .4);
+  background: linear-gradient(165deg, rgba(57, 52, 64, .85), rgba(13, 18, 38, .95));
+  box-shadow: inset 0 1px 0 rgba(255, 235, 190, .1), 0 24px 60px -32px rgba(0, 0, 0, .85);
 }
-.gift-pool-head { padding-bottom: 12px; border-bottom: 1px solid var(--stroke); }
-.gift-pool-kicker { display: block; font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--gold); }
-.gift-pool-head h3 { font-family: var(--serif); font-size: clamp(19px, 1.5vw, 23px); font-weight: 500; line-height: 1.25; margin: 4px 0 5px; }
-.gift-pool-head p { font-size: 11.5px; line-height: 1.55; color: var(--muted-2); margin: 0; }
+.gift-pool-head {
+  position: relative;
+  padding: 0 106px 8px 0;
+  border: 0;
+  min-height: 86px;
+}
+.gift-deco {
+  position: absolute;
+  right: -6px;
+  top: -16px;
+  width: 104px;
+  height: 104px;
+  filter: drop-shadow(0 16px 18px rgba(0, 0, 0, .45));
+  pointer-events: none;
+}
+.gift-pool-kicker {
+  display: block;
+  font-size: 9.5px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: .9;
+}
+.gift-pool-head h3 {
+  font-family: var(--sans);
+  font-size: clamp(23px, 1.9vw, 28px);
+  font-weight: 600;
+  line-height: 1.15;
+  margin: 6px 0 7px;
+  letter-spacing: -.01em;
+}
+.gift-pool-head p {
+  font-size: 10.5px;
+  line-height: 1.55;
+  color: var(--muted-2);
+  margin: 0;
+  max-width: 36ch;
+}
+.gift-pool-entry {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 10px 0 0;
+}
+.gift-pool-status {
+  display: flex;
+  align-items: center;
+  min-height: 18px;
+}
+.gift-pool-state {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  font-size: 11px;
+  color: var(--muted-2);
+}
+.gift-pool-state b {
+  font-weight: 600;
+  color: var(--muted);
+  font-size: 11.5px;
+  letter-spacing: .01em;
+}
+.gift-state-dot {
+  width: 6px;
+  height: 6px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--muted-3);
+}
+.gift-pool-state.is-open .gift-state-dot {
+  background: #69d6a0;
+  box-shadow: 0 0 10px rgba(105, 214, 160, .8);
+}
+.gift-pool-state.is-open b { color: #7fe0b0; }
+.gift-pool-state.is-ended .gift-state-dot { background: var(--muted-3); }
+.gift-pool-facts {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.gift-fact {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  font-size: 11px;
+  color: var(--muted);
+}
+.gift-fact .i {
+  width: 14px;
+  height: 14px;
+  flex: none;
+  color: var(--muted-2);
+}
+.gift-fact.is-energy .i,
+.gift-fact.is-chance .i { color: var(--gold); }
+.gift-fact span { min-width: 0; }
+.gift-pool-entry .draw-entry {
+  position: relative;
+  width: 100%;
+  min-height: 64px;
+  justify-content: center;
+  text-align: center;
+  padding: 12px 44px 12px 18px;
+  border: 0;
+  border-radius: 13px;
+  background: linear-gradient(180deg, #ffdd8d, #f2b958);
+  color: #20160a;
+  box-shadow: 0 14px 30px -16px rgba(247, 200, 105, .75);
+}
+.gift-pool-entry .draw-entry > .i { display: none; }
+.gift-pool-entry .draw-entry .draw-copy {
+  align-items: center;
+  text-align: center;
+  gap: 2px;
+}
+.gift-pool-entry .draw-entry b {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1d1408;
+  letter-spacing: .01em;
+}
+.gift-pool-entry .draw-entry small {
+  font-size: 10.5px;
+  color: rgba(32, 22, 10, .75);
+  white-space: normal;
+  line-height: 1.35;
+}
+.gift-pool-entry .draw-entry::after {
+  content: "›";
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 24px;
+  line-height: 1;
+  color: rgba(32, 22, 10, .8);
+}
+.gift-pool-entry .draw-entry:disabled {
+  opacity: .55;
+  background: linear-gradient(180deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .03));
+  border: 1px solid var(--stroke);
+  box-shadow: none;
+  color: var(--muted-2);
+}
+.gift-pool-entry .draw-entry:disabled b { color: var(--muted); }
+.gift-pool-entry .draw-entry:disabled small { color: var(--muted-2); }
+.gift-pool-entry .draw-entry:disabled::after { color: var(--muted-3); }
+.gift-pool-toggle {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  margin-top: 12px;
+  padding: 10px 2px 0;
+  border: 0;
+  border-top: 1px solid var(--stroke);
+  background: none;
+  color: var(--muted-2);
+  font-family: var(--sans);
+  font-size: 10.5px;
+  letter-spacing: .02em;
+  cursor: pointer;
+}
+.gift-pool-toggle .i {
+  width: 14px;
+  height: 14px;
+  transform: rotate(90deg);
+  transition: transform .2s;
+}
+.gift-pool.is-list-open .gift-pool-toggle .i { transform: rotate(-90deg); }
+.gift-pool-toggle:hover { color: var(--gold); }
 .gift-pool-list {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 7px;
-  margin-top: 12px;
+  gap: 8px;
+  margin-top: 16px;
 }
 .gift-prize {
   display: flex;
   align-items: center;
   gap: 9px;
   min-width: 0;
-  padding: 7px 8px;
-  border: 1px solid transparent;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, .025);
+  padding: 9px 10px;
+  border: 1px solid rgba(255, 255, 255, .05);
+  border-radius: 11px;
+  background: rgba(255, 255, 255, .035);
   transition: border-color .2s, background .2s;
 }
-.gift-prize:hover { border-color: var(--stroke-2); background: rgba(255, 255, 255, .045); }
-.gift-prize .prize-art { width: 36px; height: 36px; flex: none; }
+.gift-prize:hover { border-color: var(--stroke-2); background: rgba(255, 255, 255, .055); }
+.gift-prize .prize-art { width: 38px; height: 38px; flex: none; }
 .gift-prize-copy { display: flex; flex-direction: column; min-width: 0; gap: 2px; }
-.gift-prize-copy b { font-size: 11.5px; line-height: 1.25; font-weight: 600; }
+.gift-prize-copy b { font-size: 12px; line-height: 1.25; font-weight: 600; }
 .gift-prize-copy small { font-size: 9.5px; line-height: 1.3; color: var(--muted-2); }
 .gift-prize-copy em { font-style: normal; }
 .gift-prize-copy .r-rare { color: #9db9ff; }
@@ -1209,12 +1401,25 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
 
 @media (max-width: 900px) {
   .gift-pools { grid-template-columns: 1fr; }
+  .gift-pool { padding: 20px 18px 16px; }
+  .gift-pool-head { padding-right: 84px; min-height: 74px; }
+  .gift-deco { width: 82px; height: 82px; right: -4px; top: -10px; }
+  .gift-pool-head h3 { font-size: 23px; }
+  .gift-pool-list { display: none; }
+  .gift-pool.is-list-open .gift-pool-list { display: grid; }
+  .gift-pool-toggle { display: flex; }
+  .gift-pool-entry .draw-entry { min-height: 58px; }
 }
 @media (max-width: 560px) {
+  .gift-pool { padding: 18px 16px 14px; }
+  .gift-pool-head { padding-right: 72px; min-height: 70px; }
+  .gift-deco { width: 72px; height: 72px; top: -8px; }
+  .gift-pool-head h3 { font-size: 22px; }
+  .gift-pool-head p { font-size: 10px; max-width: 30ch; }
   .gift-pool-list { grid-template-columns: 1fr; }
+  .gift-pool-entry .draw-entry b { font-size: 14px; }
   .gift-copy p { font-size: 13px; }
 }
-
 /* ---------------------------------------------------------------- site footer */
 
 .site-footer { position: relative; padding: 50px 0 90px; border-top: 1px solid var(--stroke); margin-top: 30px; }
@@ -1894,6 +2099,7 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
   .result-icon { width: 54px; height: 54px; }
   .result-name { font-size: 19px; }
   .gifts-panel { padding: 22px 18px; }
+  .gift-actions { position: static; margin-top: 2px; }
   .auth-card { grid-template-columns: 1fr; min-height: 0; width: min(460px, 100%); }
   .auth-art { display: none; }
   .auth-form-wrap { padding: 32px 24px 28px; }
@@ -2686,6 +2892,8 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
   <symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5.5" r="2.6" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="6" cy="12" r="2.6" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="18" cy="18.5" r="2.6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.4 10.7l7.2-4M8.4 13.3l7.2 4" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
   <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 20h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="i-gift" viewBox="0 0 24 24"><rect x="3.5" y="8.5" width="17" height="4" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="5" y="12.5" width="14" height="8" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 8.5V21M12 8.5C10 8.5 7 7.8 7 5.6 7 4 8.4 3 9.7 3.6 11.2 4.3 12 6.4 12 8.5zm0 0c2 0 5-.7 5-2.9C17 4 15.6 3 14.3 3.6 12.8 4.3 12 6.4 12 8.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13.2 2.5L5.5 13.2h5.6L9.8 21.5l8-11.2h-5.7z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+  <symbol id="i-gift-deco" viewBox="0 0 120 120"><ellipse cx="60" cy="106" rx="36" ry="7" fill="#000" opacity=".22"/><path d="M30 58h60v42a7 7 0 0 1-7 7H37a7 7 0 0 1-7-7z" fill="var(--deco-box,#c23a32)"/><path d="M30 58h60v9H30z" fill="var(--deco-lid,#e05a45)"/><rect x="54" y="58" width="12" height="49" fill="var(--deco-ribbon,#f7c869)"/><rect x="27" y="49" width="66" height="12" rx="4" fill="var(--deco-lid,#e05a45)"/><path d="M54 50C42 34 26 40 32 52c6 10 18 4 22-2z" fill="var(--deco-bow,#f7c869)"/><path d="M66 50c12-16 28-10 22 2-6 10-18 4-22-2z" fill="var(--deco-bow,#f7c869)"/><circle cx="60" cy="50" r="4.5" fill="var(--deco-bow,#f7c869)"/><path d="M36 67h10v9H36z" fill="#fff" opacity=".08"/><path d="M78 67h6v16h-6z" fill="#000" opacity=".1"/><path d="M27 49h66v4H27z" fill="#fff" opacity=".16"/></symbol>
   <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 2.5l2.4 6.6L21 11.5l-6.6 2.4L12 20.5l-2.4-6.6L3 11.5l6.6-2.4z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
   <symbol id="i-lock-open" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8 10V7.5a4 4 0 0 1 7.6-1.7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
   <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3v4M16 3v4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
@@ -2956,26 +3164,46 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
           <h2 class="section-title" data-i18n="gifts.title">Two draws, two piles of gifts</h2>
           <p data-i18n="gifts.copy">Light 6 / 12 / 18 pieces to open each limited draw — or wait for the Christmas Day draw on Dec 25. More festive gifts await.</p>
           <div class="gift-actions">
-            <button class="btn btn-ghost" type="button" id="gifts-draw" disabled><svg class="i"><use href="#i-gift"/></svg><span class="draw-copy"><b id="gifts-draw-label">Draw</b><small id="gifts-draw-sub">Unlock in 1 piece</small></span></button>
-            <button class="btn btn-ghost is-special" type="button" id="gifts-special-draw" disabled><svg class="i"><use href="#i-sparkle"/></svg><span class="draw-copy"><b id="gifts-special-label">Christmas draw</b><small id="gifts-special-sub">Opens Dec 25</small></span></button>
             <button class="btn btn-ghost" type="button" data-open-prizes><svg class="i"><use href="#i-grid"/></svg><span data-i18n="gifts.cta">My prizes & draw history</span></button>
           </div>
         </div>
         <div class="gift-pools">
-          <article class="gift-pool">
+          <article class="gift-pool" id="gift-pool-limited">
             <header class="gift-pool-head">
-              <span class="gift-pool-kicker" data-i18n="gifts.stageKicker">Limited-time draw</span>
-              <h3 data-i18n="gifts.stageTitle">Limited prize pool</h3>
+              <svg class="gift-deco" aria-hidden="true"><use href="#i-gift-deco"/></svg>
+              <span class="gift-pool-kicker" data-i18n="gifts.stageKicker">Limited pool</span>
+              <h3 data-i18n="gifts.stageTitle">Limited draw</h3>
               <p data-i18n="gifts.stageCopy">Opens once at 6 / 12 / 18 pieces · up to 24h each · 1 regular energy per draw</p>
             </header>
+            <div class="gift-pool-entry">
+              <div class="gift-pool-facts">
+                <span class="gift-fact is-energy"><svg class="i"><use href="#i-bolt"/></svg><span id="gifts-draw-meta">0 regular energy</span></span>
+              </div>
+              <button class="btn btn-ghost draw-entry" type="button" id="gifts-draw" disabled><svg class="i"><use href="#i-gift"/></svg><span class="draw-copy"><b id="gifts-draw-label">Limited draw</b><small id="gifts-draw-sub">Unlock in 1 piece</small></span></button>
+            </div>
+            <button class="gift-pool-toggle" type="button" data-gift-toggle aria-expanded="false" aria-controls="stage-prize-list">
+              <span data-gift-toggle-label>View all 6 prizes</span>
+              <svg class="i"><use href="#i-arrow"/></svg>
+            </button>
             <div class="gift-pool-list" id="stage-prize-list"></div>
           </article>
-          <article class="gift-pool is-special">
+          <article class="gift-pool is-special" id="gift-pool-special">
             <header class="gift-pool-head">
-              <span class="gift-pool-kicker" data-i18n="gifts.specialKicker">Christmas Day draw</span>
-              <h3 data-i18n="gifts.specialTitle">Opens Dec 25</h3>
-              <p data-i18n="gifts.specialCopy">Special energy at 18 / 23 pieces · 1 per draw</p>
+              <svg class="gift-deco" aria-hidden="true"><use href="#i-gift-deco"/></svg>
+              <span class="gift-pool-kicker" data-i18n="gifts.specialKicker">Christmas pool</span>
+              <h3 data-i18n="gifts.specialTitle">Christmas Day draw</h3>
+              <p data-i18n="gifts.specialCopy">Opens 12/25 00:00–12/26 00:00 (UTC+8) · 1 draw at 18 pieces, 2 at 23 · no regular energy</p>
             </header>
+            <div class="gift-pool-entry">
+              <div class="gift-pool-facts">
+                <span class="gift-fact is-chance"><svg class="i"><use href="#i-gift"/></svg><span id="gifts-special-meta">0/0 special energy</span></span>
+              </div>
+              <button class="btn btn-ghost draw-entry is-special" type="button" id="gifts-special-draw" disabled><svg class="i"><use href="#i-sparkle"/></svg><span class="draw-copy"><b id="gifts-special-label">Christmas draw</b><small id="gifts-special-sub">Opens Dec 25</small></span></button>
+            </div>
+            <button class="gift-pool-toggle" type="button" data-gift-toggle aria-expanded="false" aria-controls="special-prize-list">
+              <span data-gift-toggle-label>View all 6 prizes</span>
+              <svg class="i"><use href="#i-arrow"/></svg>
+            </button>
             <div class="gift-pool-list" id="special-prize-list"></div>
           </article>
         </div>
@@ -3395,6 +3623,7 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
       'draw.entrySpecialOn': 'Christmas draw · Dec 25',
       'draw.entrySpecialClosed': 'Christmas draw closed',
       'draw.limitedName': 'Limited draw',
+      'draw.enterLimited': 'Enter limited draw',
       'draw.limitedSub': 'This round ends in {t} · closes {date} {time} (UTC+8)',
       'draw.limitedLocked': '{n} pieces to open the limited draw',
       'draw.limitedLockedOne': '1 piece to open the limited draw',
@@ -3405,9 +3634,12 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
       'draw.limitedNoEnergy': 'Limited draw · no regular energy',
       'draw.limitedNoEnergySub': 'Ends in {t}; energy earned later still works',
       'draw.specialName': 'Christmas Day draw',
+      'draw.specialNoFundLabel': 'Christmas Day draw · not qualified',
+      'draw.specialUsedLabel': 'Christmas Day draw · chances used',
+      'draw.enterSpecial': 'Enter Christmas Day draw',
       'draw.specialLockedSub': 'Light 18 pieces for 1 draw; 23 for 2',
       'draw.specialSoonSub': '{n} special energy · opens Dec 25, 00:00',
-      'draw.specialOpenSub': '{n} special energy · closes Dec 26, 00:00 (UTC+8)',
+      'draw.specialOpenSub': '{n} special energy · {t} left',
       'draw.specialEndedSub': 'Closed Dec 26, 00:00 (UTC+8)',
       'draw.specialUsedSub': 'All special energy used',
       'draw.specialClosed': 'Christmas Day draw has ended',
@@ -3477,17 +3709,31 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
       'gifts.kicker': 'Under the tree',
       'gifts.title': 'Two draws, two piles of gifts',
       'gifts.copy': 'Light 6 / 12 / 18 pieces to open each limited draw — or wait for the Christmas Day draw on Dec 25. More festive gifts await.',
-      'gifts.stageKicker': 'Limited-time draw',
-      'gifts.stageTitle': 'Limited prize pool',
+      'gifts.stageKicker': 'Limited pool',
+      'gifts.stageTitle': 'Limited draw',
       'gifts.stageCopy': 'Opens once at 6 / 12 / 18 pieces · up to 24h each · 1 regular energy per draw',
-      'gifts.specialKicker': 'Christmas Day draw',
-      'gifts.specialTitle': 'Opens Dec 25',
-      'gifts.specialCopy': 'Dec 25, 00:00 – Dec 26, 00:00 (UTC+8) · 1 special energy at 18 pieces, 2 at 23 · no regular energy',
-      'gifts.cta': 'My prizes & draw history',
+      'gifts.specialKicker': 'Christmas pool',
+      'gifts.specialTitle': 'Christmas Day draw',
+      'gifts.specialCopy': 'Opens 12/25 00:00–12/26 00:00 (UTC+8) · 1 energy at 18 pieces, 2 at 23 · no regular energy',
+      'gifts.cta': 'My prizes',
       'gifts.coupon': 'Store coupon',
       'gifts.coins': 'X-Coins',
       'gifts.bundle': 'Holiday bundle',
       'gifts.product': 'Physical prize · global',
+      'gifts.statusBefore': 'Not open',
+      'gifts.statusOpen': 'In progress',
+      'gifts.statusNoEnergy': 'In progress · no regular energy',
+      'gifts.statusLocked': 'Not open · {n} pieces to go',
+      'gifts.statusEnded': 'Ended',
+      'gifts.statusUsed': 'In progress · chances used',
+      'gifts.statusSoon': 'Not open · opens Dec 25, 00:00',
+      'gifts.statusLockedSpecial': 'Not open · 18 pieces needed',
+      'gifts.statusNoFund': 'In progress · not qualified',
+      'gifts.metaEnergy': 'Energy: {n}',
+      'gifts.metaSpecial': 'Christmas energy: {n}',
+      'gifts.subRemain': 'Remaining {t}',
+      'gifts.viewPrizes': 'View all 6 prizes',
+      'gifts.hidePrizes': 'Hide prize list',
       'rarity.common': 'Common',
       'rarity.rare': 'Rare',
       'rarity.epic': 'Epic',
@@ -3950,6 +4196,7 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
       'draw.entrySpecialOn': '12月25日圣诞日抽奖',
       'draw.entrySpecialClosed': '圣诞日抽奖已结束',
       'draw.limitedName': '限时抽奖',
+      'draw.enterLimited': '进入限时抽奖',
       'draw.limitedSub': '本轮还剩 {t} · 截止 {date} {time}（UTC+8）',
       'draw.limitedLocked': '再点亮 {n} 块，开启限时抽奖',
       'draw.limitedLockedOne': '再点亮 1 块，开启限时抽奖',
@@ -3960,9 +4207,12 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
       'draw.limitedNoEnergy': '限时抽奖 · 常规能量不足',
       'draw.limitedNoEnergySub': '本轮还剩 {t}，获得能量后仍可使用',
       'draw.specialName': '圣诞日抽奖',
+      'draw.specialNoFundLabel': '圣诞日抽奖 · 未获得资格',
+      'draw.specialUsedLabel': '圣诞日抽奖 · 次数已用完',
+      'draw.enterSpecial': '进入圣诞日抽奖',
       'draw.specialLockedSub': '点亮 18 块获得 1 次；23 块累计 2 次',
-      'draw.specialSoonSub': '{n} 次特殊能量 · 12/25 00:00 开启',
-      'draw.specialOpenSub': '{n} 次特殊能量 · 截止 12/26 00:00（UTC+8）',
+      'draw.specialSoonSub': '{n} 点特殊能量 · 12/25 00:00 开启',
+      'draw.specialOpenSub': '{n} 点特殊能量 · 还剩 {t}',
       'draw.specialEndedSub': '截止 12/26 00:00（UTC+8）',
       'draw.specialUsedSub': '特殊能量已用完',
       'draw.specialClosed': '圣诞日抽奖已结束',
@@ -4032,17 +4282,31 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
       'gifts.kicker': '圣诞树下',
       'gifts.title': '两种抽奖，两份礼物',
       'gifts.copy': '点亮 6 / 12 / 18 块时各开启一次限时抽奖；12/25 圣诞日抽奖，更多节日礼物等你发现。',
-      'gifts.stageKicker': '限时抽奖',
-      'gifts.stageTitle': '限时奖池',
+      'gifts.stageKicker': '限时奖池',
+      'gifts.stageTitle': '限时抽奖',
       'gifts.stageCopy': '6 / 12 / 18 块各开启一次 · 每次最多 24 小时 · 每抽消耗 1 点常规能量',
-      'gifts.specialKicker': '圣诞日抽奖',
-      'gifts.specialTitle': '12/25 限时开启',
-      'gifts.specialCopy': '12/25 00:00 – 12/26 00:00（UTC+8）· 18 块 1 次，23 块累计 2 次 · 不消耗常规能量',
-      'gifts.cta': '我的奖品与抽奖记录',
+      'gifts.specialKicker': '圣诞日奖池',
+      'gifts.specialTitle': '圣诞日抽奖',
+      'gifts.specialCopy': '12/25 00:00–12/26 00:00（UTC+8）· 18 块 1 点，23 块 2 点 · 不消耗常规能量',
+      'gifts.cta': '我的奖品',
       'gifts.coupon': '商城优惠券',
       'gifts.coins': 'X-Coins',
       'gifts.bundle': '圣诞礼包',
       'gifts.product': '实物奖品 · 全球',
+      'gifts.statusBefore': '未开启',
+      'gifts.statusOpen': '进行中',
+      'gifts.statusNoEnergy': '进行中 · 无常规能量',
+      'gifts.statusLocked': '未开启 · 还差 {n} 块',
+      'gifts.statusEnded': '已结束',
+      'gifts.statusUsed': '进行中 · 次数已用完',
+      'gifts.statusSoon': '未开启 · 12/25 00:00 开放',
+      'gifts.statusLockedSpecial': '未开启 · 需点亮 18 块',
+      'gifts.statusNoFund': '进行中 · 未获得资格',
+      'gifts.metaEnergy': '能量：{n} 点',
+      'gifts.metaSpecial': '圣诞能量：{n} 点',
+      'gifts.subRemain': '剩余 {t}',
+      'gifts.viewPrizes': '查看全部 6 件奖品',
+      'gifts.hidePrizes': '收起奖品列表',
       'rarity.common': '常见',
       'rarity.rare': '稀有',
       'rarity.epic': '史诗',
@@ -6281,8 +6545,21 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
     return shDate(2026, 12, 2 + task.day, 0, 0);
   }
 
+  var simBaseMs = 0;
+  var simAnchorMs = 0;
+
+  function syncSimClock(source) {
+    var src = source || state;
+    simBaseMs = src && src.sim ? new Date(src.sim).getTime() : 0;
+    simAnchorMs = Date.now();
+  }
+
   function now() {
-    return state && state.sim ? new Date(state.sim) : new Date();
+    if (state && state.sim) {
+      if (!simBaseMs) syncSimClock();
+      return new Date(simBaseMs + (Date.now() - simAnchorMs));
+    }
+    return new Date();
   }
 
   function eventPhase() {
@@ -6312,6 +6589,16 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
     var mins = Math.floor((total % 3600) / 60);
     var secs = total % 60;
     if (days > 0) return (isZh() ? days + ' 天 ' : days + 'd ') + pad2(hours) + ':' + pad2(mins) + ':' + pad2(secs);
+    return pad2(hours) + ':' + pad2(mins) + ':' + pad2(secs);
+  }
+
+  function countdownHMS(target) {
+    var ms = target.getTime() - now().getTime();
+    if (ms < 0) ms = 0;
+    var total = Math.floor(ms / 1000);
+    var hours = Math.floor(total / 3600);
+    var mins = Math.floor((total % 3600) / 60);
+    var secs = total % 60;
     return pad2(hours) + ':' + pad2(mins) + ':' + pad2(secs);
   }
 
@@ -7322,22 +7609,30 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
 
     if (kind === 'special') {
       var rem = specialRemaining();
-      if (fragments() < SPECIAL.at) {
-        return { ready: false, kind: 'special-locked', label: t('draw.specialName'), sub: t('draw.specialLockedSub') };
-      }
-      if (now() < SPEC_OPEN) {
-        return { ready: false, kind: 'special-soon', label: t('draw.specialName'), sub: t('draw.specialSoonSub', { n: rem }) };
-      }
       if (now() >= SPEC_CLOSE) {
         return { ready: false, kind: 'special-ended', label: t('draw.specialClosed'), sub: t('draw.specialEndedSub') };
       }
+      if (now() < SPEC_OPEN) {
+        if (fragments() < SPECIAL.at) {
+          return { ready: false, kind: 'special-locked', label: t('draw.specialName'), sub: t('draw.specialLockedSub') };
+        }
+        return { ready: false, kind: 'special-soon', label: t('draw.specialName'), sub: t('draw.specialSoonSub', { n: rem }) };
+      }
+      if (fragments() < SPECIAL.at) {
+        return { ready: false, kind: 'special-nofund', label: t('draw.specialNoFundLabel'), sub: t('draw.specialLockedSub') };
+      }
       if (rem <= 0) {
-        return { ready: false, kind: 'special-used', label: t('draw.specialName'), sub: t('draw.specialUsedSub') };
+        return { ready: false, kind: 'special-used', label: t('draw.specialUsedLabel'), sub: t('draw.specialUsedSub') };
       }
       return {
         ready: true, kind: 'special', remain: rem,
         label: t('draw.specialName'),
-        sub: t('draw.specialOpenSub', { n: rem })
+        sub: t('draw.specialOpenSub', {
+          n: rem,
+          t: countdownText(SPEC_CLOSE),
+          date: fmtLong(SPEC_CLOSE),
+          time: fmtClock(SPEC_CLOSE)
+        })
       };
     }
 
@@ -7351,10 +7646,10 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
         time: fmtClock(win.end)
       });
       if (energy() > 0) {
-        return { ready: true, kind: 'limited', remain: energy(), label: t('draw.limitedName'), sub: sub };
+        return { ready: true, kind: 'limited', remain: energy(), end: win.end, label: t('draw.limitedName'), sub: sub };
       }
       return {
-        ready: false, kind: 'limited-noenergy', remain: 0,
+        ready: false, kind: 'limited-noenergy', remain: 0, end: win.end,
         label: t('draw.limitedNoEnergy'),
         sub: t('draw.limitedNoEnergySub', { t: countdownText(win.end) })
       };
@@ -7364,7 +7659,7 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
       var left = Math.max(1, next.at - fragments());
       if (win.expired) {
         return {
-          ready: false, kind: 'limited-ended',
+          ready: false, kind: 'limited-ended', end: win.end,
           label: t('draw.limitedEnded'),
           sub: t('draw.limitedNext', { n: left, pieces: next.at })
         };
@@ -7377,10 +7672,30 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
     }
 
     return {
-      ready: false, kind: 'limited-ended',
+      ready: false, kind: 'limited-ended', end: win.end,
       label: t('draw.limitedEnded'),
       sub: t('draw.limitedEndedSub', { date: fmtLong(win.end), time: fmtClock(win.end) })
     };
+  }
+
+  function updateGiftCard(kind, info) {
+    var suffix = kind === 'special' ? 'special' : 'draw';
+    var meta = document.getElementById('gifts-' + suffix + '-meta');
+    if (!meta) return;
+    meta.textContent = kind === 'special'
+      ? t('gifts.metaSpecial', { n: specialRemaining() })
+      : t('gifts.metaEnergy', { n: energy() });
+  }
+
+  function updateGiftToggles() {
+    Array.prototype.forEach.call(document.querySelectorAll('[data-gift-toggle]'), function (btn) {
+      var card = btn.closest('.gift-pool');
+      var label = btn.querySelector('[data-gift-toggle-label]');
+      if (!card || !label) return;
+      var open = card.classList.contains('is-list-open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      label.textContent = t(open ? 'gifts.hidePrizes' : 'gifts.viewPrizes');
+    });
   }
 
   function updateDrawEntry() {
@@ -7401,9 +7716,23 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
       btn.classList.toggle('btn-primary', info.ready);
       btn.classList.toggle('btn-ghost', !info.ready);
       btn.classList.toggle('is-special', e[0] === 'special');
-      if (label) label.textContent = info.label;
-      if (sub) sub.textContent = info.sub;
-      btn.title = info.label + ' · ' + info.sub;
+      var labelText = info.label;
+      var subText = info.sub;
+      if (e[1] === 'gifts-draw' && info.end && info.kind !== 'limited-ended' && info.end > now()) {
+        if (info.ready) labelText = t('draw.enterLimited');
+        subText = t('gifts.subRemain', { t: countdownHMS(info.end) });
+      }
+      if (e[1] === 'gifts-special-draw' &&
+          (info.kind === 'special' || info.kind === 'special-nofund' || info.kind === 'special-used') &&
+          now() < SPEC_CLOSE) {
+        if (info.ready) labelText = t('draw.enterSpecial');
+        subText = t('gifts.subRemain', { t: countdownHMS(SPEC_CLOSE) });
+      }
+      if (label) label.textContent = labelText;
+      if (sub) sub.textContent = subText;
+      btn.title = labelText + ' · ' + subText;
+      if (e[1] === 'gifts-draw') updateGiftCard('limited', info);
+      if (e[1] === 'gifts-special-draw') updateGiftCard('special', info);
       if (e[1] === 'mobile-draw') {
         var badge = document.getElementById('mobile-draw-badge');
         if (badge) {
@@ -7414,6 +7743,8 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
         if (mm) mm.textContent = info.ready ? t('draw.mobileReady') : t('draw.mobile');
       }
     });
+
+    updateGiftToggles();
 
     var signout = document.getElementById('signout-btn');
     if (signout) signout.hidden = !state.user;
@@ -7952,6 +8283,7 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
         openFreeSaveError(art);
         return;
       }
+      pad.clear();
       var fRect = btn.getBoundingClientRect();
       burst(fRect.left + fRect.width / 2, fRect.top + fRect.height / 2, 18);
       toast(t('toast.freeSaved'), 'i-check');
@@ -8512,6 +8844,7 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
     var d = new Date(iso);
     if (isNaN(d.getTime())) { toast(t('demo.dateError')); return; }
     state.sim = d.toISOString();
+    syncSimClock(state);
     state.ui.selectedId = null;
     state.ui.justSubmitted = null;
     padTaskId = null;
@@ -8610,6 +8943,7 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
 
     closeAllModals();
     state = s;
+    syncSimClock(state);
     padTaskId = null;
     save();
     renderAll();
@@ -8679,6 +9013,14 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
      ['#hud-special-draw', 'special'], ['#gifts-special-draw', 'special']].forEach(function (pair) {
       var btn = $(pair[0]);
       if (btn) btn.addEventListener('click', function () { activateDrawEntry(pair[1]); });
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-gift-toggle]'), function (btn) {
+      btn.addEventListener('click', function () {
+        var card = btn.closest('.gift-pool');
+        if (!card) return;
+        card.classList.toggle('is-list-open');
+        updateGiftToggles();
+      });
     });
     var signoutBtn = $('#signout-btn');
     if (signoutBtn) signoutBtn.addEventListener('click', signOut);
@@ -8924,6 +9266,7 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
     I18N.applyStatic();
     updateLangSwitch();
     state = load();
+    syncSimClock(state);
     buildScene();
     initSnow();
     initPad();

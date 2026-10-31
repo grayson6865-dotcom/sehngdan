@@ -109,8 +109,21 @@
     return shDate(2026, 12, 2 + task.day, 0, 0);
   }
 
+  var simBaseMs = 0;
+  var simAnchorMs = 0;
+
+  function syncSimClock(source) {
+    var src = source || state;
+    simBaseMs = src && src.sim ? new Date(src.sim).getTime() : 0;
+    simAnchorMs = Date.now();
+  }
+
   function now() {
-    return state && state.sim ? new Date(state.sim) : new Date();
+    if (state && state.sim) {
+      if (!simBaseMs) syncSimClock();
+      return new Date(simBaseMs + (Date.now() - simAnchorMs));
+    }
+    return new Date();
   }
 
   function eventPhase() {
@@ -140,6 +153,16 @@
     var mins = Math.floor((total % 3600) / 60);
     var secs = total % 60;
     if (days > 0) return (isZh() ? days + ' 天 ' : days + 'd ') + pad2(hours) + ':' + pad2(mins) + ':' + pad2(secs);
+    return pad2(hours) + ':' + pad2(mins) + ':' + pad2(secs);
+  }
+
+  function countdownHMS(target) {
+    var ms = target.getTime() - now().getTime();
+    if (ms < 0) ms = 0;
+    var total = Math.floor(ms / 1000);
+    var hours = Math.floor(total / 3600);
+    var mins = Math.floor((total % 3600) / 60);
+    var secs = total % 60;
     return pad2(hours) + ':' + pad2(mins) + ':' + pad2(secs);
   }
 
@@ -1150,22 +1173,30 @@
 
     if (kind === 'special') {
       var rem = specialRemaining();
-      if (fragments() < SPECIAL.at) {
-        return { ready: false, kind: 'special-locked', label: t('draw.specialName'), sub: t('draw.specialLockedSub') };
-      }
-      if (now() < SPEC_OPEN) {
-        return { ready: false, kind: 'special-soon', label: t('draw.specialName'), sub: t('draw.specialSoonSub', { n: rem }) };
-      }
       if (now() >= SPEC_CLOSE) {
         return { ready: false, kind: 'special-ended', label: t('draw.specialClosed'), sub: t('draw.specialEndedSub') };
       }
+      if (now() < SPEC_OPEN) {
+        if (fragments() < SPECIAL.at) {
+          return { ready: false, kind: 'special-locked', label: t('draw.specialName'), sub: t('draw.specialLockedSub') };
+        }
+        return { ready: false, kind: 'special-soon', label: t('draw.specialName'), sub: t('draw.specialSoonSub', { n: rem }) };
+      }
+      if (fragments() < SPECIAL.at) {
+        return { ready: false, kind: 'special-nofund', label: t('draw.specialNoFundLabel'), sub: t('draw.specialLockedSub') };
+      }
       if (rem <= 0) {
-        return { ready: false, kind: 'special-used', label: t('draw.specialName'), sub: t('draw.specialUsedSub') };
+        return { ready: false, kind: 'special-used', label: t('draw.specialUsedLabel'), sub: t('draw.specialUsedSub') };
       }
       return {
         ready: true, kind: 'special', remain: rem,
         label: t('draw.specialName'),
-        sub: t('draw.specialOpenSub', { n: rem })
+        sub: t('draw.specialOpenSub', {
+          n: rem,
+          t: countdownText(SPEC_CLOSE),
+          date: fmtLong(SPEC_CLOSE),
+          time: fmtClock(SPEC_CLOSE)
+        })
       };
     }
 
@@ -1179,10 +1210,10 @@
         time: fmtClock(win.end)
       });
       if (energy() > 0) {
-        return { ready: true, kind: 'limited', remain: energy(), label: t('draw.limitedName'), sub: sub };
+        return { ready: true, kind: 'limited', remain: energy(), end: win.end, label: t('draw.limitedName'), sub: sub };
       }
       return {
-        ready: false, kind: 'limited-noenergy', remain: 0,
+        ready: false, kind: 'limited-noenergy', remain: 0, end: win.end,
         label: t('draw.limitedNoEnergy'),
         sub: t('draw.limitedNoEnergySub', { t: countdownText(win.end) })
       };
@@ -1192,7 +1223,7 @@
       var left = Math.max(1, next.at - fragments());
       if (win.expired) {
         return {
-          ready: false, kind: 'limited-ended',
+          ready: false, kind: 'limited-ended', end: win.end,
           label: t('draw.limitedEnded'),
           sub: t('draw.limitedNext', { n: left, pieces: next.at })
         };
@@ -1205,10 +1236,30 @@
     }
 
     return {
-      ready: false, kind: 'limited-ended',
+      ready: false, kind: 'limited-ended', end: win.end,
       label: t('draw.limitedEnded'),
       sub: t('draw.limitedEndedSub', { date: fmtLong(win.end), time: fmtClock(win.end) })
     };
+  }
+
+  function updateGiftCard(kind, info) {
+    var suffix = kind === 'special' ? 'special' : 'draw';
+    var meta = document.getElementById('gifts-' + suffix + '-meta');
+    if (!meta) return;
+    meta.textContent = kind === 'special'
+      ? t('gifts.metaSpecial', { n: specialRemaining() })
+      : t('gifts.metaEnergy', { n: energy() });
+  }
+
+  function updateGiftToggles() {
+    Array.prototype.forEach.call(document.querySelectorAll('[data-gift-toggle]'), function (btn) {
+      var card = btn.closest('.gift-pool');
+      var label = btn.querySelector('[data-gift-toggle-label]');
+      if (!card || !label) return;
+      var open = card.classList.contains('is-list-open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      label.textContent = t(open ? 'gifts.hidePrizes' : 'gifts.viewPrizes');
+    });
   }
 
   function updateDrawEntry() {
@@ -1229,9 +1280,23 @@
       btn.classList.toggle('btn-primary', info.ready);
       btn.classList.toggle('btn-ghost', !info.ready);
       btn.classList.toggle('is-special', e[0] === 'special');
-      if (label) label.textContent = info.label;
-      if (sub) sub.textContent = info.sub;
-      btn.title = info.label + ' · ' + info.sub;
+      var labelText = info.label;
+      var subText = info.sub;
+      if (e[1] === 'gifts-draw' && info.end && info.kind !== 'limited-ended' && info.end > now()) {
+        if (info.ready) labelText = t('draw.enterLimited');
+        subText = t('gifts.subRemain', { t: countdownHMS(info.end) });
+      }
+      if (e[1] === 'gifts-special-draw' &&
+          (info.kind === 'special' || info.kind === 'special-nofund' || info.kind === 'special-used') &&
+          now() < SPEC_CLOSE) {
+        if (info.ready) labelText = t('draw.enterSpecial');
+        subText = t('gifts.subRemain', { t: countdownHMS(SPEC_CLOSE) });
+      }
+      if (label) label.textContent = labelText;
+      if (sub) sub.textContent = subText;
+      btn.title = labelText + ' · ' + subText;
+      if (e[1] === 'gifts-draw') updateGiftCard('limited', info);
+      if (e[1] === 'gifts-special-draw') updateGiftCard('special', info);
       if (e[1] === 'mobile-draw') {
         var badge = document.getElementById('mobile-draw-badge');
         if (badge) {
@@ -1242,6 +1307,8 @@
         if (mm) mm.textContent = info.ready ? t('draw.mobileReady') : t('draw.mobile');
       }
     });
+
+    updateGiftToggles();
 
     var signout = document.getElementById('signout-btn');
     if (signout) signout.hidden = !state.user;
@@ -1780,6 +1847,7 @@
         openFreeSaveError(art);
         return;
       }
+      pad.clear();
       var fRect = btn.getBoundingClientRect();
       burst(fRect.left + fRect.width / 2, fRect.top + fRect.height / 2, 18);
       toast(t('toast.freeSaved'), 'i-check');
@@ -2340,6 +2408,7 @@
     var d = new Date(iso);
     if (isNaN(d.getTime())) { toast(t('demo.dateError')); return; }
     state.sim = d.toISOString();
+    syncSimClock(state);
     state.ui.selectedId = null;
     state.ui.justSubmitted = null;
     padTaskId = null;
@@ -2438,6 +2507,7 @@
 
     closeAllModals();
     state = s;
+    syncSimClock(state);
     padTaskId = null;
     save();
     renderAll();
@@ -2507,6 +2577,14 @@
      ['#hud-special-draw', 'special'], ['#gifts-special-draw', 'special']].forEach(function (pair) {
       var btn = $(pair[0]);
       if (btn) btn.addEventListener('click', function () { activateDrawEntry(pair[1]); });
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-gift-toggle]'), function (btn) {
+      btn.addEventListener('click', function () {
+        var card = btn.closest('.gift-pool');
+        if (!card) return;
+        card.classList.toggle('is-list-open');
+        updateGiftToggles();
+      });
     });
     var signoutBtn = $('#signout-btn');
     if (signoutBtn) signoutBtn.addEventListener('click', signOut);
@@ -2752,6 +2830,7 @@
     I18N.applyStatic();
     updateLangSwitch();
     state = load();
+    syncSimClock(state);
     buildScene();
     initSnow();
     initPad();
