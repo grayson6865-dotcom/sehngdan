@@ -885,6 +885,7 @@
     cta.hidden = !opts.cta;
     gate._handler = opts.handler || null;
     if (opts.note) {
+      $('#studio-note').hidden = false;
       $('#studio-note').textContent = opts.note;
       delete $('#studio-note').dataset.deadline;
     }
@@ -938,6 +939,7 @@
     $('#done-share').hidden = false;
     if (makeups.length) renderMakeupChips(makeups, null, 'daily');
     var note = $('#studio-note');
+    note.hidden = false;
     delete note.dataset.deadline;
     var next = nextOpenAt();
     note.textContent = next > now() ? t('studio.noteNextOnly', { time: countdownText(next) }) : t('studio.noteLast');
@@ -967,6 +969,7 @@
       if (pad) pad.clear();
     }
     var note = $('#studio-note');
+    note.hidden = false;
     delete note.dataset.deadline;
     note.textContent = t('studio.freeNote');
     updateToolState();
@@ -1073,12 +1076,15 @@
     }
 
     if (mode === 'makeup' && todayCard && isDone(todayCard.id)) {
+      note.hidden = false;
       delete note.dataset.deadline;
       note.textContent = t('studio.noteMakeupToday');
     } else if (mode === 'makeup') {
+      note.hidden = false;
       delete note.dataset.deadline;
       note.textContent = t('studio.noteMakeup');
     } else {
+      note.hidden = true;
       var next = nextOpenAt();
       note.dataset.deadline = next.toISOString();
       note.dataset.prefix = t('studio.countdown');
@@ -1146,23 +1152,32 @@
 
     var fillPct = Math.min(100, fragments() / 28 * 100);
     $('#nm-fill').style.width = fillPct + '%';
-    var nextM = MILESTONES.filter(function (m) { return fragments() < m.at; })[0];
-    if (eventPhase() === 'ended') {
-      $('#nm-label').textContent = t('chance.nmClosed');
-      $('#nm-count').textContent = t('chance.nmThanks');
-    } else if (nextM) {
-      $('#nm-label').textContent = t('chance.nmNext');
-      $('#nm-count').textContent = toGo(nextM.at - fragments());
-    } else {
-      $('#nm-label').textContent = t('chance.nmAll');
-      $('#nm-count').textContent = eventPhase() === 'ended' ? t('chance.nmEnded') : t('chance.nmChristmas');
-    }
+    var currentEl = $('#nm-current');
+    if (currentEl) currentEl.textContent = fragments();
+    var here = $('#nm-here');
+    if (here) here.style.left = fillPct + '%';
+    var tip = $('#nm-tooltip');
+    if (tip) tip.hidden = true;
     $('#nm-ticks').innerHTML = [6, 12, 18, 23].map(function (n) {
       var left = n / 28 * 100;
-      return '<span class="nm-tick' + (fragments() >= n ? ' is-past' : '') + '" style="left:' + left + '%"></span>' +
+      var text = t(n === SPECIAL.bonusAt ? 'chance.nmSpecialAt' : 'chance.nmLimitedAt', { n: n });
+      return '<span class="nm-tick' + (fragments() >= n ? ' is-past' : '') + '" style="left:' + left + '%" data-tip="' + escapeAttr(text) + '" tabindex="0" aria-label="' + escapeAttr(text) + '"></span>' +
         '<span class="nm-tick-label" style="left:' + left + '%">' + n + '</span>';
     }).join('');
     updateDrawEntry();
+  }
+
+  function showMilestoneTip(tick) {
+    var tip = $('#nm-tooltip');
+    if (!tip || !tick) return;
+    tip.textContent = tick.getAttribute('data-tip') || '';
+    tip.style.left = tick.style.left;
+    tip.hidden = false;
+  }
+
+  function hideMilestoneTip() {
+    var tip = $('#nm-tooltip');
+    if (tip) tip.hidden = true;
   }
 
   function drawEntryState(kind) {
@@ -1292,11 +1307,27 @@
         if (info.ready) labelText = t('draw.enterSpecial');
         subText = t('gifts.subRemain', { t: countdownHMS(SPEC_CLOSE) });
       }
+      if (e[1] === 'hud-draw') {
+        var hudMeta = document.getElementById('hud-draw-meta');
+        if (hudMeta) hudMeta.textContent = t('gifts.metaEnergy', { n: energy() });
+        if (info.ready) labelText = t('draw.enterLimited');
+        if (info.end && info.kind !== 'limited-ended' && info.end > now()) {
+          subText = t('gifts.subRemain', { t: countdownHMS(info.end) });
+        }
+      }
+      if (e[1] === 'hud-special-draw') {
+        var hudSpecialMeta = document.getElementById('hud-special-meta');
+        if (hudSpecialMeta) hudSpecialMeta.textContent = t('gifts.metaSpecial', { n: specialRemaining() });
+        if (info.ready) labelText = t('draw.enterSpecial');
+        if (info.kind === 'special' && now() < SPEC_CLOSE) {
+          subText = t('gifts.subRemain', { t: countdownHMS(SPEC_CLOSE) });
+        }
+      }
+      if (e[1] === 'gifts-draw') updateGiftCard('limited', info);
+      if (e[1] === 'gifts-special-draw') updateGiftCard('special', info);
       if (label) label.textContent = labelText;
       if (sub) sub.textContent = subText;
       btn.title = labelText + ' · ' + subText;
-      if (e[1] === 'gifts-draw') updateGiftCard('limited', info);
-      if (e[1] === 'gifts-special-draw') updateGiftCard('special', info);
       if (e[1] === 'mobile-draw') {
         var badge = document.getElementById('mobile-draw-badge');
         if (badge) {
@@ -1332,6 +1363,7 @@
   function updateShareRow() {
     var sub = $('#share-sub');
     var label = $('#share-label');
+    if (!sub || !label) return;
     var town = fragments() >= 28;
     var phase = eventPhase();
     if (label) label.textContent = town ? t('chance.shareTown') : t('chance.shareDoodle');
@@ -2611,7 +2643,23 @@
       openLimitedDraw();
     });
 
-    $('#share-chance').addEventListener('click', function () { openShare(); });
+    var milestoneTicks = $('#nm-ticks');
+    if (milestoneTicks) {
+      milestoneTicks.addEventListener('mouseover', function (e) {
+        var tick = e.target.closest('.nm-tick');
+        if (tick) showMilestoneTip(tick);
+      });
+      milestoneTicks.addEventListener('mouseout', function (e) {
+        if (e.target.closest('.nm-tick')) hideMilestoneTip();
+      });
+      milestoneTicks.addEventListener('focusin', function (e) {
+        var tick = e.target.closest('.nm-tick');
+        if (tick) showMilestoneTip(tick);
+      });
+      milestoneTicks.addEventListener('focusout', hideMilestoneTip);
+    }
+    var shareChance = $('#share-chance');
+    if (shareChance) shareChance.addEventListener('click', function () { openShare(); });
     $('#done-share').addEventListener('click', function () {
       var id = $('#done-view').dataset.task;
       openShare(id || undefined);

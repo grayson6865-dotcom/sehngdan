@@ -2880,6 +2880,253 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
 .works-group-title + .works-grid { margin-bottom: 4px; }
 .work-card.is-free .work-thumb { filter: saturate(1.05); }
 
+/* ------------------------------------------------- HUD milestone + dual draw cards */
+.hud-row {
+  grid-template-columns: minmax(170px, .75fr) minmax(0, 1.55fr) minmax(230px, .8fr);
+  gap: 22px;
+}
+.hud-progress { min-width: 0; }
+.hud-progress .nm-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.hud-progress .nm-top .card-kicker { white-space: nowrap; }
+.hud-progress .nm-status {
+  font-size: 9.5px;
+  color: var(--muted-2);
+  letter-spacing: .02em;
+}
+.hud-progress .nm-current {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  margin: 1px 0 0;
+}
+.hud-progress .nm-current b {
+  font-family: var(--serif);
+  font-size: 37px;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--gold);
+  letter-spacing: -.03em;
+}
+.hud-progress .nm-unit { font-size: 11px; color: var(--muted-2); }
+.hud-progress .nm-unit-label { font-size: 9.5px; color: var(--muted); margin-left: 1px; }
+.hud-progress .nm-count {
+  margin: 2px 0 10px;
+  font-size: 10.5px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+.hud-progress .nm-bar {
+  position: relative;
+  height: 14px;
+  overflow: visible;
+  background: none;
+}
+.hud-progress .nm-bar::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 3px;
+  transform: translateY(-50%);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .07);
+}
+.hud-progress .nm-fill {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  height: 3px;
+  transform: translateY(-50%);
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--gold-2), var(--gold));
+  box-shadow: 0 0 14px rgba(247, 200, 105, .45);
+  transition: width .8s cubic-bezier(.2, .8, .2, 1);
+}
+.hud-progress .nm-tick {
+  position: absolute;
+  top: 50%;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #1a2440;
+  border: 1px solid rgba(255, 255, 255, .18);
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+.hud-progress .nm-tick.is-past {
+  background: var(--gold);
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(247, 200, 105, .12);
+}
+.hud-progress .nm-tick-label {
+  position: absolute;
+  top: 17px;
+  transform: translateX(-50%);
+  font-size: 8.5px;
+  color: var(--muted-2);
+  letter-spacing: .04em;
+}
+.hud-progress .nm-here {
+  position: absolute;
+  top: 50%;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--gold);
+  border: 2px solid #0b1226;
+  box-shadow: 0 0 12px rgba(247, 200, 105, .7);
+  transform: translate(-50%, -50%);
+  z-index: 3;
+}
+.hud-progress .nm-tooltip {
+  position: absolute;
+  bottom: 18px;
+  transform: translateX(-50%);
+  padding: 6px 9px;
+  border-radius: 8px;
+  border: 1px solid rgba(247, 200, 105, .28);
+  background: #0b1428;
+  color: #ffe3a6;
+  font-size: 9px;
+  line-height: 1.2;
+  white-space: nowrap;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, .45);
+  z-index: 4;
+  pointer-events: none;
+}
+.hud-progress .nm-tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #0b1428;
+}
+.hud-progress .nm-tooltip[hidden] { display: none; }
+.hud-progress .nm-note { margin: 23px 0 0; }
+.hud-draws {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 0;
+  min-width: 0;
+}
+.hud-draws .hud-draw {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 2px;
+  width: 100%;
+  min-height: 0;
+  margin: 0;
+  padding: 10px 32px 10px 12px;
+  border: 1px solid var(--stroke);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .025);
+  text-align: left;
+}
+.hud-draws .hud-draw::after {
+  content: "›";
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  line-height: 1;
+  color: var(--gold-2);
+}
+.hud-draw-head {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11.5px;
+  color: var(--text);
+}
+.hud-draw-head .i { width: 15px; height: 15px; color: var(--gold); }
+.hud-draw-meta {
+  font-size: 9px;
+  color: var(--muted-2);
+  letter-spacing: .02em;
+}
+.hud-draw-sub {
+  font-size: 9.5px;
+  line-height: 1.25;
+  color: var(--gold-2);
+}
+.hud-draws .hud-draw:disabled { opacity: .62; }
+.hud-draws .hud-draw:disabled::after { color: var(--muted-3); }
+.hud-draws .hud-draw:disabled .hud-draw-sub { color: var(--muted-2); }
+.hud-draws .hud-draw.is-special {
+  border-color: rgba(247, 200, 105, .28);
+  background: linear-gradient(160deg, rgba(247, 200, 105, .08), rgba(255, 255, 255, .02));
+}
+@media (max-width: 1180px) and (min-width: 901px) {
+  .hud-row { grid-template-columns: minmax(150px, .65fr) minmax(0, 1.35fr) minmax(210px, .8fr); gap: 16px; }
+  .hud-progress .nm-current b { font-size: 32px; }
+  .hud-draws .hud-draw { padding: 9px 28px 9px 10px; }
+}
+@media (max-width: 900px) {
+  .hud-row { grid-template-columns: 1fr; gap: 14px; }
+  .hud-draws { display: grid; grid-template-columns: 1fr 1fr; }
+  .hud-progress .nm-note { margin-top: 21px; }
+}
+@media (max-width: 560px) {
+  .hud-draws { grid-template-columns: 1fr; }
+  .hud-progress .nm-current b { font-size: 33px; }
+  .hud-progress .nm-tooltip { font-size: 8.5px; }
+}
+
+/* HUD milestone: copy left, meter right, node hover bubbles */
+.hud-progress {
+  display: grid;
+  grid-template-columns: minmax(120px, .7fr) minmax(0, 1.5fr);
+  gap: 18px;
+  align-items: end;
+}
+.nm-copy { min-width: 0; padding-bottom: 1px; }
+.nm-copy .card-kicker { display: block; }
+.nm-rule {
+  margin: 5px 0 0;
+  max-width: 22ch;
+  font-size: 9.5px;
+  line-height: 1.5;
+  color: var(--muted-2);
+}
+.nm-meter { min-width: 0; }
+.nm-meter .nm-current { margin: 0 0 7px; }
+.nm-meter .nm-bar { margin-top: 0; }
+.hud-progress .nm-ticks { pointer-events: none; }
+.hud-progress .nm-tick {
+  pointer-events: auto;
+  cursor: help;
+  outline: none;
+}
+.hud-progress .nm-tick:focus-visible {
+  box-shadow: 0 0 0 3px rgba(247, 200, 105, .25);
+}
+@media (max-width: 560px) {
+  .hud-progress { grid-template-columns: 1fr; gap: 8px; align-items: start; }
+  .nm-rule { max-width: none; }
+  .nm-meter .nm-current { margin-top: 2px; }
+}
+
+/* Pieces count mirrors the energy block: title → count → rule */
+.nm-copy .nm-current { margin: 1px 0 3px; }
+.nm-copy .nm-rule { margin-top: 0; }
+.nm-meter { align-self: end; }
+@media (max-width: 560px) {
+  .nm-copy .nm-current { margin-top: 2px; }
+}
+
 </style>
 </head>
 <body>
@@ -3093,35 +3340,43 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
 
         <div class="panel studio-hud" id="studio-hud">
           <div class="hud-row">
-            <div class="hud-chance">
-              <div class="hud-chance-head">
-                <span class="card-kicker" data-i18n="chance.kicker">Draw chances</span>
-                <button class="info-btn" type="button" data-open-rules aria-label="How chances work" data-i18n-aria="chance.info"><svg class="i"><use href="#i-info"/></svg></button>
-              </div>
-              <div class="hud-count"><span id="chance-num">0</span><span class="chance-unit" id="chance-unit">chances</span></div>
-              <p class="chance-note" id="chance-note">Draw a piece to earn your first chance.</p>
-              <div class="hud-draws">
-                <button class="btn btn-ghost btn-sm hud-draw" id="hud-draw" type="button" disabled>
-                  <svg class="i"><use href="#i-gift"/></svg>
-                  <span class="draw-copy"><b id="hud-draw-label">Draw</b><small id="hud-draw-sub">Unlock in 1 piece</small></span>
-                </button>
-                <button class="btn btn-ghost btn-sm hud-draw is-special" id="hud-special-draw" type="button" disabled>
-                  <svg class="i"><use href="#i-sparkle"/></svg>
-                  <span class="draw-copy"><b id="hud-special-label">Christmas draw</b><small id="hud-special-sub">Opens Dec 25</small></span>
-                </button>
+          <div class="hud-chance">
+            <div class="hud-chance-head">
+              <span class="card-kicker" data-i18n="chance.kicker">Draw chances</span>
+            </div>
+            <div class="hud-count"><span id="chance-num">0</span><span class="chance-unit" id="chance-unit">chances</span></div>
+            <p class="chance-note" id="chance-note">Draw a piece to earn your first chance.</p>
+          </div>
+
+          <div class="hud-progress" id="hud-milestone">
+            <div class="nm-copy">
+              <span class="card-kicker" data-i18n="chance.milestoneKicker">Pieces</span>
+              <div class="nm-current"><b id="nm-current">0</b><span class="nm-unit">/ 28</span></div>
+              <p class="nm-rule" data-i18n="chance.nmRule">Light 6 / 12 / 18 pieces — one limited draw each</p>
+            </div>
+            <div class="nm-meter">
+              <div class="nm-bar">
+                <div class="nm-fill" id="nm-fill"></div>
+                <div class="nm-ticks" id="nm-ticks"></div>
+                <span class="nm-here" id="nm-here"></span>
+                <div class="nm-tooltip" id="nm-tooltip" hidden></div>
               </div>
             </div>
-            <div class="hud-progress">
-              <div class="nm-head"><span id="nm-label">Next milestone</span><span id="nm-count">6 pieces to go</span></div>
-              <div class="nm-bar"><div class="nm-fill" id="nm-fill"></div><div class="nm-ticks" id="nm-ticks"></div></div>
-              <p class="nm-note" data-i18n="chance.schedule">Limited draws open once at 6 / 12 / 18 pieces · Christmas Day draw on Dec 25</p>
-            </div>
-            <button class="share-row hud-share" id="share-chance" type="button">
-              <span class="share-icon"><svg class="i"><use href="#i-share"/></svg></span>
-              <span class="share-copy"><b id="share-label">Share a doodle</b><small id="share-sub">+1 chance · once a day</small></span>
-              <svg class="i share-arrow"><use href="#i-arrow"/></svg>
+          </div>
+
+          <div class="hud-draws">
+            <button class="btn btn-ghost btn-sm hud-draw" id="hud-draw" type="button" disabled>
+              <span class="hud-draw-head"><svg class="i"><use href="#i-gift"/></svg><b id="hud-draw-label">Limited draw</b></span>
+              <span class="hud-draw-meta" id="hud-draw-meta">0 energy</span>
+              <span class="hud-draw-sub" id="hud-draw-sub">Unlock in 1 piece</span>
+            </button>
+            <button class="btn btn-ghost btn-sm hud-draw is-special" id="hud-special-draw" type="button" disabled>
+              <span class="hud-draw-head"><svg class="i"><use href="#i-sparkle"/></svg><b id="hud-special-label">Christmas draw</b></span>
+              <span class="hud-draw-meta" id="hud-special-meta">Christmas energy: 0</span>
+              <span class="hud-draw-sub" id="hud-special-sub">Opens Dec 25</span>
             </button>
           </div>
+        </div>
 </div>
       </div>
     </div>
@@ -3538,6 +3793,13 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
       'chance.nmClosed': 'Event closed',
       'chance.nmThanks': 'Thanks for playing',
       'chance.nmChristmas': 'Christmas Day draw · Dec 25',
+      'chance.milestoneKicker': 'Pieces',
+      'chance.nmRule': 'Light 6 / 12 / 18 pieces to open limited draws',
+      'chance.nmUnit': 'pieces lit',
+      'chance.nmNextReward': 'Open the next limited draw',
+      'chance.nmSpecialReward': 'Christmas energy +1',
+      'chance.nmLimitedAt': 'Light {n} pieces · limited draw',
+      'chance.nmSpecialAt': 'Light {n} pieces · +1 Christmas energy',
       'chance.nmEnds': 'Event ends Dec 31',
       'chance.nmEnded': 'Event ended',
       'chance.shareDoodle': 'Share a doodle',
@@ -3553,7 +3815,7 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
       'chance.energyBanked': '{n} energy carries into the limited draw — {toGo} to open it.',
       'chance.noEnergyNext': 'No energy left — {n} more pieces opens the next limited round.',
       'chance.noEnergy': 'No energy left — draw a daily element to earn 1 energy.',
-      'chance.noEnergyCap': '18 pieces reached — regular energy stops here. Christmas draws use special energy.',
+      'chance.noEnergyCap': 'Your first creation earns energy. Once a limited draw opens, spend energy to draw.',
       'result.kicker.daily': "Today's creation",
       'result.kicker.makeup': 'Make-up',
       'result.kicker.update': 'Drawing updated',
@@ -4116,6 +4378,13 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
       'chance.nmClosed': '活动已结束',
       'chance.nmThanks': '感谢参与',
       'chance.nmChristmas': '圣诞日抽奖 · 12月25日',
+      'chance.milestoneKicker': '碎片',
+      'chance.nmRule': '点亮 6/12/18 块开启限时抽奖',
+      'chance.nmUnit': '块已点亮',
+      'chance.nmNextReward': '开启下一次限时抽奖',
+      'chance.nmSpecialReward': '圣诞能量 +1 点',
+      'chance.nmLimitedAt': '点亮 {n} 块 · 限时抽奖',
+      'chance.nmSpecialAt': '点亮 {n} 块 · 圣诞能量 +1 点',
       'chance.nmEnds': '活动 12 月 31 日结束',
       'chance.nmEnded': '活动已结束',
       'chance.shareDoodle': '分享作品',
@@ -4494,7 +4763,7 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
       'chance.energyBanked': '已存下 {n} 点能量——{toGo}开启限时抽奖。',
       'chance.noEnergyNext': '能量已用完——再点亮 {n} 块开启下一次限时抽奖。',
       'chance.noEnergy': '能量已用完——画一个每日元素获得 1 点能量。',
-      'chance.noEnergyCap': '已点亮 18 块——常规能量已封顶；圣诞日抽奖使用特殊能量。',
+      'chance.noEnergyCap': '首次完成创作可以获取能量，限时抽奖开启后，可消耗能量进行抽奖。',
       'draw.subEnergy': '你有 {n} 点能量，每次抽奖消耗 1 点。',
       'draw.energyLeft': '能量 {n}',
       'draw.energyEmpty': '能量 0',
@@ -7321,6 +7590,7 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
     cta.hidden = !opts.cta;
     gate._handler = opts.handler || null;
     if (opts.note) {
+      $('#studio-note').hidden = false;
       $('#studio-note').textContent = opts.note;
       delete $('#studio-note').dataset.deadline;
     }
@@ -7374,6 +7644,7 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
     $('#done-share').hidden = false;
     if (makeups.length) renderMakeupChips(makeups, null, 'daily');
     var note = $('#studio-note');
+    note.hidden = false;
     delete note.dataset.deadline;
     var next = nextOpenAt();
     note.textContent = next > now() ? t('studio.noteNextOnly', { time: countdownText(next) }) : t('studio.noteLast');
@@ -7403,6 +7674,7 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
       if (pad) pad.clear();
     }
     var note = $('#studio-note');
+    note.hidden = false;
     delete note.dataset.deadline;
     note.textContent = t('studio.freeNote');
     updateToolState();
@@ -7509,12 +7781,15 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
     }
 
     if (mode === 'makeup' && todayCard && isDone(todayCard.id)) {
+      note.hidden = false;
       delete note.dataset.deadline;
       note.textContent = t('studio.noteMakeupToday');
     } else if (mode === 'makeup') {
+      note.hidden = false;
       delete note.dataset.deadline;
       note.textContent = t('studio.noteMakeup');
     } else {
+      note.hidden = true;
       var next = nextOpenAt();
       note.dataset.deadline = next.toISOString();
       note.dataset.prefix = t('studio.countdown');
@@ -7582,23 +7857,32 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
 
     var fillPct = Math.min(100, fragments() / 28 * 100);
     $('#nm-fill').style.width = fillPct + '%';
-    var nextM = MILESTONES.filter(function (m) { return fragments() < m.at; })[0];
-    if (eventPhase() === 'ended') {
-      $('#nm-label').textContent = t('chance.nmClosed');
-      $('#nm-count').textContent = t('chance.nmThanks');
-    } else if (nextM) {
-      $('#nm-label').textContent = t('chance.nmNext');
-      $('#nm-count').textContent = toGo(nextM.at - fragments());
-    } else {
-      $('#nm-label').textContent = t('chance.nmAll');
-      $('#nm-count').textContent = eventPhase() === 'ended' ? t('chance.nmEnded') : t('chance.nmChristmas');
-    }
+    var currentEl = $('#nm-current');
+    if (currentEl) currentEl.textContent = fragments();
+    var here = $('#nm-here');
+    if (here) here.style.left = fillPct + '%';
+    var tip = $('#nm-tooltip');
+    if (tip) tip.hidden = true;
     $('#nm-ticks').innerHTML = [6, 12, 18, 23].map(function (n) {
       var left = n / 28 * 100;
-      return '<span class="nm-tick' + (fragments() >= n ? ' is-past' : '') + '" style="left:' + left + '%"></span>' +
+      var text = t(n === SPECIAL.bonusAt ? 'chance.nmSpecialAt' : 'chance.nmLimitedAt', { n: n });
+      return '<span class="nm-tick' + (fragments() >= n ? ' is-past' : '') + '" style="left:' + left + '%" data-tip="' + escapeAttr(text) + '" tabindex="0" aria-label="' + escapeAttr(text) + '"></span>' +
         '<span class="nm-tick-label" style="left:' + left + '%">' + n + '</span>';
     }).join('');
     updateDrawEntry();
+  }
+
+  function showMilestoneTip(tick) {
+    var tip = $('#nm-tooltip');
+    if (!tip || !tick) return;
+    tip.textContent = tick.getAttribute('data-tip') || '';
+    tip.style.left = tick.style.left;
+    tip.hidden = false;
+  }
+
+  function hideMilestoneTip() {
+    var tip = $('#nm-tooltip');
+    if (tip) tip.hidden = true;
   }
 
   function drawEntryState(kind) {
@@ -7728,11 +8012,27 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
         if (info.ready) labelText = t('draw.enterSpecial');
         subText = t('gifts.subRemain', { t: countdownHMS(SPEC_CLOSE) });
       }
+      if (e[1] === 'hud-draw') {
+        var hudMeta = document.getElementById('hud-draw-meta');
+        if (hudMeta) hudMeta.textContent = t('gifts.metaEnergy', { n: energy() });
+        if (info.ready) labelText = t('draw.enterLimited');
+        if (info.end && info.kind !== 'limited-ended' && info.end > now()) {
+          subText = t('gifts.subRemain', { t: countdownHMS(info.end) });
+        }
+      }
+      if (e[1] === 'hud-special-draw') {
+        var hudSpecialMeta = document.getElementById('hud-special-meta');
+        if (hudSpecialMeta) hudSpecialMeta.textContent = t('gifts.metaSpecial', { n: specialRemaining() });
+        if (info.ready) labelText = t('draw.enterSpecial');
+        if (info.kind === 'special' && now() < SPEC_CLOSE) {
+          subText = t('gifts.subRemain', { t: countdownHMS(SPEC_CLOSE) });
+        }
+      }
+      if (e[1] === 'gifts-draw') updateGiftCard('limited', info);
+      if (e[1] === 'gifts-special-draw') updateGiftCard('special', info);
       if (label) label.textContent = labelText;
       if (sub) sub.textContent = subText;
       btn.title = labelText + ' · ' + subText;
-      if (e[1] === 'gifts-draw') updateGiftCard('limited', info);
-      if (e[1] === 'gifts-special-draw') updateGiftCard('special', info);
       if (e[1] === 'mobile-draw') {
         var badge = document.getElementById('mobile-draw-badge');
         if (badge) {
@@ -7768,6 +8068,7 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
   function updateShareRow() {
     var sub = $('#share-sub');
     var label = $('#share-label');
+    if (!sub || !label) return;
     var town = fragments() >= 28;
     var phase = eventPhase();
     if (label) label.textContent = town ? t('chance.shareTown') : t('chance.shareDoodle');
@@ -9047,7 +9348,23 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
       openLimitedDraw();
     });
 
-    $('#share-chance').addEventListener('click', function () { openShare(); });
+    var milestoneTicks = $('#nm-ticks');
+    if (milestoneTicks) {
+      milestoneTicks.addEventListener('mouseover', function (e) {
+        var tick = e.target.closest('.nm-tick');
+        if (tick) showMilestoneTip(tick);
+      });
+      milestoneTicks.addEventListener('mouseout', function (e) {
+        if (e.target.closest('.nm-tick')) hideMilestoneTip();
+      });
+      milestoneTicks.addEventListener('focusin', function (e) {
+        var tick = e.target.closest('.nm-tick');
+        if (tick) showMilestoneTip(tick);
+      });
+      milestoneTicks.addEventListener('focusout', hideMilestoneTip);
+    }
+    var shareChance = $('#share-chance');
+    if (shareChance) shareChance.addEventListener('click', function () { openShare(); });
     $('#done-share').addEventListener('click', function () {
       var id = $('#done-view').dataset.task;
       openShare(id || undefined);
