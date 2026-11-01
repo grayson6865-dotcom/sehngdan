@@ -42,13 +42,21 @@ python3 -m http.server 8777
 | --- | --- | --- |
 | Fresh account | 12/3 10:30 | 全新账号，0 块 / 0 能量 |
 | 5 pieces · Stage 1 next | 12/8 19:20 | 5 块 + 5 能量，画第 6 块开启第一段限时窗口 |
+| 11 pieces · Stage 2 next | 12/14 | 11 块，提交第 12 块开启第二次限时抽奖 |
 | 17 pieces · Stage 3 next | 12/20 | 第一/二段窗口已过期，画第 18 块开启第三段限时窗口 |
+| Christmas Day · 18th piece next | 12/25 | 17 块，提交今日任务后同时获得圣诞资格并开启限时抽奖 |
+| Christmas Day · 23rd piece next | 12/25 | 22 块，提交今日任务后圣诞能量累计 2 点 |
+| Limited draw expired · energy saved | 12/10 | 6 块，首次窗口已过期，保留 5 点能量 |
 | Christmas Day · 18 pieces | 12/25 12:00 | 圣诞日抽奖 1 次（1 点特殊能量），限时入口同时开放 |
 | Make-up day · 20 pieces | 12/27 | 补画期，选中一个未完成历史任务；补画不增加能量 |
 | Make-up · 5 pieces → Stage 1 | 12/27 | 选中历史任务，补画第 6 块会开启限时窗口，但不增加能量 |
+| Overlapping windows · 11 pieces | 12/27 | 补画第 12 块，检查窗口截止时间更新 |
+| Open draw · no energy | 12/8 | 窗口开放，常规能量为 0 |
+| 27 pieces · final piece next | 12/30 | 提交第 28 块，展示完成庆祝 |
+| Final cutoff · 09:30 | 12/31 09:30 | 补画第 6 块，窗口最晚 10:00 截止 |
 | Full town · 28 pieces | 12/30 | 完整小镇，可生成纪念图 |
 
-> 补画场景会自动选中一个未完成历史任务，直接提交即可验证「补画不加能量」；也可以在 Studio 顶部的 Make-up 任务条切换。
+> 补画场景会自动选中一个未完成历史任务，直接提交即可验证「补画不加能量」；也可以在小镇拼图中点击可补画的碎片切换。
 
 ---
 
@@ -156,7 +164,7 @@ python3 -m http.server 8777
 
 **构建 / 版本**
 
-- 本地 CSS/JS 通过 `?v=20261101p` 版本号引用；改动资源后必须同步 bump，避免旧缓存。
+- 本地 CSS/JS 通过 `?v=20261101t` 版本号引用；改动资源后必须同步 bump，避免旧缓存。
 - 单文件版由 `index.html` 内联 CSS 与全部 JS 生成；改完多文件版后需要重新构建。
 - 详细交接与历史问题见 `HANDOFF.md`（注：HANDOFF 早于本版 Spec，部分内容已过时）。
 

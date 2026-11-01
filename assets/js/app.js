@@ -919,7 +919,7 @@
     $('#studio-gate').hidden = true;
     $('#studio-body').hidden = true;
     $('#studio-done').hidden = false;
-    $('#makeup-picker').hidden = makeups.length === 0;
+    $('#makeup-picker').hidden = true;
     taskHeader(task, 'daily');
     var rec = state.completed[task.id];
     var pieceNo = TASKS.filter(function (t) { return t.day <= task.day && isDone(t.id); }).length;
@@ -1087,7 +1087,7 @@
       note.textContent = t('studio.noteDaily', { time: countdownText(next) });
     }
 
-    $('#makeup-picker').hidden = makeups.length === 0;
+    $('#makeup-picker').hidden = true;
     if (makeups.length) renderMakeupChips(makeups, current, mode);
     updateToolState();
   }
@@ -1438,11 +1438,12 @@
     var lit = fragments();
     var html = TASKS.map(function (task, i) {
       var done = isDone(task.id);
-      var label = t('album.day', { n: pad2(task.day) }) + ' · ' + taskName(task);
-      return '<button type="button" class="mural-piece' + (done ? ' is-lit' : '') + '" data-task="' + task.id +
+      var makeup = taskStatus(task) === 'makeup';
+      var label = t('album.day', { n: pad2(task.day) }) + ' · ' + taskName(task) + (makeup ? ' · ' + t('mural.makeup') : '');
+      return '<button type="button" class="mural-piece' + (done ? ' is-lit' : makeup ? ' is-makeup' : '') + '" data-task="' + task.id +
         '" title="' + escapeAttr(label) + '" aria-label="' + escapeAttr(label) + '">' +
         '<span class="mural-num">' + (i + 1) + '</span>' +
-        (done ? '' : '<span class="mural-lock">' + icon('i-lock') + '</span>') +
+        (done ? '' : makeup ? '<span class="mural-makeup">' + t('mural.makeup') + '</span>' : '<span class="mural-lock">' + icon('i-lock') + '</span>') +
         '</button>';
     }).join('');
     html += '<div class="mural-sign' + (lit >= 28 ? ' is-complete' : '') + '"' + (lit >= 28 ? ' data-complete="1"' : '') + '>' +
@@ -2445,8 +2446,8 @@
     toast(t('demo.sim', { date: fmtLong(d), time: fmtClock(d) }));
   }
 
-  function demoWindow(s, id) {
-    var t = new Date(s.sim);
+  function demoWindow(s, id, achievedAt) {
+    var t = new Date(achievedAt || s.sim);
     s.nodes[id] = {
       achievedAt: t.toISOString(),
       endAt: new Date(Math.min(t.getTime() + 24 * 3600 * 1000, END.getTime())).toISOString()
@@ -2487,19 +2488,62 @@
     } else if (name === 'stage1') {
       s.sim = '2026-12-08T19:20:00+08:00';
       scenarioTasks(s, 5, { energy: 5 });
+    } else if (name === 'stage2') {
+      s.sim = '2026-12-14T19:20:00+08:00';
+      scenarioTasks(s, 11, { energy: 5 });
+      demoWindow(s, 'stage1', '2026-12-08T11:00:00+08:00');
     } else if (name === 'stage3') {
       s.sim = '2026-12-20T19:20:00+08:00';
       scenarioTasks(s, 17, { energy: 5 });
-      demoWindow(s, 'stage1');
-      demoWindow(s, 'stage2');
+      demoWindow(s, 'stage1', '2026-12-08T11:00:00+08:00');
+      demoWindow(s, 'stage2', '2026-12-14T11:00:00+08:00');
       seedPrizesFor('stage1', 2, s);
       seedPrizesFor('stage2', 2, s);
+    } else if (name === 'xmas18next') {
+      s.sim = '2026-12-25T12:00:00+08:00';
+      scenarioTasks(s, 17, { energy: 5 });
+      demoWindow(s, 'stage1', '2026-12-08T11:00:00+08:00');
+      demoWindow(s, 'stage2', '2026-12-14T11:00:00+08:00');
+    } else if (name === 'xmas23next') {
+      s.sim = '2026-12-25T12:00:00+08:00';
+      scenarioTasks(s, 22, { energy: 3 });
+      demoWindow(s, 'stage1', '2026-12-08T11:00:00+08:00');
+      demoWindow(s, 'stage2', '2026-12-14T11:00:00+08:00');
+      demoWindow(s, 'stage3', '2026-12-20T11:00:00+08:00');
+    } else if (name === 'expired') {
+      s.sim = '2026-12-10T12:00:00+08:00';
+      scenarioTasks(s, 6, { energy: 5 });
+      demoWindow(s, 'stage1', '2026-12-08T11:00:00+08:00');
+    } else if (name === 'overlap') {
+      s.sim = '2026-12-27T10:00:00+08:00';
+      scenarioTasks(s, 11, { energy: 5 });
+      for (var i = 5; i < 11; i++) {
+        s.completed[TASKS[i].id].at = new Date('2026-12-26T' + (12 + i - 5) + ':00:00+08:00').toISOString();
+        s.completed[TASKS[i].id].makeup = true;
+      }
+      demoWindow(s, 'stage1', '2026-12-26T12:00:00+08:00');
+      s.ui.selectedId = TASKS[11].id;
+    } else if (name === 'noenergy') {
+      s.sim = '2026-12-08T12:00:00+08:00';
+      scenarioTasks(s, 6, { energy: 0 });
+      demoWindow(s, 'stage1', '2026-12-08T11:00:00+08:00');
+    } else if (name === 'almostcomplete') {
+      s.sim = '2026-12-30T15:00:00+08:00';
+      scenarioTasks(s, 27, { energy: 0 });
+      demoWindow(s, 'stage1', '2026-12-08T11:00:00+08:00');
+      demoWindow(s, 'stage2', '2026-12-14T11:00:00+08:00');
+      demoWindow(s, 'stage3', '2026-12-20T11:00:00+08:00');
+    } else if (name === 'cutoff') {
+      s.sim = '2026-12-31T09:30:00+08:00';
+      scenarioTasks(s, 5, { energy: 5 });
+      s.ui.selectedId = TASKS[5].id;
     } else if (name === 'xmas') {
       s.sim = '2026-12-25T12:00:00+08:00';
-      scenarioTasks(s, 18, { energy: 2 });
-      demoWindow(s, 'stage1');
-      demoWindow(s, 'stage2');
-      demoWindow(s, 'stage3');
+      scenarioTasks(s, 17, { energy: 2 });
+      s.completed[TASKS[22].id] = { at: new Date('2026-12-25T11:00:00+08:00').toISOString(), makeup: false, art: null };
+      demoWindow(s, 'stage1', '2026-12-08T11:00:00+08:00');
+      demoWindow(s, 'stage2', '2026-12-14T11:00:00+08:00');
+      demoWindow(s, 'stage3', '2026-12-25T11:00:00+08:00');
       s.special = { chances: 0, used: 0 };
       seedPrizesFor('stage1', 2, s);
       seedPrizesFor('stage2', 2, s);
@@ -2512,9 +2556,9 @@
       s.sim = '2026-12-27T15:00:00+08:00';
       scenarioTasks(s, 20, { energy: 0 });
       s.ui.selectedId = TASKS[20].id;
-      demoWindow(s, 'stage1');
-      demoWindow(s, 'stage2');
-      demoWindow(s, 'stage3');
+      demoWindow(s, 'stage1', '2026-12-08T11:00:00+08:00');
+      demoWindow(s, 'stage2', '2026-12-14T11:00:00+08:00');
+      demoWindow(s, 'stage3', '2026-12-20T11:00:00+08:00');
       s.special = { chances: 0, used: 1 };
       seedPrizesFor('stage1', 2, s);
       seedPrizesFor('stage2', 2, s);
@@ -2522,9 +2566,9 @@
     } else if (name === 'complete') {
       s.sim = '2026-12-30T15:00:00+08:00';
       scenarioTasks(s, 28, { energy: 0 });
-      demoWindow(s, 'stage1');
-      demoWindow(s, 'stage2');
-      demoWindow(s, 'stage3');
+      demoWindow(s, 'stage1', '2026-12-08T11:00:00+08:00');
+      demoWindow(s, 'stage2', '2026-12-14T11:00:00+08:00');
+      demoWindow(s, 'stage3', '2026-12-20T11:00:00+08:00');
       s.special = { chances: 0, used: 2 };
       seedPrizesFor('stage1', 2, s);
       seedPrizesFor('stage2', 2, s);
