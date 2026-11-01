@@ -7780,14 +7780,10 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
       if (pad) pad.clear();
     }
 
-    if (mode === 'makeup' && todayCard && isDone(todayCard.id)) {
-      note.hidden = false;
+    if (mode === 'makeup') {
+      note.hidden = true;
       delete note.dataset.deadline;
-      note.textContent = t('studio.noteMakeupToday');
-    } else if (mode === 'makeup') {
-      note.hidden = false;
-      delete note.dataset.deadline;
-      note.textContent = t('studio.noteMakeup');
+      note.textContent = '';
     } else {
       note.hidden = true;
       var next = nextOpenAt();
@@ -7888,14 +7884,14 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
   function drawEntryState(kind) {
     kind = kind || 'limited';
     var phase = eventPhase();
+    if (kind === 'special' && now() >= SPEC_CLOSE) {
+      return { ready: false, kind: 'special-ended', label: t('state.closed'), sub: '' };
+    }
     if (phase === 'before') return { ready: false, kind: 'before', label: t('draw.entryBefore'), sub: t('draw.subBefore') };
     if (phase === 'ended') return { ready: false, kind: 'ended', label: t('draw.entryEnded'), sub: t('draw.subEnded') };
 
     if (kind === 'special') {
       var rem = specialRemaining();
-      if (now() >= SPEC_CLOSE) {
-        return { ready: false, kind: 'special-ended', label: t('draw.specialClosed'), sub: t('draw.specialEndedSub') };
-      }
       if (now() < SPEC_OPEN) {
         if (fragments() < SPECIAL.at) {
           return { ready: false, kind: 'special-locked', label: t('draw.specialName'), sub: t('draw.specialLockedSub') };
@@ -8031,8 +8027,8 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
       if (e[1] === 'gifts-draw') updateGiftCard('limited', info);
       if (e[1] === 'gifts-special-draw') updateGiftCard('special', info);
       if (label) label.textContent = labelText;
-      if (sub) sub.textContent = subText;
-      btn.title = labelText + ' · ' + subText;
+      if (sub) { sub.textContent = subText; sub.hidden = !subText; }
+      btn.title = subText ? labelText + ' · ' + subText : labelText;
       if (e[1] === 'mobile-draw') {
         var badge = document.getElementById('mobile-draw-badge');
         if (badge) {
