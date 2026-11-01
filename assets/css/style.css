@@ -3116,3 +3116,18 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
 @media (max-width: 560px) {
   .nm-copy .nm-current { margin-top: 2px; }
 }
+
+/* Winter town artwork: the existing tiles remain the interactive layer. */
+body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), url("../images/christmas-town.jpg") center / cover fixed; }
+.hero {
+  background: linear-gradient(90deg, rgba(5, 8, 26, .97) 0%, rgba(5, 8, 26, .86) 37%, rgba(5, 8, 26, .35) 100%),
+              linear-gradient(0deg, #05081a, transparent 45%),
+              url("../images/christmas-town.jpg") center / cover no-repeat;
+}
+.scene-mount::after, .mural-scene::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: url("../images/christmas-town.jpg") center / cover no-repeat;
+}
+@media (max-width: 760px) {
+  .hero { background-position: center, center, 60% center; }
+}
