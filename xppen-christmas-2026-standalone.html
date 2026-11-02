@@ -3131,6 +3131,20 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
   .hero { background-position: center, center, 60% center; }
 }
 
+/* Compact email subscription invitation. */
+.subscription-entry { display: flex; align-items: center; gap: 14px; margin-top: 16px; padding: 12px 16px; border: 1px solid rgba(247, 200, 105, .35); border-radius: 16px; background: rgba(11, 20, 43, .94); }
+.subscription-icon { color: var(--gold); font-size: 24px; line-height: 1; }
+.subscription-copy { display: flex; align-items: baseline; flex: 1; gap: 18px; flex-wrap: wrap; }
+.subscription-copy strong { color: var(--text); font-size: 14px; }
+.subscription-copy span { color: var(--muted); font-size: 12px; }
+.subscription-demo-note { color: var(--muted); font-size: 12px; line-height: 1.6; }
+@media (max-width: 560px) {
+  .subscription-entry { gap: 10px; padding: 12px; }
+  .subscription-copy { gap: 2px; flex-direction: column; align-items: flex-start; }
+  .subscription-copy strong { font-size: 12px; }
+  .subscription-entry .btn { flex-shrink: 0; padding-inline: 12px; }
+}
+
 </style>
 </head>
 <body>
@@ -3383,6 +3397,11 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
         </div>
 </div>
       </div>
+      <div class="subscription-entry" id="subscription-entry" hidden>
+        <span class="subscription-icon" aria-hidden="true">✉</span>
+        <div class="subscription-copy"><strong data-i18n="subscription.title">Subscribe for 1 energy</strong><span data-i18n="subscription.hint">Use it in the limited draw</span></div>
+        <button class="btn btn-primary btn-sm" type="button" id="subscription-open" data-i18n="subscription.open">Subscribe</button>
+      </div>
     </div>
   </section>
 
@@ -3608,6 +3627,9 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       <button type="button" data-demo="piece" data-i18n="demo.piece">+1 piece</button>
       <button type="button" data-demo="chance" data-i18n="demo.chance">+1 chance</button>
       <button type="button" data-demo="finish-draws" data-i18n="demo.finish">Finish draws</button>
+      <button type="button" data-demo="subscription-subscribed" data-i18n="subscription.demoSetSubscribed">Demo: subscribed</button>
+      <button type="button" data-demo="subscription-unsubscribed" data-i18n="subscription.demoSetUnsubscribed">Demo: unsubscribed</button>
+      <button type="button" data-demo="subscription-failure" data-i18n="subscription.demoToggleFailure">Demo: toggle subscription failure</button>
       <button type="button" data-demo="reset" class="danger" data-i18n="demo.reset">Reset</button>
     </div>
   </div>
@@ -3632,6 +3654,26 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'common.close': 'Close',
       'common.done': 'Done',
       'common.apply': 'Apply',
+
+      'subscription.kicker': 'EMAIL UPDATES',
+      'subscription.title': 'Subscribe for 1 energy',
+      'subscription.hint': 'Use it in the limited draw',
+      'subscription.open': 'Subscribe',
+      'subscription.modalCopy': 'Subscribe to receive 1 regular energy for the limited draw.',
+      'subscription.email': 'Email address',
+      'subscription.demoNote': 'Demo only: no email is sent and no real subscription is created.',
+      'subscription.submit': 'Subscribe and claim',
+      'subscription.success': 'Demo subscription complete: +1 regular energy.',
+      'subscription.failed': 'Demo subscription failed. Please try again.',
+      'subscription.saveFailed': 'Could not save the demo result. Please try again.',
+      'subscription.unavailable': 'This reward is unavailable right now.',
+      'subscription.demoSetSubscribed': 'Demo: subscribed',
+      'subscription.demoSetUnsubscribed': 'Demo: unsubscribed',
+      'subscription.demoToggleFailure': 'Demo: toggle subscription failure',
+      'subscription.demoSubscribed': 'Demo status set to subscribed.',
+      'subscription.demoUnsubscribed': 'Demo status set to unsubscribed.',
+      'subscription.demoFailOn': 'Demo subscription failure enabled.',
+      'subscription.demoFailOff': 'Demo subscription failure disabled.',
 
       'brand.event': 'Christmas 2026',
       'nav.studio': 'Studio',
@@ -4225,6 +4267,26 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'common.close': '关闭',
       'common.done': '完成',
       'common.apply': '应用',
+
+      'subscription.kicker': '邮件订阅',
+      'subscription.title': '订阅邮件，获得 1 点能量',
+      'subscription.hint': '可用于限时抽奖',
+      'subscription.open': '订阅邮件',
+      'subscription.modalCopy': '订阅成功后获得 1 点常规能量，可用于限时抽奖。',
+      'subscription.email': '邮箱地址',
+      'subscription.demoNote': '演示模式：不会发送邮件或创建真实订阅。',
+      'subscription.submit': '订阅并领取',
+      'subscription.success': '演示订阅成功，已获得 1 点常规能量。',
+      'subscription.failed': '演示订阅失败，请重试。',
+      'subscription.saveFailed': '演示结果保存失败，请重试。',
+      'subscription.unavailable': '当前无法领取该奖励。',
+      'subscription.demoSetSubscribed': '演示：已订阅',
+      'subscription.demoSetUnsubscribed': '演示：未订阅',
+      'subscription.demoToggleFailure': '演示：切换订阅失败',
+      'subscription.demoSubscribed': '演示状态已设为已订阅。',
+      'subscription.demoUnsubscribed': '演示状态已设为未订阅。',
+      'subscription.demoFailOn': '已开启订阅失败演示。',
+      'subscription.demoFailOff': '已关闭订阅失败演示。',
 
       'brand.event': '圣诞 2026',
       'nav.studio': '画室',
@@ -6919,6 +6981,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       prizes: [],
       freeWorks: [],
       share: { day: null, count: 0 },
+      subscriptions: {},
       keepsake: { name: '', blessing: '', code: null, createdAt: null },
       seen: { complete: false },
       ui: { filter: 'all', selectedId: null, justSubmitted: null }
@@ -6964,6 +7027,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       };
       s.freeWorks = Array.isArray(parsed.freeWorks) ? parsed.freeWorks : [];
       s.share = Object.assign(base.share, parsed.share || {});
+      s.subscriptions = parsed.subscriptions && typeof parsed.subscriptions === 'object' && !Array.isArray(parsed.subscriptions) ? parsed.subscriptions : {};
       s.keepsake = Object.assign(base.keepsake, parsed.keepsake || {});
       s.seen = Object.assign(base.seen, parsed.seen || {});
       s.ui = { filter: 'all', selectedId: null, justSubmitted: null };
@@ -7274,6 +7338,76 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     return ((parts[0] || 'D')[0] + (parts[1] ? parts[1][0] : 'M')).toUpperCase();
   }
 
+  /* ------------------------------- email subscription (local demo only) */
+
+  var demoSubscriptionFailure = false;
+  function subscriptionKey() {
+    return state.user && state.user.email ? String(state.user.email).trim().toLowerCase() : '';
+  }
+  function subscriptionRecord() {
+    var key = subscriptionKey();
+    return key && Object.prototype.hasOwnProperty.call(state.subscriptions, key) ? state.subscriptions[key] : null;
+  }
+  function updateSubscriptionEntry() {
+    var entry = $('#subscription-entry');
+    var record = subscriptionRecord();
+    entry.hidden = eventPhase() !== 'live' || !!(record && (record.subscribed || record.rewarded));
+  }
+  function openSubscription() {
+    if (!state.user) { requireAuth(openSubscription); return; }
+    if (eventPhase() !== 'live') return;
+    var record = subscriptionRecord();
+    if (record && (record.subscribed || record.rewarded)) { updateSubscriptionEntry(); return; }
+    var html = '<div class="modal-head"><span class="modal-kicker">' + t('subscription.kicker') + '</span>' +
+      '<h2>' + t('subscription.title') + '</h2><p>' + t('subscription.modalCopy') + '</p></div>' +
+      '<form id="subscription-form" novalidate><label class="field"><span>' + t('subscription.email') + '</span>' +
+      '<input id="subscription-email" type="email" autocomplete="email" required></label>' +
+      '<p class="field-error" id="subscription-error" role="alert" hidden></p>' +
+      '<p class="subscription-demo-note">' + t('subscription.demoNote') + '</p>' +
+      '<div class="modal-actions"><button class="btn btn-primary" type="submit">' + t('subscription.submit') + '</button>' +
+      '<button class="btn btn-ghost" type="button" data-close>' + t('common.close') + '</button></div></form>';
+    var dialog = openModal(html, { className: 'modal--narrow', label: t('subscription.title') });
+    var input = $('#subscription-email', dialog.modal);
+    var error = $('#subscription-error', dialog.modal);
+    input.value = state.user.email || '';
+    $('#subscription-form', dialog.modal).addEventListener('submit', function (e) {
+      e.preventDefault();
+      var email = input.value.trim();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        error.textContent = t('auth.invalidEmail'); error.hidden = false; return;
+      }
+      if (!state.user || eventPhase() !== 'live') {
+        error.textContent = t('subscription.unavailable'); error.hidden = false; return;
+      }
+      var key = subscriptionKey();
+      var latest = load();
+      var latestKey = latest.user && latest.user.email ? String(latest.user.email).trim().toLowerCase() : '';
+      var storedRecord = key && Object.prototype.hasOwnProperty.call(latest.subscriptions, key) ? latest.subscriptions[key] : null;
+      if (!key || key !== latestKey || latest.sim !== state.sim || (storedRecord && (storedRecord.subscribed || storedRecord.rewarded))) {
+        error.textContent = t('subscription.unavailable'); error.hidden = false; return;
+      }
+      var previous = subscriptionRecord();
+      if (previous && (previous.subscribed || previous.rewarded)) {
+        error.textContent = t('subscription.unavailable'); error.hidden = false; return;
+      }
+      if (demoSubscriptionFailure) {
+        error.textContent = t('subscription.failed'); error.hidden = false; return;
+      }
+      var priorState = state;
+      state = latest;
+      state.ui = priorState.ui;
+      state.subscriptions[key] = { subscribed: true, rewarded: true, email: email };
+      state.energy = energy() + 1;
+      if (!save({ quiet: true })) {
+        state = priorState;
+        error.textContent = t('subscription.saveFailed'); error.hidden = false; return;
+      }
+      dialog.close();
+      renderAll();
+      toast(t('subscription.success'), 'i-snow');
+    });
+  }
+
   /* ---------------------------------------------------------------- artwork */
 
   function buildScene() {
@@ -7555,6 +7689,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     updateHero();
     renderStudio();
     updateChanceCard();
+    updateSubscriptionEntry();
     renderMilestones();
     renderMural();
     renderPrizeStrip();
@@ -9212,8 +9347,9 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     }
   }
 
-  function loadScenario(name) {
+  function loadScenario(name, opts) {
     var s = emptyState();
+    if (!(opts && opts.clearSubscriptions)) s.subscriptions = Object.assign({}, state.subscriptions);
     s.user = state.user;
     s.keepsake.name = state.user ? state.user.name : '';
     s.ui = { filter: 'all', selectedId: null, justSubmitted: null };
@@ -9372,6 +9508,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
 
   function bindEvents() {
     $('#hero-cta').addEventListener('click', handleHeroCta);
+    $('#subscription-open').addEventListener('click', openSubscription);
     $('#submit-drawing').addEventListener('click', submitDrawing);
 
     $('#studio-gate').addEventListener('click', function (e) {
@@ -9591,8 +9728,23 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
         closeAllModals();
         renderAll();
         toast(t('demo.finishToast'));
+      } else if (kind === 'subscription-subscribed' || kind === 'subscription-unsubscribed') {
+        if (!state.user || !subscriptionKey()) { requireAuth(openDemo); return; }
+        var subKey = subscriptionKey();
+        var subPrevious = subscriptionRecord();
+        state.subscriptions[subKey] = { subscribed: kind === 'subscription-subscribed', rewarded: !!(subPrevious && subPrevious.rewarded), email: subPrevious && subPrevious.email || '' };
+        if (!save({ quiet: true })) {
+          if (subPrevious) state.subscriptions[subKey] = subPrevious; else delete state.subscriptions[subKey];
+          toast(t('subscription.saveFailed')); return;
+        }
+        renderAll();
+        toast(t(kind === 'subscription-subscribed' ? 'subscription.demoSubscribed' : 'subscription.demoUnsubscribed'));
+      } else if (kind === 'subscription-failure') {
+        demoSubscriptionFailure = !demoSubscriptionFailure;
+        toast(t(demoSubscriptionFailure ? 'subscription.demoFailOn' : 'subscription.demoFailOff'));
       } else if (kind === 'reset') {
-        loadScenario('fresh');
+        demoSubscriptionFailure = false;
+        loadScenario('fresh', { clearSubscriptions: true });
         toast(t('demo.resetToast'));
       }
     });
@@ -9666,7 +9818,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     updateToolState();
   }
 
-  setInterval(function () { if (!document.hidden && state) updateDrawEntry(); }, 1000);
+  setInterval(function () { if (!document.hidden && state) { updateDrawEntry(); updateSubscriptionEntry(); } }, 1000);
 
   document.addEventListener('DOMContentLoaded', init);
 })();

@@ -184,6 +184,7 @@
       prizes: [],
       freeWorks: [],
       share: { day: null, count: 0 },
+      subscriptions: {},
       keepsake: { name: '', blessing: '', code: null, createdAt: null },
       seen: { complete: false },
       ui: { filter: 'all', selectedId: null, justSubmitted: null }
@@ -229,6 +230,7 @@
       };
       s.freeWorks = Array.isArray(parsed.freeWorks) ? parsed.freeWorks : [];
       s.share = Object.assign(base.share, parsed.share || {});
+      s.subscriptions = parsed.subscriptions && typeof parsed.subscriptions === 'object' && !Array.isArray(parsed.subscriptions) ? parsed.subscriptions : {};
       s.keepsake = Object.assign(base.keepsake, parsed.keepsake || {});
       s.seen = Object.assign(base.seen, parsed.seen || {});
       s.ui = { filter: 'all', selectedId: null, justSubmitted: null };
@@ -539,6 +541,76 @@
     return ((parts[0] || 'D')[0] + (parts[1] ? parts[1][0] : 'M')).toUpperCase();
   }
 
+  /* ------------------------------- email subscription (local demo only) */
+
+  var demoSubscriptionFailure = false;
+  function subscriptionKey() {
+    return state.user && state.user.email ? String(state.user.email).trim().toLowerCase() : '';
+  }
+  function subscriptionRecord() {
+    var key = subscriptionKey();
+    return key && Object.prototype.hasOwnProperty.call(state.subscriptions, key) ? state.subscriptions[key] : null;
+  }
+  function updateSubscriptionEntry() {
+    var entry = $('#subscription-entry');
+    var record = subscriptionRecord();
+    entry.hidden = eventPhase() !== 'live' || !!(record && (record.subscribed || record.rewarded));
+  }
+  function openSubscription() {
+    if (!state.user) { requireAuth(openSubscription); return; }
+    if (eventPhase() !== 'live') return;
+    var record = subscriptionRecord();
+    if (record && (record.subscribed || record.rewarded)) { updateSubscriptionEntry(); return; }
+    var html = '<div class="modal-head"><span class="modal-kicker">' + t('subscription.kicker') + '</span>' +
+      '<h2>' + t('subscription.title') + '</h2><p>' + t('subscription.modalCopy') + '</p></div>' +
+      '<form id="subscription-form" novalidate><label class="field"><span>' + t('subscription.email') + '</span>' +
+      '<input id="subscription-email" type="email" autocomplete="email" required></label>' +
+      '<p class="field-error" id="subscription-error" role="alert" hidden></p>' +
+      '<p class="subscription-demo-note">' + t('subscription.demoNote') + '</p>' +
+      '<div class="modal-actions"><button class="btn btn-primary" type="submit">' + t('subscription.submit') + '</button>' +
+      '<button class="btn btn-ghost" type="button" data-close>' + t('common.close') + '</button></div></form>';
+    var dialog = openModal(html, { className: 'modal--narrow', label: t('subscription.title') });
+    var input = $('#subscription-email', dialog.modal);
+    var error = $('#subscription-error', dialog.modal);
+    input.value = state.user.email || '';
+    $('#subscription-form', dialog.modal).addEventListener('submit', function (e) {
+      e.preventDefault();
+      var email = input.value.trim();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        error.textContent = t('auth.invalidEmail'); error.hidden = false; return;
+      }
+      if (!state.user || eventPhase() !== 'live') {
+        error.textContent = t('subscription.unavailable'); error.hidden = false; return;
+      }
+      var key = subscriptionKey();
+      var latest = load();
+      var latestKey = latest.user && latest.user.email ? String(latest.user.email).trim().toLowerCase() : '';
+      var storedRecord = key && Object.prototype.hasOwnProperty.call(latest.subscriptions, key) ? latest.subscriptions[key] : null;
+      if (!key || key !== latestKey || latest.sim !== state.sim || (storedRecord && (storedRecord.subscribed || storedRecord.rewarded))) {
+        error.textContent = t('subscription.unavailable'); error.hidden = false; return;
+      }
+      var previous = subscriptionRecord();
+      if (previous && (previous.subscribed || previous.rewarded)) {
+        error.textContent = t('subscription.unavailable'); error.hidden = false; return;
+      }
+      if (demoSubscriptionFailure) {
+        error.textContent = t('subscription.failed'); error.hidden = false; return;
+      }
+      var priorState = state;
+      state = latest;
+      state.ui = priorState.ui;
+      state.subscriptions[key] = { subscribed: true, rewarded: true, email: email };
+      state.energy = energy() + 1;
+      if (!save({ quiet: true })) {
+        state = priorState;
+        error.textContent = t('subscription.saveFailed'); error.hidden = false; return;
+      }
+      dialog.close();
+      renderAll();
+      toast(t('subscription.success'), 'i-snow');
+    });
+  }
+
   /* ---------------------------------------------------------------- artwork */
 
   function buildScene() {
@@ -820,6 +892,7 @@
     updateHero();
     renderStudio();
     updateChanceCard();
+    updateSubscriptionEntry();
     renderMilestones();
     renderMural();
     renderPrizeStrip();
@@ -2477,8 +2550,9 @@
     }
   }
 
-  function loadScenario(name) {
+  function loadScenario(name, opts) {
     var s = emptyState();
+    if (!(opts && opts.clearSubscriptions)) s.subscriptions = Object.assign({}, state.subscriptions);
     s.user = state.user;
     s.keepsake.name = state.user ? state.user.name : '';
     s.ui = { filter: 'all', selectedId: null, justSubmitted: null };
@@ -2637,6 +2711,7 @@
 
   function bindEvents() {
     $('#hero-cta').addEventListener('click', handleHeroCta);
+    $('#subscription-open').addEventListener('click', openSubscription);
     $('#submit-drawing').addEventListener('click', submitDrawing);
 
     $('#studio-gate').addEventListener('click', function (e) {
@@ -2856,8 +2931,23 @@
         closeAllModals();
         renderAll();
         toast(t('demo.finishToast'));
+      } else if (kind === 'subscription-subscribed' || kind === 'subscription-unsubscribed') {
+        if (!state.user || !subscriptionKey()) { requireAuth(openDemo); return; }
+        var subKey = subscriptionKey();
+        var subPrevious = subscriptionRecord();
+        state.subscriptions[subKey] = { subscribed: kind === 'subscription-subscribed', rewarded: !!(subPrevious && subPrevious.rewarded), email: subPrevious && subPrevious.email || '' };
+        if (!save({ quiet: true })) {
+          if (subPrevious) state.subscriptions[subKey] = subPrevious; else delete state.subscriptions[subKey];
+          toast(t('subscription.saveFailed')); return;
+        }
+        renderAll();
+        toast(t(kind === 'subscription-subscribed' ? 'subscription.demoSubscribed' : 'subscription.demoUnsubscribed'));
+      } else if (kind === 'subscription-failure') {
+        demoSubscriptionFailure = !demoSubscriptionFailure;
+        toast(t(demoSubscriptionFailure ? 'subscription.demoFailOn' : 'subscription.demoFailOff'));
       } else if (kind === 'reset') {
-        loadScenario('fresh');
+        demoSubscriptionFailure = false;
+        loadScenario('fresh', { clearSubscriptions: true });
         toast(t('demo.resetToast'));
       }
     });
@@ -2931,7 +3021,7 @@
     updateToolState();
   }
 
-  setInterval(function () { if (!document.hidden && state) updateDrawEntry(); }, 1000);
+  setInterval(function () { if (!document.hidden && state) { updateDrawEntry(); updateSubscriptionEntry(); } }, 1000);
 
   document.addEventListener('DOMContentLoaded', init);
 })();

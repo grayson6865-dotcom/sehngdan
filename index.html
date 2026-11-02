@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css?v=20261102a">
+  <link rel="stylesheet" href="assets/css/style.css?v=20261102d">
 </head>
 <body>
 
@@ -262,6 +262,11 @@
         </div>
 </div>
       </div>
+      <div class="subscription-entry" id="subscription-entry" hidden>
+        <span class="subscription-icon" aria-hidden="true">✉</span>
+        <div class="subscription-copy"><strong data-i18n="subscription.title">Subscribe for 1 energy</strong><span data-i18n="subscription.hint">Use it in the limited draw</span></div>
+        <button class="btn btn-primary btn-sm" type="button" id="subscription-open" data-i18n="subscription.open">Subscribe</button>
+      </div>
     </div>
   </section>
 
@@ -487,18 +492,21 @@
       <button type="button" data-demo="piece" data-i18n="demo.piece">+1 piece</button>
       <button type="button" data-demo="chance" data-i18n="demo.chance">+1 chance</button>
       <button type="button" data-demo="finish-draws" data-i18n="demo.finish">Finish draws</button>
+      <button type="button" data-demo="subscription-subscribed" data-i18n="subscription.demoSetSubscribed">Demo: subscribed</button>
+      <button type="button" data-demo="subscription-unsubscribed" data-i18n="subscription.demoSetUnsubscribed">Demo: unsubscribed</button>
+      <button type="button" data-demo="subscription-failure" data-i18n="subscription.demoToggleFailure">Demo: toggle subscription failure</button>
       <button type="button" data-demo="reset" class="danger" data-i18n="demo.reset">Reset</button>
     </div>
   </div>
   <p class="demo-foot" data-i18n="demo.foot">State is stored in this browser only.</p>
 </aside>
 
-<script src="assets/js/i18n.js?v=20261102a"></script>
-<script src="assets/js/data.js?v=20261102a"></script>
-<script src="assets/js/art.js?v=20261102a"></script>
-<script src="assets/js/draw.js?v=20261102a"></script>
-<script src="assets/js/reel.js?v=20261102a"></script>
-<script src="assets/js/keepsake.js?v=20261102a"></script>
-<script src="assets/js/app.js?v=20261102a"></script>
+<script src="assets/js/i18n.js?v=20261102d"></script>
+<script src="assets/js/data.js?v=20261102d"></script>
+<script src="assets/js/art.js?v=20261102d"></script>
+<script src="assets/js/draw.js?v=20261102d"></script>
+<script src="assets/js/reel.js?v=20261102d"></script>
+<script src="assets/js/keepsake.js?v=20261102d"></script>
+<script src="assets/js/app.js?v=20261102d"></script>
 </body>
 </html>

@@ -3117,3 +3117,17 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
 @media (max-width: 760px) {
   .hero { background-position: center, center, 60% center; }
 }
+
+/* Compact email subscription invitation. */
+.subscription-entry { display: flex; align-items: center; gap: 14px; margin-top: 16px; padding: 12px 16px; border: 1px solid rgba(247, 200, 105, .35); border-radius: 16px; background: rgba(11, 20, 43, .94); }
+.subscription-icon { color: var(--gold); font-size: 24px; line-height: 1; }
+.subscription-copy { display: flex; align-items: baseline; flex: 1; gap: 18px; flex-wrap: wrap; }
+.subscription-copy strong { color: var(--text); font-size: 14px; }
+.subscription-copy span { color: var(--muted); font-size: 12px; }
+.subscription-demo-note { color: var(--muted); font-size: 12px; line-height: 1.6; }
+@media (max-width: 560px) {
+  .subscription-entry { gap: 10px; padding: 12px; }
+  .subscription-copy { gap: 2px; flex-direction: column; align-items: flex-start; }
+  .subscription-copy strong { font-size: 12px; }
+  .subscription-entry .btn { flex-shrink: 0; padding-inline: 12px; }
+}
