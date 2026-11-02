@@ -545,15 +545,6 @@ body.modal-open { overflow: hidden; }
   color: rgba(226, 241, 255, .18);
   transition: opacity .3s;
 }
-.frag:hover::after {
-  content: attr(data-label);
-  font-size: 9px;
-  line-height: 1.2;
-  padding: 0 4px;
-  text-align: center;
-  color: rgba(226, 241, 255, .7);
-  letter-spacing: .02em;
-}
 .frag.is-lit {
   background: transparent;
   box-shadow: none;
@@ -2292,11 +2283,6 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
 }
 
 @media (hover: none) {
-  .frag:hover::after {
-    content: "✦";
-    font-size: 9px;
-    color: rgba(226, 241, 255, .18);
-  }
   .frag.is-lit:hover { box-shadow: none; background: transparent; }
 }
 
