@@ -646,7 +646,7 @@
       'tool.energyTip': '圣诞能量',
 
       'hero.eyebrow': 'XPPen 圣诞活动 · 2026',
-      'hero.titleHtml': '创造魔法，<br><em>传递快乐。</em>',
+      'hero.titleHtml': '创造魔法，<br><em>传递快乐！</em>',
       'hero.lede': '28 天，28 个圣诞涂鸦。每一笔都会点亮雪夜小镇的一块拼图，也解锁一份小小的惊喜。',
       'hero.date': '2026年12月3日 – 12月31日',
       'hero.tz': 'UTC+8',
