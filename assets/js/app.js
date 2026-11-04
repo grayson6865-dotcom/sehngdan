@@ -2056,40 +2056,141 @@
 
   /* ----------------------------------------------------------------- prizes */
 
+  // Each prize type is handled differently: X-Coins are already on the account,
+  // coupons are used by copying the code, physical prizes need a shipping address.
+  function prizeActionKind(p) {
+    if (p.kind === 'coupon') return 'coupon';
+    if (p.kind === 'coins') return 'coins';
+    return 'ship';
+  }
+
+  function prizesListHtml() {
+    var list = state.prizes;
+    if (!list.length) {
+      return '<div class="prizes-empty"><div class="prize-empty-icon">' + icon('i-gift') + '</div>' +
+        '<h3>' + t('prizes.emptyTitle') + '</h3><p>' + t('prizes.emptyCopy') + '</p></div>';
+    }
+    return '<div class="prize-list">' + list.map(function (p) {
+      var kind = prizeActionKind(p);
+      var claimed = !!(p.claim && p.claim.name);
+      var action;
+      if (kind === 'coins') {
+        action = '<button type="button" class="prize-btn is-coins" data-prize-act="coins" data-uid="' + p.uid + '">' +
+          t('prizes.viewCoins') + '</button>';
+      } else if (kind === 'coupon') {
+        action = '<button type="button" class="prize-btn is-coupon" data-prize-act="coupon" data-uid="' + p.uid + '">' +
+          t('prizes.useCoupon') + icon('i-arrow') + '</button>' +
+          '<span class="prize-btn-note">' + t('prizes.autoCopy') + '</span>';
+      } else {
+        action = '<button type="button" class="prize-btn ' + (claimed ? 'is-ghost' : 'is-ship') + '" data-prize-act="claim" data-uid="' + p.uid + '">' +
+          (claimed ? t('prizes.editAddress') : t('prizes.fillAddress')) + '</button>' +
+          (claimed ? '<span class="prize-btn-note">' + t('prizes.claimSubmitted', { name: p.claim.name }) + '</span>' : '');
+      }
+      return '<div class="prize-row is-' + kind + '">' +
+        '<div class="prize-row-icon">' + ART.prizeIcon(p.kind, p.label, p.rarity) + '</div>' +
+        '<div class="prize-row-copy"><b>' + recordName(p) + '</b>' +
+        '<small>' + t('prizes.record', { source: sourceLabel(p), date: fmtLong(new Date(p.at)) }) + '</small>' +
+        (p.code ? '<button type="button" class="prize-code" data-copy="' + escapeAttr(p.code) + '"><i>' +
+          t('prizes.codeLabel') + '</i>' + escapeHtml(p.code) + '</button>' : '') +
+        '</div>' +
+        '<div class="prize-row-action">' + action + '</div></div>';
+    }).join('') + '</div>';
+  }
+
+  function prizeByUid(uid) {
+    for (var i = 0; i < state.prizes.length; i++) {
+      if (state.prizes[i].uid === uid) return state.prizes[i];
+    }
+    return null;
+  }
+
+  function renderPrizesView(html) {
+    var view = $('#prizes-view');
+    if (view) view.innerHTML = html;
+  }
+
+  // The list keeps the summary, the footnote and the Done button; the address
+  // form replaces them with its own Back / Save actions.
+  function setPrizesChrome(visible) {
+    ['prizes-sub', 'prizes-note', 'prizes-foot'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.hidden = !visible;
+    });
+  }
+
   function openPrizes() {
     if (!state.user) { requireAuth(openPrizes); return; }
-    var list = state.prizes;
-    var body;
-    if (!list.length) {
-      body = '<div class="prizes-empty"><div class="prize-empty-icon">' + icon('i-gift') + '</div>' +
-        '<h3>' + t('prizes.emptyTitle') + '</h3><p>' + t('prizes.emptyCopy') + '</p></div>';
-    } else {
-      body = '<div class="prize-list">' + list.map(function (p) {
-        var status = p.kind === 'coupon' ? t('prizes.ready') : p.kind === 'coins' ? t('prizes.credited') : t('prizes.claim');
-        return '<div class="prize-row">' +
-          '<div class="prize-row-icon">' + ART.prizeIcon(p.kind, p.label, p.rarity) + '</div>' +
-          '<div class="prize-row-copy"><b>' + recordName(p) + '</b>' +
-          '<small>' + t('prizes.record', { source: sourceLabel(p), date: fmtLong(new Date(p.at)) }) + '</small>' +
-          (p.code ? '<span class="code-chip" data-copy="' + p.code + '">' + p.code + ' ' + icon('i-sparkle') + '</span>' : '') +
-          '</div>' +
-          '<span class="prize-row-status">' + status + '</span></div>';
-      }).join('') + '</div>';
-    }
-
+    var n = state.prizes.length;
     var modal = openModal(
       '<div class="modal-head"><span class="modal-kicker">' + t('prizes.kicker') + '</span><h2>' + t('prizes.title') + '</h2>' +
-      '<p>' + (list.length ? t(list.length === 1 ? 'prizes.subOne' : 'prizes.subMany', { n: list.length }) : t('prizes.subEmpty')) + '</p></div>' +
-      body +
-      '<p class="prizes-note">' + t('prizes.note') + '</p>' +
-      '<div class="modal-actions is-end"><button type="button" class="btn btn-primary" data-close>' + t('prizes.done') + '</button></div>',
-      { className: list.length ? 'modal--wide' : 'modal--narrow', label: t('prizes.kicker') }
+      '<p id="prizes-sub">' + (n ? t(n === 1 ? 'prizes.subOne' : 'prizes.subMany', { n: n }) : t('prizes.subEmpty')) + '</p></div>' +
+      '<div id="prizes-view">' + prizesListHtml() + '</div>' +
+      '<p class="prizes-note" id="prizes-note">' + t('prizes.note') + '</p>' +
+      '<div class="modal-actions is-end" id="prizes-foot"><button type="button" class="btn btn-primary" data-close>' + t('prizes.done') + '</button></div>',
+      { className: n ? 'modal--wide' : 'modal--narrow', label: t('prizes.kicker') }
     );
 
     modal.modal.addEventListener('click', function (e) {
+      var act = e.target.closest('[data-prize-act]');
+      if (act) { handlePrizeAction(act.dataset.prizeAct, act.dataset.uid); return; }
       var chip = e.target.closest('[data-copy]');
-      if (!chip) return;
-      copyText(chip.dataset.copy);
+      if (chip) copyText(chip.dataset.copy);
     });
+  }
+
+  function handlePrizeAction(action, uid) {
+    var rec = prizeByUid(uid);
+    if (!rec) return;
+    if (action === 'coins') {
+      toast(t('prizes.coinsToast', { n: recordName(rec) }), 'i-sparkle');
+    } else if (action === 'coupon') {
+      if (!rec.code) { toast(t('prizes.copyFail')); return; }
+      copyText(rec.code);
+    } else if (action === 'claim') {
+      renderPrizesView(claimFormHtml(rec));
+      setPrizesChrome(false);
+      var nameInput = $('#claim-name');
+      if (nameInput) setTimeout(function () { nameInput.focus(); }, 60);
+    } else if (action === 'back') {
+      renderPrizesView(prizesListHtml());
+      setPrizesChrome(true);
+    } else if (action === 'submit-claim') {
+      submitClaim(rec);
+    }
+  }
+
+  function claimFormHtml(rec) {
+    var c = rec.claim || {};
+    return '<div class="claim-form">' +
+      '<h3>' + t('prizes.claimTitle') + '</h3>' +
+      '<p class="claim-sub">' + t('prizes.claimSub') + '</p>' +
+      '<label class="field"><span>' + t('prizes.claimName') + '</span><input id="claim-name" maxlength="40" value="' +
+        escapeAttr(c.name || (state.user && state.user.name) || '') + '" placeholder="' + t('prizes.claimNamePh') + '"></label>' +
+      '<label class="field"><span>' + t('prizes.claimPhone') + '</span><input id="claim-phone" type="tel" inputmode="tel" maxlength="24" value="' +
+        escapeAttr(c.phone || '') + '" placeholder="' + t('prizes.claimPhonePh') + '"></label>' +
+      '<label class="field"><span>' + t('prizes.claimAddress') + '</span><textarea id="claim-address" rows="2" maxlength="120" placeholder="' +
+        t('prizes.claimAddressPh') + '">' + escapeHtml(c.address || '') + '</textarea></label>' +
+      '<p class="claim-error" id="claim-error" hidden></p>' +
+      '<div class="modal-actions"><button type="button" class="btn btn-ghost" data-prize-act="back" data-uid="' + rec.uid + '">' +
+        t('prizes.claimBack') + '</button>' +
+      '<button type="button" class="btn btn-primary" data-prize-act="submit-claim" data-uid="' + rec.uid + '">' +
+        t('prizes.claimSubmit') + '</button></div></div>';
+  }
+
+  function submitClaim(rec) {
+    var nameEl = $('#claim-name'), phoneEl = $('#claim-phone'), addrEl = $('#claim-address'), err = $('#claim-error');
+    var name = (nameEl && nameEl.value || '').trim();
+    var phone = (phoneEl && phoneEl.value || '').trim();
+    var address = (addrEl && addrEl.value || '').trim();
+    if (!name || !phone || !address || phone.replace(/[^0-9]/g, '').length < 6) {
+      if (err) { err.hidden = false; err.textContent = t('prizes.claimRequired'); }
+      return;
+    }
+    rec.claim = { name: name, phone: phone, address: address, at: new Date(now()).toISOString() };
+    save();
+    renderPrizesView(prizesListHtml());
+    setPrizesChrome(true);
+    toast(t('prizes.claimDone'), 'i-check');
   }
 
   function copyText(text) {
@@ -2745,6 +2846,18 @@
       s.nodes.stage3 = { achievedAt: '2026-12-18T21:30:00+08:00', endAt: '2026-12-19T21:30:00+08:00' };
       s.special.used = 1; // 18 pieces = 1 Christmas draw, already used
       scenarioPrizes(PRIZE_SHOWCASE, s);
+      // One physical prize already has an address on file so the demo shows both
+      // states (pending vs. submitted) side by side.
+      s.prizes.forEach(function (p) {
+        if (p.prizeId === 'deco01') {
+          p.claim = {
+            name: 'Demo Maker',
+            phone: '138 0000 1234',
+            address: 'Shanghai · Pudong New Area, Sample Road 88, Room 1201',
+            at: '2026-12-19T10:00:00+08:00'
+          };
+        }
+      });
     }
 
     closeAllModals();

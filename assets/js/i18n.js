@@ -1290,7 +1290,19 @@
     'demo.scenario.stage1': '5 pieces · regular draw', 'demo.scenario.stage2': '11 pieces · regular draw', 'demo.scenario.stage3': '17 pieces · regular draw',
     'demo.scenario.expired': 'Previous day · unused energy', 'demo.scenario.makeupstage': 'Make-up · 5 pieces', 'demo.scenario.overlap': 'Make-up · 11 pieces', 'demo.scenario.noenergy': 'Regular draw · no energy',
     'demo.scenario.prizesEmpty': 'My prizes · empty list', 'demo.scenario.prizesAll': 'My prizes · every prize type',
-    'prizes.emptyCopy': 'Complete a daily or make-up drawing to earn a regular draw chance.'
+    'prizes.emptyCopy': 'Complete a daily or make-up drawing to earn a regular draw chance.',
+    'prizes.viewCoins': 'View X-Coins', 'prizes.useCoupon': 'Use now', 'prizes.autoCopy': 'Copies the code automatically',
+    'prizes.fillAddress': 'Add shipping address', 'prizes.editAddress': 'Edit address', 'prizes.codeLabel': 'Code',
+    'prizes.coinsToast': '{n} is already in your account (demo).',
+    'prizes.claimTitle': 'Shipping address',
+    'prizes.claimSub': 'Demo only — nothing is shipped and no data leaves this browser.',
+    'prizes.claimName': 'Recipient', 'prizes.claimNamePh': 'Full name',
+    'prizes.claimPhone': 'Phone', 'prizes.claimPhonePh': 'For delivery updates',
+    'prizes.claimAddress': 'Address', 'prizes.claimAddressPh': 'Country/region, city, street and number',
+    'prizes.claimSubmit': 'Save address', 'prizes.claimBack': 'Back',
+    'prizes.claimDone': 'Shipping address saved (demo)',
+    'prizes.claimRequired': 'Add a recipient, phone and full address.',
+    'prizes.claimSubmitted': 'Saved · {name}'
   });
   Object.assign(DICT.zh, {
     'chance.dailyEnergy': '今日可用 {n} 次普通抽奖机会，未使用的机会于当天结束时失效（UTC+8）。',
@@ -1321,7 +1333,19 @@
     'demo.scenario.stage1': '5 块 · 抽奖', 'demo.scenario.stage2': '11 块 · 抽奖', 'demo.scenario.stage3': '17 块 · 抽奖',
     'demo.scenario.expired': '前一日 · 未用能量', 'demo.scenario.makeupstage': '补画 · 5 块', 'demo.scenario.overlap': '补画 · 11 块', 'demo.scenario.noenergy': '抽奖 · 无能量',
     'demo.scenario.prizesEmpty': '我的奖品 · 空列表', 'demo.scenario.prizesAll': '我的奖品 · 实物/优惠券/积分',
-    'prizes.emptyCopy': '完成每日绘画或补画可获得抽奖机会。'
+    'prizes.emptyCopy': '完成每日绘画或补画可获得抽奖机会。',
+    'prizes.viewCoins': '查看积分', 'prizes.useCoupon': '立即使用', 'prizes.autoCopy': '自动复制折扣码',
+    'prizes.fillAddress': '填写收货地址', 'prizes.editAddress': '修改收货地址', 'prizes.codeLabel': '折扣码',
+    'prizes.coinsToast': '{n} 已发放至当前账户（演示）',
+    'prizes.claimTitle': '填写收货地址',
+    'prizes.claimSub': '仅用于原型演示：不会真实发货，也不会把信息提交到任何服务器。',
+    'prizes.claimName': '收件人', 'prizes.claimNamePh': '请输入收货人姓名',
+    'prizes.claimPhone': '手机号', 'prizes.claimPhonePh': '用于接收物流通知',
+    'prizes.claimAddress': '详细地址', 'prizes.claimAddressPh': '国家/地区、城市、街道与门牌号',
+    'prizes.claimSubmit': '提交收货信息', 'prizes.claimBack': '返回',
+    'prizes.claimDone': '收货信息已提交（演示）',
+    'prizes.claimRequired': '请填写收件人、手机号和完整地址',
+    'prizes.claimSubmitted': '已提交 · {name}'
   });
 
   var lang = detect();

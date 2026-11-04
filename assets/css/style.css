@@ -1751,6 +1751,68 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
   cursor: pointer;
 }
 .prize-row-status { font-size: 9.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: #9bf0bd; border: 1px solid rgba(123, 224, 163, .3); padding: 3px 7px; border-radius: 999px; flex: none; }
+
+/* Per-type handling: coins = view balance, coupon = copy & use, physical = address */
+.prize-row.is-coupon { border-color: rgba(232, 90, 64, .34); background: linear-gradient(90deg, rgba(232, 90, 64, .08), rgba(255, 255, 255, .028) 60%); }
+.prize-row-action { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex: none; }
+.prize-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: .01em;
+  padding: 9px 15px;
+  border-radius: 999px;
+  color: #fff;
+  white-space: nowrap;
+  transition: transform .15s, filter .15s;
+}
+.prize-btn .i { width: 13px; height: 13px; }
+.prize-btn:hover { transform: translateY(-1px); filter: brightness(1.08); }
+.prize-btn.is-coins { background: linear-gradient(135deg, #4f7ff7, #2c58d4); box-shadow: 0 8px 18px -10px #2c58d4; }
+.prize-btn.is-coupon { background: linear-gradient(135deg, #ff8347, #e2402f); box-shadow: 0 8px 18px -10px #e2402f; }
+.prize-btn.is-ship { background: linear-gradient(135deg, #8f74f2, #5a3fd0); box-shadow: 0 8px 18px -10px #5a3fd0; }
+.prize-btn.is-ghost { background: transparent; border-color: var(--stroke-2); color: var(--muted); box-shadow: none; }
+.prize-btn-note { font-size: 9.5px; color: var(--muted); letter-spacing: .01em; }
+.prize-code {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 6px;
+  padding: 4px 9px;
+  border: 1px dashed rgba(232, 90, 64, .5);
+  border-radius: 7px;
+  background: rgba(232, 90, 64, .09);
+  color: #ffd7c7;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10.5px;
+  cursor: pointer;
+  transition: background .15s;
+}
+.prize-code:hover { background: rgba(232, 90, 64, .16); }
+.prize-code i { font-style: normal; font-family: var(--sans); font-size: 9.5px; letter-spacing: .04em; color: #ffb7a0; }
+.claim-form h3 { font-family: var(--serif); font-size: 21px; font-weight: 500; margin: 2px 0 4px; }
+.claim-sub { font-size: 12px; color: var(--muted-2); margin: 0 0 14px; line-height: 1.55; }
+.claim-form .field textarea {
+  width: 100%;
+  padding: 12px 14px;
+  min-height: 64px;
+  border-radius: 12px;
+  border: 1px solid var(--stroke-2);
+  background: rgba(255, 255, 255, .04);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.5;
+  resize: vertical;
+  transition: .2s;
+}
+.claim-form .field textarea:focus { outline: none; border-color: var(--gold); background: rgba(247, 200, 105, .05); }
+.claim-error { font-size: 11.5px; color: #ff9182; margin: 0 0 10px; }
 .prizes-empty { text-align: center; padding: 34px 16px 26px; }
 .prizes-empty .prize-empty-icon { width: 76px; height: 76px; margin: 0 auto 14px; border-radius: 22px; background: rgba(255, 255, 255, .04); border: 1px solid var(--stroke); display: grid; place-items: center; color: var(--gold); }
 .prizes-empty .prize-empty-icon .i { width: 32px; height: 32px; }
@@ -2250,6 +2312,13 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
 .prize-row { padding: 11px; }
 .prize-row-icon { width: 48px; height: 48px; }
 .prize-row-icon .prize-art { width: 42px; height: 42px; }
+
+@media (max-width: 560px) {
+  .prize-row { flex-wrap: wrap; gap: 10px; }
+  .prize-row-action { width: 100%; align-items: stretch; }
+  .prize-btn { width: 100%; justify-content: center; }
+  .prize-btn-note { text-align: center; }
+}
 
 /* ------------------------------------------------------------ language switch */
 
