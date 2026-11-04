@@ -191,6 +191,7 @@
       'tool.sure': 'Sure?',
       'tool.guide': 'Guide',
       'tool.colour': 'Colour {n}',
+      'tool.customColor': 'Pick a custom colour',
       'tool.brushSize': 'Brush size {n}',
       'tool.canvas': 'Drawing canvas',
 
@@ -813,6 +814,7 @@
       'tool.sure': '确定？',
       'tool.guide': '参考线',
       'tool.colour': '颜色 {n}',
+      'tool.customColor': '自定义颜色',
       'tool.brushSize': '画笔粗细 {n}',
       'tool.canvas': '绘图画布',
 
@@ -1287,6 +1289,7 @@
     'demo.scenario.makeupAvailable': 'Make-up · up to 3 a day', 'demo.scenario.makeupLimit': 'Make-up · daily limit reached', 'demo.scenario.makeupUnlimited': 'Make-up · no daily limit',
     'demo.scenario.stage1': '5 pieces · regular draw', 'demo.scenario.stage2': '11 pieces · regular draw', 'demo.scenario.stage3': '17 pieces · regular draw',
     'demo.scenario.expired': 'Previous day · unused energy', 'demo.scenario.makeupstage': 'Make-up · 5 pieces', 'demo.scenario.overlap': 'Make-up · 11 pieces', 'demo.scenario.noenergy': 'Regular draw · no energy',
+    'demo.scenario.prizesEmpty': 'My prizes · empty list', 'demo.scenario.prizesAll': 'My prizes · every prize type',
     'prizes.emptyCopy': 'Complete a daily or make-up drawing to earn a regular draw chance.'
   });
   Object.assign(DICT.zh, {
@@ -1317,6 +1320,7 @@
     'demo.scenario.makeupAvailable': '限量补画 · 今日最多 3 个', 'demo.scenario.makeupLimit': '限量补画 · 今日已达上限', 'demo.scenario.makeupUnlimited': '集中补画 · 不限每日数量',
     'demo.scenario.stage1': '5 块 · 抽奖', 'demo.scenario.stage2': '11 块 · 抽奖', 'demo.scenario.stage3': '17 块 · 抽奖',
     'demo.scenario.expired': '前一日 · 未用能量', 'demo.scenario.makeupstage': '补画 · 5 块', 'demo.scenario.overlap': '补画 · 11 块', 'demo.scenario.noenergy': '抽奖 · 无能量',
+    'demo.scenario.prizesEmpty': '我的奖品 · 空列表', 'demo.scenario.prizesAll': '我的奖品 · 实物/优惠券/积分',
     'prizes.emptyCopy': '完成每日绘画或补画可获得抽奖机会。'
   });
 

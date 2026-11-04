@@ -804,15 +804,27 @@
     sw.innerHTML = COLORS.map(function (c, i) {
       return '<button type="button" class="swatch' + (i === 0 ? ' is-active' : '') + '" data-color="' + c +
         '" style="--c:' + c + '" aria-label="' + t('tool.colour', { n: i + 1 }) + '"></button>';
-    }).join('');
+    }).join('') +
+      '<label class="swatch swatch--custom" id="swatch-custom-box" title="' + t('tool.customColor') + '">' +
+        '<input type="color" id="swatch-custom" value="' + COLORS[0] + '" aria-label="' + t('tool.customColor') + '">' +
+        '<span class="swatch-custom-fill"></span>' +
+      '</label>';
     sw.addEventListener('click', function (e) {
       var b = e.target.closest('.swatch');
-      if (!b) return;
+      if (!b || !b.dataset.color) return; // the custom picker handles its own click
       pad.setColor(b.dataset.color);
       $$('.swatch').forEach(function (x) { x.classList.toggle('is-active', x === b); });
       setEraser(false);
       $('.paper').classList.remove('is-erasing');
     });
+
+    var customPicker = $('#swatch-custom');
+    if (customPicker) {
+      // `input` fires continuously while dragging inside the OS picker, `change`
+      // covers browsers that only report the final value.
+      customPicker.addEventListener('input', function () { applyCustomColor(customPicker.value); });
+      customPicker.addEventListener('change', function () { applyCustomColor(customPicker.value); });
+    }
 
     var sz = $('#sizes');
     sz.innerHTML = SIZES.map(function (s, i) {
@@ -885,8 +897,42 @@
       $$('.swatch').forEach(function (x) { x.classList.remove('is-active'); });
     } else {
       var active = COLORS.indexOf(pad.color);
-      $$('.swatch').forEach(function (x, i) { x.classList.toggle('is-active', i === (active < 0 ? 0 : active)); });
+      var custom = $('#swatch-custom-box');
+      $$('.swatch').forEach(function (x, i) {
+        if (x === custom) {
+          var isCustom = active < 0;
+          x.classList.toggle('is-active', isCustom);
+          if (isCustom) {
+            x.classList.add('has-color');
+            x.style.setProperty('--c', pad.color);
+          }
+          return;
+        }
+        x.classList.toggle('is-active', i === active);
+      });
     }
+  }
+
+  // Colour chosen from the OS picker. Keeps the custom swatch highlighted and
+  // drops the eraser so the next stroke actually uses the new colour.
+  function applyCustomColor(hex) {
+    if (!hex) return;
+    if (typeof pad.setColor === 'function') pad.setColor(hex);
+    var box = $('#swatch-custom-box');
+    if (box) {
+      box.classList.add('has-color');
+      box.style.setProperty('--c', hex);
+      var input = $('#swatch-custom');
+      if (input) input.value = hex;
+      $$('.swatch').forEach(function (x) { x.classList.toggle('is-active', x === box); });
+    }
+    var eraser = $('#tool-eraser');
+    if (eraser) {
+      eraser.classList.remove('is-on');
+      eraser.setAttribute('aria-pressed', 'false');
+    }
+    var paper = $('.paper');
+    if (paper) paper.classList.remove('is-erasing');
   }
 
   function updateToolState() {
@@ -2607,6 +2653,30 @@
     }
   }
 
+  // Curated records for the "My prizes" demo scenarios. One record per prize
+  // type (product / gift / coupon / coins) so a single list shows every row
+  // style the real prize history can produce. Times are UTC+8 and ascend in
+  // the same order the live app appends records.
+  var PRIZE_SHOWCASE = [
+    { id: 'coins50',  source: 'limited', at: '2026-12-08T20:10:00+08:00' },
+    { id: 'coupon3',  source: 'limited', at: '2026-12-09T21:05:00+08:00' },
+    { id: 'giftpack', source: 'limited', at: '2026-12-12T18:40:00+08:00' },
+    { id: 'coupon5',  source: 'limited', at: '2026-12-15T10:20:00+08:00' },
+    { id: 'deco01',   source: 'limited', at: '2026-12-18T21:30:00+08:00' },
+    { id: 'artist12', source: 'limited', at: '2026-12-18T21:32:00+08:00' },
+    { id: 'coins100', source: 'special', at: '2026-12-25T09:12:00+08:00' }
+  ];
+
+  function scenarioPrizes(items, s) {
+    items.forEach(function (item) {
+      var prize = prizeById(item.id);
+      if (!prize) return;
+      var rec = makePrizeRecord(prize, item.source);
+      rec.at = new Date(item.at).toISOString();
+      s.prizes.push(rec);
+    });
+  }
+
   function loadScenario(name, opts) {
     var s = emptyState();
     if (!(opts && opts.clearSubscriptions)) s.subscriptions = Object.assign({}, state.subscriptions);
@@ -2661,6 +2731,20 @@
       scenarioTasks(s, 28, { energy: 0 });
       s.keepsake.code = null;
       s.seen.complete = true;
+    } else if (name === 'prizesEmpty') {
+      // 6 pieces + an open window, but nothing drawn yet → empty prize list.
+      s.sim = '2026-12-08T19:20:00+08:00';
+      scenarioTasks(s, 6, { energy: 0 });
+    } else if (name === 'prizesAll') {
+      // 18 pieces on Christmas Day: one Christmas draw used, and every prize
+      // type present in the history (product, gift pack, coupon, X-Coins).
+      s.sim = '2026-12-25T12:00:00+08:00';
+      scenarioTasks(s, 18, { energy: 0 });
+      s.nodes.stage1 = { achievedAt: '2026-12-08T20:10:00+08:00', endAt: '2026-12-09T20:10:00+08:00' };
+      s.nodes.stage2 = { achievedAt: '2026-12-13T10:00:00+08:00', endAt: '2026-12-14T10:00:00+08:00' };
+      s.nodes.stage3 = { achievedAt: '2026-12-18T21:30:00+08:00', endAt: '2026-12-19T21:30:00+08:00' };
+      s.special.used = 1; // 18 pieces = 1 Christmas draw, already used
+      scenarioPrizes(PRIZE_SHOWCASE, s);
     }
 
     closeAllModals();
@@ -2672,6 +2756,13 @@
     renderAll();
     syncDemoDateInput();
     toast(t('demo.scenarioToast', { name: t('demo.scenario.' + name) }));
+
+    // The two prize-history scenarios exist only to show the "My prizes" list,
+    // so open it right away for signed-in demos. Guests keep browsing: the list
+    // is one click away behind the usual sign-in gate.
+    if ((name === 'prizesEmpty' || name === 'prizesAll') && state.user) {
+      setTimeout(openPrizes, 320);
+    }
   }
 
   function syncDemoDateInput() {
@@ -2708,7 +2799,14 @@
     var authBtn = $('#auth-submit');
     if (authBtn) { authBtn.textContent = t('auth.submit'); authBtn.disabled = false; }
     resetClear();
-    $$('.swatch').forEach(function (el, i) { el.setAttribute('aria-label', t('tool.colour', { n: i + 1 })); });
+    $$('.swatch[data-color]').forEach(function (el, i) { el.setAttribute('aria-label', t('tool.colour', { n: i + 1 })); });
+    var customSwatch = $('#swatch-custom-box');
+    if (customSwatch) {
+      var customLabel = t('tool.customColor');
+      customSwatch.setAttribute('title', customLabel);
+      var customInput = $('#swatch-custom');
+      if (customInput) customInput.setAttribute('aria-label', customLabel);
+    }
     $$('.size').forEach(function (el, i) { el.setAttribute('aria-label', t('tool.brushSize', { n: i + 1 })); });
     var toasts = $('#toasts');
     if (toasts) toasts.innerHTML = '';
