@@ -1772,6 +1772,7 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
   transition: transform .15s, filter .15s;
 }
 .prize-btn .i { width: 13px; height: 13px; }
+a.prize-btn { text-decoration: none; }
 .prize-btn:hover { transform: translateY(-1px); filter: brightness(1.08); }
 .prize-btn.is-coins { background: linear-gradient(135deg, #4f7ff7, #2c58d4); box-shadow: 0 8px 18px -10px #2c58d4; }
 .prize-btn.is-coupon { background: linear-gradient(135deg, #ff8347, #e2402f); box-shadow: 0 8px 18px -10px #e2402f; }

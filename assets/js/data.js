@@ -203,6 +203,12 @@
 
   var CATEGORY_ORDER = ['Decor', 'Characters', 'Cozy', 'Town', 'Sky'];
 
+  // Where the prize actions send people. Swap these when the event goes live.
+  var LINKS = {
+    store: 'https://www.xp-pen.com/store/',
+    coins: 'https://xfanstest.xp-pen.com/user/xcoins'
+  };
+
   global.XMASData = {
     EVENT: EVENT,
     TASKS: TASKS,
@@ -213,6 +219,7 @@
     BLESSINGS: BLESSINGS,
     BLESSINGS_ZH: BLESSINGS_ZH,
     RULES: RULES,
-    CATEGORY_ORDER: CATEGORY_ORDER
+    CATEGORY_ORDER: CATEGORY_ORDER,
+    LINKS: LINKS
   };
 })(window);

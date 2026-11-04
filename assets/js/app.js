@@ -2069,8 +2069,8 @@
 
   /* ----------------------------------------------------------------- prizes */
 
-  // Each prize type is handled differently: X-Coins are already on the account,
-  // coupons are used by copying the code, physical prizes need a shipping address.
+  // Each prize type is handled differently: X-Coins open the balance page,
+  // coupons open the store, physical prizes need a shipping address.
   function prizeActionKind(p) {
     if (p.kind === 'coupon') return 'coupon';
     if (p.kind === 'coins') return 'coins';
@@ -2093,11 +2093,13 @@
       var claimed = !!(p.claim && p.claim.name);
       var action;
       if (kind === 'coins') {
-        action = '<button type="button" class="prize-btn is-coins" data-prize-act="coins" data-uid="' + p.uid + '">' +
-          t('prizes.viewCoins') + '</button>';
+        // X-Coins live in the account, so the button opens the balance page.
+        action = '<a class="prize-btn is-coins" href="' + escapeAttr(D.LINKS.coins) + '" target="_blank" rel="noopener noreferrer">' +
+          t('prizes.viewCoins') + '</a>';
       } else if (kind === 'coupon') {
-        action = '<button type="button" class="prize-btn is-coupon" data-prize-act="coupon" data-uid="' + p.uid + '">' +
-          t('prizes.useCoupon') + icon('i-arrow') + '</button>' +
+        // The coupon itself is spent in the store; the code stays behind for copying.
+        action = '<a class="prize-btn is-coupon" href="' + escapeAttr(D.LINKS.store) + '" target="_blank" rel="noopener noreferrer">' +
+          t('prizes.useCoupon') + icon('i-arrow') + '</a>' +
           '<span class="prize-btn-note">' + t('prizes.autoCopy') + '</span>';
       } else {
         var status = physicalPrizeStatus(p);

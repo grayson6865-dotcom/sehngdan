@@ -1785,6 +1785,7 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
   transition: transform .15s, filter .15s;
 }
 .prize-btn .i { width: 13px; height: 13px; }
+a.prize-btn { text-decoration: none; }
 .prize-btn:hover { transform: translateY(-1px); filter: brightness(1.08); }
 .prize-btn.is-coins { background: linear-gradient(135deg, #4f7ff7, #2c58d4); box-shadow: 0 8px 18px -10px #2c58d4; }
 .prize-btn.is-coupon { background: linear-gradient(135deg, #ff8347, #e2402f); box-shadow: 0 8px 18px -10px #e2402f; }
@@ -5063,7 +5064,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     'demo.scenario.expired': 'Previous day · unused energy', 'demo.scenario.makeupstage': 'Make-up · 5 pieces', 'demo.scenario.overlap': 'Make-up · 11 pieces', 'demo.scenario.noenergy': 'Regular draw · no energy',
     'demo.scenario.prizesEmpty': 'My prizes · empty list', 'demo.scenario.prizesAll': 'My prizes · every prize type',
     'prizes.emptyCopy': 'Complete a daily or make-up drawing to earn a regular draw chance.',
-    'prizes.viewCoins': 'View X-Coins', 'prizes.useCoupon': 'Use now', 'prizes.autoCopy': 'Copies the code automatically',
+    'prizes.viewCoins': 'View X-Coins', 'prizes.useCoupon': 'Use now', 'prizes.autoCopy': 'Tap the code to copy',
     'prizes.fillAddress': 'Add shipping address', 'prizes.editAddress': 'Edit address', 'prizes.codeLabel': 'Code',
     'prizes.coinsToast': '{n} is already in your account (demo).',
     'prizes.claimTitle': 'Shipping address',
@@ -5112,7 +5113,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     'demo.scenario.expired': '前一日 · 未用能量', 'demo.scenario.makeupstage': '补画 · 5 块', 'demo.scenario.overlap': '补画 · 11 块', 'demo.scenario.noenergy': '抽奖 · 无能量',
     'demo.scenario.prizesEmpty': '我的奖品 · 空列表', 'demo.scenario.prizesAll': '我的奖品 · 实物/优惠券/积分',
     'prizes.emptyCopy': '完成每日绘画或补画可获得抽奖机会。',
-    'prizes.viewCoins': '查看积分', 'prizes.useCoupon': '立即使用', 'prizes.autoCopy': '自动复制折扣码',
+    'prizes.viewCoins': '查看积分', 'prizes.useCoupon': '立即使用', 'prizes.autoCopy': '券码点击可复制',
     'prizes.fillAddress': '填写收货地址', 'prizes.editAddress': '修改收货地址', 'prizes.codeLabel': '折扣码',
     'prizes.coinsToast': '{n} 已发放至当前账户（演示）',
     'prizes.claimTitle': '填写收货地址',
@@ -5408,6 +5409,12 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
 
   var CATEGORY_ORDER = ['Decor', 'Characters', 'Cozy', 'Town', 'Sky'];
 
+  // Where the prize actions send people. Swap these when the event goes live.
+  var LINKS = {
+    store: 'https://www.xp-pen.com/store/',
+    coins: 'https://xfanstest.xp-pen.com/user/xcoins'
+  };
+
   global.XMASData = {
     EVENT: EVENT,
     TASKS: TASKS,
@@ -5418,7 +5425,8 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     BLESSINGS: BLESSINGS,
     BLESSINGS_ZH: BLESSINGS_ZH,
     RULES: RULES,
-    CATEGORY_ORDER: CATEGORY_ORDER
+    CATEGORY_ORDER: CATEGORY_ORDER,
+    LINKS: LINKS
   };
 })(window);
 
@@ -9176,8 +9184,8 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
 
   /* ----------------------------------------------------------------- prizes */
 
-  // Each prize type is handled differently: X-Coins are already on the account,
-  // coupons are used by copying the code, physical prizes need a shipping address.
+  // Each prize type is handled differently: X-Coins open the balance page,
+  // coupons open the store, physical prizes need a shipping address.
   function prizeActionKind(p) {
     if (p.kind === 'coupon') return 'coupon';
     if (p.kind === 'coins') return 'coins';
@@ -9200,11 +9208,13 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       var claimed = !!(p.claim && p.claim.name);
       var action;
       if (kind === 'coins') {
-        action = '<button type="button" class="prize-btn is-coins" data-prize-act="coins" data-uid="' + p.uid + '">' +
-          t('prizes.viewCoins') + '</button>';
+        // X-Coins live in the account, so the button opens the balance page.
+        action = '<a class="prize-btn is-coins" href="' + escapeAttr(D.LINKS.coins) + '" target="_blank" rel="noopener noreferrer">' +
+          t('prizes.viewCoins') + '</a>';
       } else if (kind === 'coupon') {
-        action = '<button type="button" class="prize-btn is-coupon" data-prize-act="coupon" data-uid="' + p.uid + '">' +
-          t('prizes.useCoupon') + icon('i-arrow') + '</button>' +
+        // The coupon itself is spent in the store; the code stays behind for copying.
+        action = '<a class="prize-btn is-coupon" href="' + escapeAttr(D.LINKS.store) + '" target="_blank" rel="noopener noreferrer">' +
+          t('prizes.useCoupon') + icon('i-arrow') + '</a>' +
           '<span class="prize-btn-note">' + t('prizes.autoCopy') + '</span>';
       } else {
         var status = physicalPrizeStatus(p);
