@@ -1813,6 +1813,21 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
 }
 .claim-form .field textarea:focus { outline: none; border-color: var(--gold); background: rgba(247, 200, 105, .05); }
 .claim-error { font-size: 11.5px; color: #ff9182; margin: 0 0 10px; }
+
+/* Copy fallback: offscreen shuttle for execCommand + the manual-copy dialog */
+.copy-shuttle { position: fixed; top: -1000px; left: -1000px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.copy-box input {
+  width: 100%;
+  padding: 15px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--stroke-2);
+  background: rgba(255, 255, 255, .05);
+  color: var(--gold-3);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 15px;
+  letter-spacing: .06em;
+  text-align: center;
+}
 .prizes-empty { text-align: center; padding: 34px 16px 26px; }
 .prizes-empty .prize-empty-icon { width: 76px; height: 76px; margin: 0 auto 14px; border-radius: 22px; background: rgba(255, 255, 255, .04); border: 1px solid var(--stroke); display: grid; place-items: center; color: var(--gold); }
 .prizes-empty .prize-empty-icon .i { width: 32px; height: 32px; }

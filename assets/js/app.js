@@ -376,11 +376,24 @@
   function toast(message, iconName) {
     var stack = $('#toasts');
     if (!stack) return;
+    // Repeating the same message (double clicks, retries) refreshes the current
+    // toast instead of stacking duplicates.
+    var last = stack.lastElementChild;
+    if (last && last.getAttribute('data-msg') === message) {
+      clearTimeout(last._timer);
+      last._timer = dismissToast(last);
+      return;
+    }
     var el = document.createElement('div');
     el.className = 'toast';
+    el.setAttribute('data-msg', message);
     el.innerHTML = icon(iconName || 'i-sparkle') + '<span>' + message + '</span>';
     stack.appendChild(el);
-    setTimeout(function () {
+    el._timer = dismissToast(el);
+  }
+
+  function dismissToast(el) {
+    return setTimeout(function () {
       el.classList.add('is-out');
       setTimeout(function () { el.remove(); }, 320);
     }, 3200);
@@ -2224,12 +2237,55 @@
   }
 
   function copyText(text) {
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(function () {
-        toast(t('prizes.copyOk'));
-      }).catch(function () { toast(t('prizes.copyFail')); });
+    if (!text) { toast(t('prizes.copyFail')); return; }
+    var ok = function () { toast(t('prizes.copyOk')); };
+    var fail = function () { openManualCopy(text); };
+    // Modern API first; it is rejected in insecure contexts, inside some
+    // sandboxed iframes, or without clipboard permission.
+    if (navigator.clipboard && navigator.clipboard.writeText && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(ok).catch(function () {
+        if (legacyCopy(text)) ok(); else fail();
+      });
+    } else if (legacyCopy(text)) {
+      ok();
     } else {
-      toast(t('prizes.copyFail'));
+      fail();
+    }
+  }
+
+  function legacyCopy(text) {
+    try {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.className = 'copy-shuttle';
+      document.body.appendChild(ta);
+      ta.select();
+      ta.setSelectionRange(0, text.length);
+      var copied = document.execCommand('copy');
+      document.body.removeChild(ta);
+      return !!copied;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  // Last resort: show the code in a pre-selected input so one Cmd/Ctrl+C works.
+  function openManualCopy(text) {
+    openModal(
+      '<div class="modal-head"><span class="modal-kicker">' + t('prizes.copyKicker') + '</span><h2>' + t('prizes.copyTitle') + '</h2>' +
+      '<p>' + t('prizes.copySub') + '</p></div>' +
+      '<div class="copy-box"><input id="copy-value" readonly value="' + escapeAttr(text) + '"></div>' +
+      '<div class="modal-actions is-end"><button type="button" class="btn btn-primary" data-close>' + t('prizes.done') + '</button></div>',
+      { className: 'modal--narrow', label: t('prizes.copyTitle') }
+    );
+    var input = $('#copy-value');
+    if (input) {
+      setTimeout(function () {
+        input.focus();
+        input.select();
+        try { input.setSelectionRange(0, input.value.length); } catch (e) {}
+      }, 90);
     }
   }
 
