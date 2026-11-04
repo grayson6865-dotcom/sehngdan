@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css?v=20261104r">
+  <link rel="stylesheet" href="assets/css/style.css?v=20261104u">
 </head>
 <body>
 
@@ -42,12 +42,12 @@
   <a class="brand" href="#top" aria-label="XPPen Christmas 2026 home">
     <span class="brand-mark">XP<span>Pen</span></span>
     <span class="brand-divider"></span>
-    <span class="brand-event" data-i18n="brand.event">Christmas 2026</span>
+    <span class="brand-event" data-i18n="brand.header">Create the Magic, Give the Joy</span>
   </a>
   <nav class="topnav" aria-label="Sections" data-i18n-aria="nav.sections">
     <a href="#studio" data-nav="studio" data-i18n="nav.studio">Studio</a>
     <a href="#collection" data-nav="town" data-i18n="nav.town">My town</a>
-    <a href="#collection" data-nav="collection" data-i18n="nav.collection">Collection</a>
+    <a href="#prizes" data-nav="draw" data-i18n="nav.draw">Draw</a>
     <button type="button" data-open-works data-i18n="nav.myWorks">My works</button>
     <button type="button" data-open-prizes data-i18n="nav.prizes">Prizes</button>
     <button type="button" data-open-rules data-i18n="nav.rules">Rules</button>
@@ -90,7 +90,7 @@
         <h1 class="hero-title" data-i18n-html="hero.titleHtml">Create the Magic,<br><em>Give the Joy.</em></h1>
         <p class="hero-lede" data-i18n="hero.lede">Twenty-eight days, twenty-eight Christmas doodles. Every drawing lights one more piece of a snowbound town — and unlocks a little magic along the way.</p>
         <div class="hero-meta">
-          <span class="meta-pill"><svg class="i"><use href="#i-calendar"/></svg><span data-i18n="hero.date">Dec 3 – Dec 31, 2026</span></span>
+          <span class="meta-pill"><svg class="i"><use href="#i-calendar"/></svg><span data-i18n="hero.date">Dec 7 – Dec 31, 2026</span></span>
         </div>
         <div class="hero-actions">
           <button class="btn btn-primary" id="hero-cta" type="button">
@@ -112,7 +112,7 @@
             <div class="mosaic" id="mosaic"></div>
             <div class="town-topbar">
               <span class="live"><i></i><span data-i18n="town.live">Live town</span></span>
-              <span id="town-count">00 / 28 lit</span>
+              <span id="town-count">00 / 24 lit</span>
             </div>
             <div class="town-flash" id="town-flash" aria-hidden="true"></div>
           </div>
@@ -122,7 +122,7 @@
               <span class="plaque-date" id="plaque-date">Dec 7 · Day 5</span>
             </div>
             <div class="plaque-progress">
-              <b id="plaque-count">00</b><span>/ 28</span>
+              <b id="plaque-count">00</b><span>/ 24</span>
             </div>
           </div>
         </div>
@@ -141,7 +141,6 @@
     <div class="container">
       <div class="section-head">
         <div>
-          <span class="kicker" data-i18n="studio.kicker">Today's studio</span>
           <h2 class="section-title" data-i18n="studio.title">Draw today's element</h2>
         </div>
         <div class="day-chip" id="day-chip"><b>Day 05</b><span>Dec 7</span></div>
@@ -235,7 +234,7 @@
           <div class="hud-progress" id="hud-milestone">
             <div class="nm-copy">
               <span class="card-kicker" data-i18n="chance.milestoneKicker">Pieces</span>
-              <div class="nm-current"><b id="nm-current">0</b><span class="nm-unit">/ 28</span></div>
+              <div class="nm-current"><b id="nm-current">0</b><span class="nm-unit">/ 24</span></div>
               <p class="nm-rule" data-i18n="chance.nmRule">Light 6 / 12 / 18 pieces — one limited draw each</p>
             </div>
             <div class="nm-meter">
@@ -265,7 +264,7 @@
       </div>
       <div class="subscription-entry" id="subscription-entry" hidden>
         <span class="subscription-icon" aria-hidden="true">✉</span>
-        <div class="subscription-copy"><strong data-i18n="subscription.title">Subscribe for 1 energy</strong><span data-i18n="subscription.hint">Use it in the limited draw</span></div>
+        <div class="subscription-copy"><strong data-i18n="subscription.entryTitle">Subscribe to XPPen Emails to Unlock Bonus Energy!</strong></div>
         <button class="btn btn-primary btn-sm" type="button" id="subscription-open" data-i18n="subscription.open">Subscribe</button>
       </div>
     </div>
@@ -276,12 +275,10 @@
     <div class="container">
       <div class="section-head">
         <div>
-          <span class="kicker" data-i18n="collection.kicker">The collection</span>
           <h2 class="section-title" data-i18n="collection.title">Every element, one snowy town</h2>
         </div>
         <div class="collection-actions">
-          <div class="collection-count"><b id="collection-count">0</b><span data-i18n="collection.countSuffix"> / 28 pieces lit</span></div>
-          <button class="btn btn-ghost btn-sm" type="button" data-open-works><svg class="i"><use href="#i-grid"/></svg><span data-i18n="works.entry">My works</span></button>
+          <div class="collection-count"><b id="collection-count">0</b><span data-i18n="collection.countSuffix"> / 24 pieces lit</span></div>
         </div>
       </div>
 
@@ -293,7 +290,6 @@
         <div class="mural-foot">
           <span class="mural-legend"><i class="legend-dot lit"></i><span data-i18n="legend.lit">Lit</span></span>
           <span class="mural-legend"><i class="legend-dot locked"></i><span data-i18n="legend.locked">Not open yet</span></span>
-          <span class="mural-tip" data-i18n="mural.tip">Tap a lit piece to see your drawing</span>
         </div>
       </div>
     </div>
@@ -304,20 +300,14 @@
     <div class="container">
       <div class="panel gifts-panel">
         <div class="gift-copy">
-          <span class="kicker" data-i18n="gifts.kicker">Under the tree</span>
           <h2 class="section-title" data-i18n="gifts.title">Two draws, two piles of gifts</h2>
           <p data-i18n="gifts.copy">Light 6 / 12 / 18 pieces to open each limited draw — or wait for the Christmas Day draw on Dec 25. More festive gifts await.</p>
-          <div class="gift-actions">
-            <button class="btn btn-ghost" type="button" data-open-prizes><svg class="i"><use href="#i-grid"/></svg><span data-i18n="gifts.cta">My prizes & draw history</span></button>
-          </div>
         </div>
         <div class="gift-pools">
           <article class="gift-pool" id="gift-pool-limited">
             <header class="gift-pool-head">
               <svg class="gift-deco" aria-hidden="true"><use href="#i-gift-deco"/></svg>
-              <span class="gift-pool-kicker" data-i18n="gifts.stageKicker">Limited pool</span>
               <h3 data-i18n="gifts.stageTitle">Limited draw</h3>
-              <p data-i18n="gifts.stageCopy">Opens once at 6 / 12 / 18 pieces · up to 24h each · 1 regular energy per draw</p>
             </header>
             <div class="gift-pool-entry">
               <div class="gift-pool-facts">
@@ -334,9 +324,7 @@
           <article class="gift-pool is-special" id="gift-pool-special">
             <header class="gift-pool-head">
               <svg class="gift-deco" aria-hidden="true"><use href="#i-gift-deco"/></svg>
-              <span class="gift-pool-kicker" data-i18n="gifts.specialKicker">Christmas pool</span>
               <h3 data-i18n="gifts.specialTitle">Christmas Day draw</h3>
-              <p data-i18n="gifts.specialCopy">Opens 12/25 00:00–12/26 00:00 (UTC+8) · 1 draw at 18 pieces, 2 at 23 · no regular energy</p>
             </header>
             <div class="gift-pool-entry">
               <div class="gift-pool-facts">
@@ -355,21 +343,6 @@
     </div>
   </section>
 
-  <footer class="site-footer">
-    <div class="container footer-grid">
-      <div class="footer-brand">
-        <span class="brand-mark">XP<span>Pen</span></span>
-        <span class="footer-event" data-i18n="footer.event">Christmas 2026 · Create the Magic, Give the Joy</span>
-      </div>
-      <div class="footer-links">
-        <button type="button" data-open-rules data-i18n="footer.rules">Event rules</button>
-        <a href="mailto:official@xp-pen.com">official@xp-pen.com</a>
-        <button type="button" data-open-keepsake data-i18n="footer.keepsake">My keepsake</button>
-      </div>
-      <p class="footer-fine" data-i18n="footer.fine">The personalised Christmas Town keepsake is a digital commemorative reward. It has no cash value and cannot be exchanged for physical goods. Prize list, stock and odds are published by the event team.</p>
-      <p class="footer-copy" data-i18n="footer.copy">© 2026 XPPen. All rights reserved.</p>
-    </div>
-  </footer>
 </main>
 
 <nav class="bottom-nav" aria-label="Primary" data-i18n-aria="nav.primary">
@@ -406,7 +379,7 @@
       <div class="auth-art-scene" id="auth-scene" aria-hidden="true"></div>
       <div class="auth-art-copy">
         <span class="kicker" data-i18n="auth.kicker">XPPen Christmas 2026</span>
-        <p data-i18n-html="auth.art">28 days of making.<br>A whole town to light.</p>
+        <p data-i18n-html="auth.art">24 days of making.<br>A whole town to light.</p>
       </div>
     </div>
     <div class="auth-form-wrap">
@@ -446,7 +419,7 @@
     <strong data-i18n="demo.title">Demo controls</strong>
     <button class="icon-btn" type="button" id="demo-close" aria-label="Close demo controls" data-i18n-aria="common.close"><svg class="i"><use href="#i-close"/></svg></button>
   </div>
-  <p class="demo-hint" data-i18n="demo.hint">The event starts Dec 3, 2026. Pick a date and a scenario to review every state.</p>
+  <p class="demo-hint" data-i18n="demo.hint">The event starts Dec 7, 2026. Pick a date and a scenario to review every state.</p>
 
   <div class="demo-block">
     <span class="demo-label" data-i18n="demo.date">Simulated date</span>
@@ -455,7 +428,7 @@
       <button class="btn btn-ghost btn-xs" type="button" id="demo-apply" data-i18n="demo.apply">Apply</button>
     </div>
     <div class="demo-chips">
-      <button type="button" data-jump="2026-12-03T10:30" data-i18n="demo.dec3">Dec 3</button>
+      <button type="button" data-jump="2026-12-07T10:30" data-i18n="demo.dec3">Dec 7</button>
       <button type="button" data-jump="2026-12-08T19:20" data-i18n="demo.dec8">Dec 8</button>
       <button type="button" data-jump="2026-12-14T19:20" data-i18n="demo.dec14">Dec 14</button>
       <button type="button" data-jump="2026-12-18T12:00" data-i18n="demo.dec18">Dec 18</button>
@@ -477,15 +450,15 @@
       <button type="button" data-scenario="dailyUsed" data-i18n="demo.scenario.dailyUsed">Today · chance used</button>
       <button type="button" data-scenario="shared" data-i18n="demo.scenario.shared">Today · share reward received</button>
       <button type="button" data-scenario="expired" data-i18n="demo.scenario.expired">Next day · energy expired</button>
-      <button type="button" data-scenario="xmas18next" data-i18n="demo.scenario.xmas18next">Christmas Day · 18th piece next</button>
-      <button type="button" data-scenario="xmas23next" data-i18n="demo.scenario.xmas23next">Christmas Day · 23rd piece next</button>
-      <button type="button" data-scenario="xmas" data-i18n="demo.scenario.xmas">Christmas Day · 18 pieces</button>
+      <button type="button" data-scenario="xmas18next" data-i18n="demo.scenario.xmas18next">Christmas Day · 15th piece next</button>
+      <button type="button" data-scenario="xmas23next" data-i18n="demo.scenario.xmas23next">Christmas Day · 19th piece next</button>
+      <button type="button" data-scenario="xmas" data-i18n="demo.scenario.xmas">Christmas Day · 15 pieces</button>
       <button type="button" data-scenario="makeupAvailable" data-i18n="demo.scenario.makeupAvailable">Make-up · up to 3 a day</button>
       <button type="button" data-scenario="makeupLimit" data-i18n="demo.scenario.makeupLimit">Make-up · daily limit reached</button>
       <button type="button" data-scenario="makeupUnlimited" data-i18n="demo.scenario.makeupUnlimited">Make-up · no daily limit</button>
-      <button type="button" data-scenario="almostcomplete" data-i18n="demo.scenario.almostcomplete">27 pieces · final piece next</button>
+      <button type="button" data-scenario="almostcomplete" data-i18n="demo.scenario.almostcomplete">23 pieces · final piece next</button>
       <button type="button" data-scenario="cutoff" data-i18n="demo.scenario.cutoff">Final cutoff · 09:30</button>
-      <button type="button" data-scenario="complete" data-i18n="demo.scenario.complete">Full town · 28 pieces</button>
+      <button type="button" data-scenario="complete" data-i18n="demo.scenario.complete">Full town · 24 pieces</button>
       <button type="button" data-scenario="prizesEmpty" data-i18n="demo.scenario.prizesEmpty">My prizes · empty list</button>
       <button type="button" data-scenario="prizesAll" data-i18n="demo.scenario.prizesAll">My prizes · product, coupon, coins</button>
     </div>
@@ -503,13 +476,13 @@
   <p class="demo-foot" data-i18n="demo.foot">State is stored in this browser only.</p>
 </aside>
 
-<script src="assets/js/i18n.js?v=20261104r"></script>
-<script src="assets/js/data.js?v=20261104r"></script>
-<script src="assets/js/art.js?v=20261102d"></script>
+<script src="assets/js/i18n.js?v=20261104x"></script>
+<script src="assets/js/data.js?v=20261104u"></script>
+<script src="assets/js/art.js?v=20261104u"></script>
 <script src="assets/js/draw.js?v=20261102d"></script>
 <script src="assets/js/reel.js?v=20261102d"></script>
-<script src="assets/js/keepsake.js?v=20261104f"></script>
+<script src="assets/js/keepsake.js?v=20261104u"></script>
 <script src="assets/js/activity-rules.js?v=20261103a"></script>
-<script src="assets/js/app.js?v=20261104r"></script>
+<script src="assets/js/app.js?v=20261104y"></script>
 </body>
 </html>

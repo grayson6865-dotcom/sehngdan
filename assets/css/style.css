@@ -507,7 +507,7 @@ body.modal-open { overflow: hidden; }
   position: absolute;
   inset: 0;
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   grid-template-rows: repeat(4, 1fr);
   gap: 2px;
 }
@@ -3263,3 +3263,11 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
   .subscription-copy strong { font-size: 12px; }
   .subscription-entry .btn { flex-shrink: 0; padding-inline: 12px; }
 }
+
+/* Work-list actions and close controls. */
+.works-modal > .modal-close, .prizes-modal > .modal-close { display: none; }
+.work-item { min-width: 0; }
+.work-item .work-card { width: 100%; }
+.work-actions { display: flex; gap: 6px; margin-top: 6px; }
+.work-actions button { flex: 1; min-width: 0; padding: 6px 3px; border: 1px solid var(--stroke); border-radius: 8px; background: rgba(255,255,255,.05); color: var(--text); cursor: pointer; font: inherit; font-size: 11px; }
+.work-actions button:hover { border-color: var(--gold); }

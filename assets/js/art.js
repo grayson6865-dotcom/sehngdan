@@ -437,10 +437,10 @@
   function tileOrder() {
     var cells = [];
     for (var r = 0; r < 4; r++) {
-      for (var c = 0; c < 7; c++) {
-        var dx = (c - 3) / 7;
+      for (var c = 0; c < 6; c++) {
+        var dx = (c - 2.5) / 6;
         var dy = (r - 1.5) / 4;
-        cells.push({ idx: r * 7 + c, d: dx * dx + dy * dy + ((r * 7 + c) % 3) * 0.0015 });
+        cells.push({ idx: r * 6 + c, d: dx * dx + dy * dy + ((r * 6 + c) % 3) * 0.0015 });
       }
     }
     cells.sort(function (a, b) { return a.d - b.d; });

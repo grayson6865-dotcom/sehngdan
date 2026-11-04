@@ -160,7 +160,7 @@
   }
 
   function drawFrost(ctx, x, y, w, h, pieces, radius) {
-    if (pieces >= 28) return;
+    if (pieces >= 24) return;
     var order = global.XMASArt.tileOrder();
     var lit = {};
     order.slice(0, pieces).forEach(function (p) { lit[p] = true; });
@@ -169,12 +169,12 @@
     roundRect(ctx, x, y, w, h, radius);
     ctx.clip();
 
-    var tw = w / 7;
+    var tw = w / 6;
     var th = h / 4;
-    for (var p = 0; p < 28; p++) {
+    for (var p = 0; p < 24; p++) {
       if (lit[p]) continue;
-      var tx = x + (p % 7) * tw;
-      var ty = y + Math.floor(p / 7) * th;
+      var tx = x + (p % 6) * tw;
+      var ty = y + Math.floor(p / 6) * th;
       ctx.fillStyle = 'rgba(6,12,26,.3)';
       ctx.fillRect(tx, ty, tw + .5, th + .5);
       var g = ctx.createLinearGradient(tx, ty, tx + tw, ty + th);
@@ -247,7 +247,7 @@
       var sx = 62, sy = 64, sw = W - 124, sh = Math.round(sw * 700 / 1120);
       drawScene(ctx, img, sx, sy, sw, sh);
       drawNoticeboard(ctx, artwork, sx, sy, sw, sh);
-      drawFrost(ctx, sx, sy, sw, sh, opts.pieces || 28, 18);
+      drawFrost(ctx, sx, sy, sw, sh, opts.pieces || 24, 18);
 
       // ribbon of light under the scene
       var line = ctx.createLinearGradient(sx, 0, sx + sw, 0);
@@ -281,11 +281,11 @@
         ctx.fillText(l, W / 2, 1042 + i * 42);
       });
 
-      var pieces = opts.pieces || 28;
+      var pieces = opts.pieces || 24;
       ctx.font = '700 15px ' + sans;
       setSpacing(ctx, zh ? '2px' : '4px');
       ctx.fillStyle = 'rgba(154,172,205,.85)';
-      ctx.fillText(zh ? pieces + ' / 28 块已点亮  ·  2026年12月' : pieces + ' / 28 PIECES LIT  ·  DEC 2026', W / 2, 1150);
+      ctx.fillText(zh ? pieces + ' / 24 块已点亮  ·  2026年12月' : pieces + ' / 24 PIECES LIT  ·  DEC 2026', W / 2, 1150);
       setSpacing(ctx, '0px');
 
       // code plate
@@ -361,7 +361,7 @@
       var pieces = opts.pieces || 0;
       ctx.fillStyle = '#f7c869';
       ctx.font = '600 88px ' + serif;
-      ctx.fillText(pieces + ' / 28', W / 2, 928);
+      ctx.fillText(pieces + ' / 24', W / 2, 928);
       setSpacing(ctx, '4px');
       ctx.fillStyle = 'rgba(154,172,205,.9)';
       ctx.font = '700 14px ' + sans;
@@ -462,7 +462,7 @@
 
       ctx.fillStyle = '#f7c869';
       ctx.font = '600 64px ' + serif;
-      ctx.fillText((opts.pieces || 0) + ' / 28', W / 2, 1015);
+      ctx.fillText((opts.pieces || 0) + ' / 24', W / 2, 1015);
       setSpacing(ctx, '4px');
       ctx.fillStyle = 'rgba(154,172,205,.9)';
       ctx.font = '700 14px ' + sans;

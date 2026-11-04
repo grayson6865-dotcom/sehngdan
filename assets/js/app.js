@@ -106,8 +106,8 @@
   }
 
   function taskOpenAt(task) {
-    if (task.day === 1) return shDate(2026, 12, 3, 10, 0);
-    return shDate(2026, 12, 2 + task.day, 0, 0);
+    if (task.day === 1) return shDate(2026, 12, 7, 10, 0);
+    return shDate(2026, 12, 6 + task.day, 0, 0);
   }
 
   var simBaseMs = 0;
@@ -139,8 +139,8 @@
   function eventDayIndex(date) {
     var p = shParts(date);
     if (p.m === 11) return 0;
-    if (p.m === 12) return Math.max(1, Math.min(28, p.d - 2));
-    return 28;
+    if (p.m === 12) return Math.max(1, Math.min(24, p.d - 6));
+    return 24;
   }
 
   function pad2(n) { return String(n).padStart(2, '0'); }
@@ -173,7 +173,7 @@
     return {
       v: 3,
       user: null,
-      sim: '2026-12-03T10:30:00+08:00',
+      sim: '2026-12-07T10:30:00+08:00',
       completed: {},
       energy: 0,
       energyDay: null,
@@ -243,7 +243,7 @@
     }
   }
 
-  function fragments() { return Object.keys(state.completed).length; }
+  function fragments() { return TASKS.filter(function (task) { return isDone(task.id); }).length; }
 
   function isDone(taskId) { return !!state.completed[taskId]; }
 
@@ -463,7 +463,7 @@
     modal.setAttribute('aria-modal', 'true');
     if (opts.label) modal.setAttribute('aria-label', opts.label);
     modal.setAttribute('tabindex', '-1');
-    modal.innerHTML = (opts.closable === false ? '' :
+    modal.innerHTML = (opts.closable === false || opts.hideCloseButton ? '' :
       '<button type="button" class="modal-close" data-close aria-label="' + t('common.close') + '">' + icon('i-close') + '</button>') + html;
     overlay.appendChild(modal);
     $('#modal-root').appendChild(overlay);
@@ -593,14 +593,11 @@
     if (eventPhase() !== 'live') return;
     var record = subscriptionRecord();
     if (record && (record.subscribed || record.rewarded)) { updateSubscriptionEntry(); return; }
-    var html = '<div class="modal-head"><span class="modal-kicker">' + t('subscription.kicker') + '</span>' +
-      '<h2>' + t('subscription.title') + '</h2><p>' + t('subscription.modalCopy') + '</p></div>' +
+    var html = '<div class="modal-head"><h2>' + t('subscription.title') + '</h2></div>' +
       '<form id="subscription-form" novalidate><label class="field"><span>' + t('subscription.email') + '</span>' +
       '<input id="subscription-email" type="email" readonly aria-readonly="true"></label>' +
       '<p class="field-error" id="subscription-error" role="alert" hidden></p>' +
-      '<p class="subscription-demo-note">' + t('subscription.demoNote') + '</p>' +
-      '<div class="modal-actions"><button class="btn btn-primary" type="submit">' + t('subscription.submit') + '</button>' +
-      '<button class="btn btn-ghost" type="button" data-close>' + t('common.close') + '</button></div></form>';
+      '<div class="modal-actions"><button class="btn btn-primary" type="submit">' + t('subscription.submit') + '</button></div></form>';
     var dialog = openModal(html, { className: 'modal--narrow', label: t('subscription.title') });
     var input = $('#subscription-email', dialog.modal);
     var error = $('#subscription-error', dialog.modal);
@@ -654,7 +651,7 @@
     var dayForCell = {};
     order.forEach(function (pos, i) { dayForCell[pos] = i + 1; });
     var cells = '';
-    for (var pos = 0; pos < 28; pos++) {
+    for (var pos = 0; pos < 24; pos++) {
       var t = TASKS[dayForCell[pos] - 1];
       cells += '<div class="frag" data-task="' + t.id + '" data-tile="' + (pos + 1) + '" data-label="' +
         pad2(t.day) + ' · ' + taskName(t) + '"></div>';
@@ -796,6 +793,16 @@
   var clearTimer = null;
   var submitting = false;
 
+  function blockStudioOutsideEvent() {
+    var phase = eventPhase();
+    if (phase === 'live') return false;
+    var message = t(phase === 'before' ? 'studio.eventBefore' : 'studio.eventEnded');
+    openModal('<div class="modal-head"><h2>' + message + '</h2></div>' +
+      '<div class="modal-actions"><button type="button" class="btn btn-primary" data-close>' + t('common.close') + '</button></div>',
+      { className: 'modal--narrow', label: message, hideCloseButton: true });
+    return true;
+  }
+
   function initPad() {
     var canvas = $('#pad');
     pad = new window.DrawingPad(canvas, function (p) {
@@ -804,6 +811,11 @@
     var paperEl = $('#paper');
     if (paperEl) {
       paperEl.addEventListener('pointerdown', function (e) {
+        if (blockStudioOutsideEvent()) {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          return;
+        }
         if (state.user) return;
         e.preventDefault();
         e.stopImmediatePropagation();
@@ -812,6 +824,14 @@
         });
       }, true);
     }
+
+    $('#studio-body').addEventListener('click', function (e) {
+      if (!e.target.closest('.toolbar, #submit-drawing')) return;
+      if (blockStudioOutsideEvent()) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+      }
+    }, true);
 
     var sw = $('#swatches');
     sw.innerHTML = COLORS.map(function (c, i) {
@@ -985,7 +1005,7 @@
     var phase = eventPhase();
     if (phase === 'before') return { label: t('hero.cta.before'), action: 'before' };
     if (phase === 'ended') return { label: t('hero.cta.town'), action: 'town' };
-    if (fragments() >= 28) return { label: t('hero.cta.keepsake'), action: 'keepsake' };
+    if (fragments() >= 24) return { label: t('hero.cta.keepsake'), action: 'keepsake' };
     var today = todaysTask();
     if (today && !isDone(today.id)) return { label: t('hero.cta.start'), action: 'studio' };
     if (makeupTasks().length) return { label: t('hero.cta.makeup'), action: 'studio' };
@@ -1045,9 +1065,13 @@
   function taskHeader(task, mode) {
     $('#task-icon').innerHTML = ART.icon(task.id);
     $('#task-day').textContent = t('studio.day', { n: pad2(task.day) }) + ' · ' + fmtShort(taskOpenAt(task));
+    $('#task-day').hidden = mode === 'daily';
+    $('#task-blurb').hidden = mode === 'daily';
+    $('#canvas-mode').hidden = mode === 'daily';
     $('#task-name').textContent = taskName(task);
     $('#task-blurb').textContent = taskBlurb(task) + (dayKey(now()) >= '2026-12-18' && dayKey(now()) <= '2026-12-25' ? ' · ' + t('makeup.remaining', { n: Math.max(0, 3 - makeupCountToday()) }) : '');
     var badge = $('#task-badge');
+    badge.hidden = false;
     if (mode === 'makeup') {
       badge.textContent = t('studio.makeupNoChance');
       badge.classList.add('is-makeup');
@@ -1104,10 +1128,14 @@
     $('#makeup-picker').hidden = true;
     $('#task-icon').innerHTML = icon('i-sparkle');
     $('#task-day').textContent = t('studio.freeKicker');
+    $('#task-day').hidden = false;
+    $('#task-blurb').hidden = true;
+    $('#canvas-mode').hidden = true;
     $('#task-name').textContent = t('studio.freeTitle');
     $('#task-blurb').textContent = t('studio.freeBlurb');
     var badge = $('#task-badge');
     badge.textContent = t('studio.freeBadge');
+    badge.hidden = true;
     badge.classList.add('is-makeup');
     var sub = $('#submit-drawing');
     sub.querySelector('span').textContent = t('studio.freeSave');
@@ -1123,7 +1151,8 @@
     note.hidden = false;
     delete note.dataset.deadline;
     var today = TASKS.filter(function (task) { return sameDay(now(), taskOpenAt(task)); })[0];
-    note.textContent = today && isDone(today.id) ? t('studio.todayCompleteFree') : t('studio.freeNote');
+    note.hidden = !!(today && isDone(today.id));
+    note.textContent = note.hidden ? '' : t('studio.freeNote');
     updateToolState();
   }
 
@@ -1135,35 +1164,17 @@
     var frag = fragments();
     var note = $('#studio-note');
 
-    if (phase === 'before') {
-      currentStudio = null;
-      showGate({
-        icon: 'i-calendar',
-        title: t('gate.beforeTitle'),
-        copy: t('gate.beforeCopy'),
-        cta: t('gate.beforeCta'),
-        handler: openRules,
-        note: t('gate.beforeNote', { time: countdownText(START) })
-      });
-      return;
-    }
-
-    if (phase === 'ended') {
-      currentStudio = null;
-      showGate({
-        icon: 'i-lock',
-        title: t('gate.endedTitle'),
-        copy: t('gate.endedCopy'),
-        cta: t('gate.endedCta'),
-        handler: openPrizes,
-        note: t('gate.endedNote')
-      });
+    if (phase !== 'live') {
+      showFreeStudio();
+      $('.task-head').style.display = 'none';
+      $('#studio-note').hidden = true;
+      $('#submit-drawing').querySelector('.submit-plus').textContent = '';
       return;
     }
 
     if (currentStudio && currentStudio.mode === 'free' && !state.ui.selectedId && !todayAvailable) { showFreeStudio(); return; }
 
-    if (frag >= 28) {
+    if (frag >= 24) {
       currentStudio = null;
       showGate({
         icon: 'i-sparkle',
@@ -1273,7 +1284,7 @@
     var phase = eventPhase();
     note.textContent = phase === 'before' ? t('chance.noteBefore') : phase === 'ended' ? t('chance.noteEnded') : t('chance.dailyEnergy', { n: total });
 
-    var fillPct = Math.min(100, fragments() / 28 * 100);
+    var fillPct = Math.min(100, fragments() / 24 * 100);
     $('#nm-fill').style.width = fillPct + '%';
     var currentEl = $('#nm-current');
     if (currentEl) currentEl.textContent = fragments();
@@ -1281,8 +1292,8 @@
     if (here) here.style.left = fillPct + '%';
     var tip = $('#nm-tooltip');
     if (tip) tip.hidden = true;
-    $('#nm-ticks').innerHTML = [18, 23].map(function (n) {
-      var left = n / 28 * 100;
+    $('#nm-ticks').innerHTML = [SPECIAL.at, SPECIAL.bonusAt].map(function (n) {
+      var left = n / 24 * 100;
       var text = t('chance.nmSpecialAt', { n: n });
       return '<span class="nm-tick' + (fragments() >= n ? ' is-past' : '') + '" style="left:' + left + '%" data-tip="' + escapeAttr(text) + '" tabindex="0" aria-label="' + escapeAttr(text) + '"></span>' +
         '<span class="nm-tick-label" style="left:' + left + '%">' + n + '</span>';
@@ -1385,31 +1396,29 @@
       btn.classList.toggle('is-special', e[0] === 'special');
       var labelText = info.label;
       var subText = info.sub;
-      if (e[1] === 'gifts-draw' && info.end && info.kind !== 'limited-ended' && info.end > now()) {
+      if (e[1] === 'gifts-draw') {
         if (info.ready) labelText = t('draw.enterLimited');
-        subText = t('gifts.subRemain', { t: countdownHMS(info.end) });
+        if (info.kind === 'limited-noenergy') labelText = t('draw.noChancesAvailable');
+        if (info.ready || info.kind === 'limited-noenergy') subText = '';
       }
       if (e[1] === 'gifts-special-draw' &&
           (info.kind === 'special' || info.kind === 'special-nofund' || info.kind === 'special-used') &&
           now() < SPEC_CLOSE) {
         if (info.ready) labelText = t('draw.enterSpecial');
-        subText = t('gifts.subRemain', { t: countdownHMS(SPEC_CLOSE) });
+        else labelText = t('draw.noChancesAvailable');
+        subText = '';
       }
       if (e[1] === 'hud-draw') {
         var hudMeta = document.getElementById('hud-draw-meta');
         if (hudMeta) hudMeta.textContent = t('gifts.metaEnergy', { n: energy() });
         if (info.ready) labelText = t('draw.enterLimited');
-        if (info.end && info.kind !== 'limited-ended' && info.end > now()) {
-          subText = t('gifts.subRemain', { t: countdownHMS(info.end) });
-        }
+        if (info.ready) subText = '';
       }
       if (e[1] === 'hud-special-draw') {
         var hudSpecialMeta = document.getElementById('hud-special-meta');
         if (hudSpecialMeta) hudSpecialMeta.textContent = t('gifts.metaSpecial', { n: specialRemaining() });
         if (info.ready) labelText = t('draw.enterSpecial');
-        if (info.kind === 'special' && now() < SPEC_CLOSE) {
-          subText = t('gifts.subRemain', { t: countdownHMS(SPEC_CLOSE) });
-        }
+        if (info.kind === 'special') subText = '';
       }
       if (e[1] === 'gifts-draw') updateGiftCard('limited', info);
       if (e[1] === 'gifts-special-draw') updateGiftCard('special', info);
@@ -1452,7 +1461,7 @@
     var sub = $('#share-sub');
     var label = $('#share-label');
     if (!sub || !label) return;
-    var town = fragments() >= 28;
+    var town = fragments() >= 24;
     var phase = eventPhase();
     if (label) label.textContent = town ? t('chance.shareTown') : t('chance.shareDoodle');
     if (phase === 'ended') {
@@ -1536,9 +1545,9 @@
         (done ? '' : makeup ? '<span class="mural-makeup">' + t('mural.makeup') + '</span>' : '<span class="mural-lock">' + icon('i-lock') + '</span>') +
         '</button>';
     }).join('');
-    html += '<div class="mural-sign' + (lit >= 28 ? ' is-complete' : '') + '"' + (lit >= 28 ? ' data-complete="1"' : '') + '>' +
-      '<span class="mural-sign-count"><b>' + lit + '</b><span>/ 28</span></span>' +
-      '<span class="mural-sign-text">' + (lit >= 28 ? t('mural.signDone') : t('mural.sign')) + '</span>' +
+    html += '<div class="mural-sign' + (lit >= 24 ? ' is-complete' : '') + '"' + (lit >= 24 ? ' data-complete="1"' : '') + '>' +
+      '<span class="mural-sign-count"><b>' + lit + '</b><span>/ 24</span></span>' +
+      '<span class="mural-sign-text">' + (lit >= 24 ? t('mural.signDone') : t('mural.sign')) + '</span>' +
       '</div>';
     grid.innerHTML = html;
   }
@@ -1572,7 +1581,7 @@
     }
 
     var lines = '';
-    lines += resultLine(t('result.fragmentLabel'), t('result.fragment', { n: fragments() }));
+    lines += resultLine(t('result.fragmentLabel'), '+1');
     if (opts.energyGain) lines += resultLine(t('result.energyLabel'), t('result.energy'));
     if (opts.specialGain) {
       lines += resultLine(t('result.specialLabel'), t('result.special', { n: opts.specialTotal }));
@@ -1599,7 +1608,7 @@
       actions += '<button type="button" class="btn ' + (regularReady ? 'btn-ghost' : 'btn-primary') + '" id="result-special-draw">' + t('result.specialDraw') + '</button>';
     }
 
-    var html = '<div class="modal-head"><span class="modal-kicker">' + kicker + '</span><h2>' + title + '</h2></div>' +
+    var html = '<div class="modal-head"><h2>' + title + '</h2></div>' +
       (artwork ? '<div class="result-preview"><img src="' + escapeAttr(artwork) + '" alt="' + escapeAttr(taskName(opts.task)) + '"></div>' : '') +
       (lines ? '<div class="result-lines">' + lines + '</div>' : '') +
       '<div class="modal-actions">' + actions + '</div>' +
@@ -1607,7 +1616,7 @@
       (artwork ? '<div class="free-social"><p>' + t('result.share') + ' <span id="result-share-reward">' + (canEarnShareChance() ? '<span class="result-share-reward">' + t('studio.reward') + '</span>' : '') + '</span></p>' +
         '<div class="free-social-buttons"><button type="button" class="free-social-button" data-result-channel="Facebook"><span class="free-social-icon is-facebook" aria-hidden="true">f</span>Facebook</button>' +
         '<button type="button" class="free-social-button" data-result-channel="X"><span class="free-social-icon is-x" aria-hidden="true">𝕏</span>X</button></div>' +
-        '<small>' + t('share.demoChannelNote') + '</small></div>' : '');
+        '</div>' : '');
 
     var modal = openModal(html, { className: 'stage-notice result-modal', closable: true, label: title });
     var continueButton = $('#result-continue', modal.modal);
@@ -1657,15 +1666,14 @@
   }
 
   function openFreeSaved(work) {
-    var html = '<div class="modal-head"><span class="modal-kicker">' + t('free.kicker') + '</span>' +
-      '<h2>' + t('free.savedTitle') + '</h2><p>' + t('free.savedCopy') + '</p></div>' +
+    var html = '<div class="modal-head"><h2>' + t('free.savedTitle') + '</h2></div>' +
       '<div class="result-preview"><img src="' + escapeAttr(work.art) + '" alt="' + escapeAttr(t('works.freeTitle')) + '"></div>' +
       '<div class="modal-actions"><button type="button" class="btn btn-primary" id="free-view">' + t('free.view') + '</button>' +
       '<button type="button" class="btn btn-ghost" data-close>' + t('free.keep') + '</button></div>' +
       '<div class="free-social"><p>' + t('free.shareChannels') + '</p><div class="free-social-buttons">' +
       '<button type="button" class="free-social-button" data-free-channel="Facebook"><span class="free-social-icon is-facebook" aria-hidden="true">f</span>Facebook</button>' +
       '<button type="button" class="free-social-button" data-free-channel="X"><span class="free-social-icon is-x" aria-hidden="true">𝕏</span>X</button>' +
-      '</div><small>' + t('free.shareDemoNote') + '</small></div>';
+      '</div></div>';
     var modal = openModal(html, { className: 'modal--narrow', label: t('free.savedTitle') });
     modal.modal.querySelectorAll('[data-free-channel]').forEach(function (button) {
       button.addEventListener('click', function () {
@@ -1707,15 +1715,12 @@
     var deadline = fmtLong(win.end) + ' ' + fmtClock(win.end);
 
     var html =
-      '<div class="modal-head"><span class="modal-kicker">' + t('draw.limitedKicker') + '</span>' +
-      '<h2>' + t('draw.limitedTitle') + '</h2>' +
-      '<p>' + t('draw.limitedModalSub', { n: total, date: fmtLong(win.end), time: fmtClock(win.end) }) + '</p>' +
-      '<p class="draw-cost">' + t('draw.costNote') + ' · ' + t('draw.deadlineLabel', { date: fmtLong(win.end), time: fmtClock(win.end) }) + '</p></div>' +
+      '<div class="modal-head"><h2>' + t('draw.limitedTitle') + '</h2></div>' +
       '<div class="draw-topline"><span class="muted-small" id="draw-count">' + t('draw.energyLeft', { n: total }) + '</span></div>' +
       '<div class="reel-frame" id="draw-reel"><div class="reel-pointer"></div><div class="reel-track"></div>' +
       '<div class="reel-pointer reel-pointer--bottom"></div>' +
       '<div class="reel-idle" id="draw-idle"><span class="reel-idle-q">?</span><span>' + t('draw.idle') + '</span></div></div>' +
-      '<div class="draw-result is-pending" id="draw-result">' + t('draw.readyResult') + '</div>' +
+      '<div class="draw-result is-pending" id="draw-result" hidden></div>' +
       '<div class="draw-actions" id="draw-actions"></div>';
 
     var modal = openModal(html, {
@@ -1740,6 +1745,7 @@
       actionsEl.innerHTML = '';
       var idleEl = $('#draw-idle', modal.modal);
       if (idleEl) idleEl.hidden = true;
+      resultEl.hidden = false;
       resultEl.className = 'draw-result is-pending';
       resultEl.innerHTML = t('draw.spinning');
 
@@ -1764,7 +1770,7 @@
           '<div class="result-icon">' + ART.prizeIcon(prize.kind, prize.iconLabel, prize.rarity) + '</div>' +
           '<div class="result-copy"><span class="result-kicker">' + t('draw.unwrapped') + '</span>' +
           '<div class="result-name">' + prizeName(prize) + '</div>' +
-          '<p class="result-note">' + prizeNote(prize) + '</p>' +
+
           (record.code ? '<span class="result-code">' + record.code + '</span>' : '') + '</div>';
 
         busy = false;
@@ -1908,13 +1914,8 @@
   }
 
   function giftPrize(p) {
-    var type = p.kind === 'product' ? t('gifts.product')
-      : p.kind === 'coupon' ? t('gifts.coupon')
-      : p.kind === 'coins' ? t('gifts.coins')
-      : t('gifts.bundle');
     return '<div class="gift-prize">' + ART.prizeIcon(p.kind, p.iconLabel, p.rarity) +
-      '<span class="gift-prize-copy"><b>' + prizeName(p) + '</b><small>' + type +
-      ' · <em class="r-' + p.rarity + '">' + t('rarity.' + p.rarity) + '</em></small></span></div>';
+      '<span class="gift-prize-copy"><b>' + prizeName(p) + '</b></span></div>';
   }
 
   function findPrize(pool, id) {
@@ -1954,6 +1955,7 @@
 
   function submitDrawing() {
     if (submitting) return;
+    if (blockStudioOutsideEvent()) return;
     if (!state.user) {
       requireAuth(submitDrawing);
       return;
@@ -2024,7 +2026,7 @@
     var energyGain = energy() > energyBefore;
     var specialGain = specialLimit() > specialLimitBefore;
     var specialTotal = specialLimit();
-    var isComplete = fragments() >= 28;
+    var isComplete = fragments() >= 24;
     state.ui.freshTask = task.id;
     state.ui.selectedId = null;
     state.ui.justSubmitted = mode === 'daily' ? 'daily' : null;
@@ -2151,12 +2153,10 @@
     if (!state.user) { requireAuth(openPrizes); return; }
     var n = state.prizes.length;
     var modal = openModal(
-      '<div class="modal-head"><span class="modal-kicker">' + t('prizes.kicker') + '</span><h2>' + t('prizes.title') + '</h2>' +
-      '<p id="prizes-sub">' + (n ? t(n === 1 ? 'prizes.subOne' : 'prizes.subMany', { n: n }) : t('prizes.subEmpty')) + '</p></div>' +
+      '<div class="modal-head"><h2>' + t('prizes.title') + '</h2></div>' +
       '<div id="prizes-view">' + prizesListHtml() + '</div>' +
-      '<p class="prizes-note" id="prizes-note">' + t('prizes.note') + '</p>' +
-      '<div class="modal-actions is-end" id="prizes-foot"><button type="button" class="btn btn-primary" data-close>' + t('prizes.done') + '</button></div>',
-      { className: n ? 'modal--wide' : 'modal--narrow', label: t('prizes.kicker') }
+      '<div class="modal-actions is-end" id="prizes-foot"><button type="button" class="btn btn-primary" data-close>' + t('common.close') + '</button></div>',
+      { className: (n ? 'modal--wide' : 'modal--narrow') + ' prizes-modal', label: t('prizes.kicker') }
     );
 
     modal.modal.addEventListener('click', function (e) {
@@ -2320,8 +2320,8 @@
 
   function openKeepsake() {
     if (!state.user) { requireAuth(openKeepsake); return; }
-    if (fragments() < 28) {
-      var pct = Math.round(fragments() / 28 * 100);
+    if (fragments() < 24) {
+      var pct = Math.round(fragments() / 24 * 100);
       openModal(
         '<div class="keepsake-locked"><div>' + icon('i-lock') + '</div>' +
         '<h3>' + t('keepsake.lockedTitle') + '</h3>' +
@@ -2337,7 +2337,7 @@
     var code = keepsakeCode();
     var name = state.keepsake.name || (state.user ? state.user.name : t('keepsake.placeholderName'));
     var blessing = state.keepsake.blessing || blessingList()[0];
-    var lastArt = state.completed[TASKS[27].id] && state.completed[TASKS[27].id].art;
+    var lastArt = state.completed[TASKS[23].id] && state.completed[TASKS[23].id].art;
 
     var html =
       '<div class="modal-head"><span class="modal-kicker">' + t('keepsake.kicker') + '</span><h2>' + t('keepsake.title') + '</h2>' +
@@ -2394,7 +2394,7 @@
           blessing: inputBless.value,
           code: code,
           pieces: fragments(),
-          art: state.completed[TASKS[27].id] && state.completed[TASKS[27].id].art,
+          art: state.completed[TASKS[23].id] && state.completed[TASKS[23].id].art,
           lang: I18N.current()
         });
       }).then(function (canvas) {
@@ -2478,7 +2478,7 @@
         return { kind: 'doodle', id: preferredTaskId, task: BY_ID[preferredTaskId], rec: preferred };
       }
     }
-    if (fragments() >= 28) return { kind: 'town' };
+    if (fragments() >= 24) return { kind: 'town' };
     var latest = latestArt();
     if (!latest) return null;
     return { kind: 'doodle', id: latest.id, task: BY_ID[latest.id], rec: latest.rec };
@@ -2507,7 +2507,7 @@
       ? t('share.subTown')
       : isFree ? t('share.subFree', { date: fmtLong(new Date(target.rec.at)) })
       : t('share.subDoodle', { name: taskName(target.task), n: pad2(target.task.day), date: fmtLong(new Date(target.rec.at)) });
-    var townNote = (!isTown && fragments() < 28) ? ' ' + t('share.townGate') : '';
+    var townNote = (!isTown && fragments() < 24) ? ' ' + t('share.townGate') : '';
 
     var html =
       '<div class="modal-head"><span class="modal-kicker">' + kicker + '</span><h2>' + title + '</h2>' +
@@ -2535,7 +2535,7 @@
           name: state.user ? state.user.name : 'A Christmas maker',
           pieces: fragments(),
           code: state.keepsake.code || '',
-          art: state.completed[TASKS[27].id] && state.completed[TASKS[27].id].art,
+          art: state.completed[TASKS[23].id] && state.completed[TASKS[23].id].art,
           lang: I18N.current()
         });
       }
@@ -2633,23 +2633,26 @@
     var cards = works.map(function (w) {
       var task = w.task;
       var label = taskName(task) + ' · ' + fmtShort(new Date(w.rec.at));
-      return '<button type="button" class="work-card" data-work="' + task.id + '" aria-label="' + escapeAttr(label) + '">' +
-        '<img class="work-thumb" src="' + w.rec.art + '" alt="' + escapeAttr(taskName(task)) + '">' +
-        '<span class="work-meta"><b>' + taskName(task) + '</b><small>' + fmtShort(new Date(w.rec.at)) + '</small></span></button>';
+      return '<div class="work-item"><button type="button" class="work-card" data-work="' + task.id + '" aria-label="' + escapeAttr(label) + '">' +
+        '<img class="work-thumb" src="' + escapeAttr(w.rec.art) + '" alt="' + escapeAttr(taskName(task)) + '">' +
+        '<span class="work-meta"><b>' + taskName(task) + '</b><small>' + fmtShort(new Date(w.rec.at)) + '</small></span></button>' +
+        '<div class="work-actions"><button type="button" data-work-action="download" data-work-id="' + escapeAttr(task.id) + '">' + t('doodle.download') + '</button>' +
+        '<button type="button" data-work-action="share" data-work-id="' + escapeAttr(task.id) + '">' + t('doodle.share') + '</button></div></div>';
     }).join('');
 
     var freeCards = free.map(function (w) {
       var label = t('works.freeLabel', { date: fmtShort(new Date(w.at)) });
-      return '<button type="button" class="work-card is-free" data-free="' + w.id + '" aria-label="' + escapeAttr(label) + '">' +
-        '<img class="work-thumb" src="' + w.art + '" alt="' + escapeAttr(t('works.freeTitle')) + '">' +
-        '<span class="work-meta"><b>' + t('works.freeTitle') + '</b><small>' + fmtShort(new Date(w.at)) + '</small></span></button>';
+      return '<div class="work-item"><button type="button" class="work-card is-free" data-free="' + escapeAttr(w.id) + '" aria-label="' + escapeAttr(label) + '">' +
+        '<img class="work-thumb" src="' + escapeAttr(w.art) + '" alt="' + escapeAttr(t('works.freeTitle')) + '">' +
+        '<span class="work-meta"><b>' + t('works.freeTitle') + '</b><small>' + fmtShort(new Date(w.at)) + '</small></span></button>' +
+        '<div class="work-actions"><button type="button" data-work-action="download" data-free-id="' + escapeAttr(w.id) + '">' + t('doodle.download') + '</button>' +
+        '<button type="button" data-work-action="share" data-free-id="' + escapeAttr(w.id) + '">' + t('doodle.share') + '</button></div></div>';
     }).join('');
 
     var body = '';
     if (total) {
       if (works.length) {
-        body += '<h3 class="works-group-title">' + t('works.dailyGroup') + ' · ' + works.length + '</h3>' +
-          '<div class="works-grid">' + cards + '</div>';
+        body += '<div class="works-grid">' + cards + '</div>';
       }
       if (free.length) {
         body += '<h3 class="works-group-title">' + t('works.freeGroup') + ' · ' + free.length + '</h3>' +
@@ -2660,14 +2663,22 @@
     }
 
     var html =
-      '<div class="modal-head"><span class="modal-kicker">' + t('works.kicker') + '</span>' +
-      '<h2>' + t('works.title') + '</h2>' +
-      '<p>' + t(total === 1 ? 'works.subOne' : 'works.sub', { n: total }) + '</p></div>' +
+      '<div class="modal-head"><h2>' + t('works.title') + '</h2></div>' +
       body +
-      '<div class="modal-actions is-end"><button type="button" class="btn btn-primary" data-close>' + t('common.done') + '</button></div>';
+      '<div class="modal-actions is-end"><button type="button" class="btn btn-primary" data-close>' + t('common.close') + '</button></div>';
 
     var modal = openModal(html, { className: 'modal--wide works-modal', label: t('works.kicker') });
     modal.modal.addEventListener('click', function (e) {
+      var action = e.target.closest('[data-work-action]');
+      if (action) {
+        var workId = action.dataset.workId;
+        var freeId = action.dataset.freeId;
+        var rec = workId ? state.completed[workId] : (state.freeWorks || []).filter(function (w) { return w.id === freeId; })[0];
+        if (!rec || !rec.art) return;
+        if (action.dataset.workAction === 'download') downloadArt(rec.art, 'xppen-' + (workId || freeId) + '.png');
+        else if (action.dataset.workAction === 'share') { modal.close(); setTimeout(function () { openShare(workId || null, freeId || null); }, 180); }
+        return;
+      }
       var freeCard = e.target.closest('[data-free]');
       if (freeCard) {
         var id = freeCard.dataset.free;
@@ -2757,7 +2768,7 @@
     }
     if (action === 'before') { toast(t('toast.beforeStart')); openRules(); return; }
     if (action === 'done') {
-      if (fragments() >= 28) { openKeepsake(); return; }
+      if (fragments() >= 24) { openKeepsake(); return; }
       openFreeStudio();
       return;
       document.getElementById('studio').scrollIntoView({ behavior: 'smooth' });
@@ -2874,33 +2885,33 @@
     s.ui = { filter: 'all', selectedId: null, justSubmitted: null };
 
     if (name === 'fresh') {
-      s.sim = '2026-12-03T10:30:00+08:00';
+      s.sim = '2026-12-07T10:30:00+08:00';
     } else if (name === 'dailyReady' || name === 'dailyUsed' || name === 'shared') {
-      s.sim = '2026-12-08T19:20:00+08:00';
+      s.sim = '2026-12-12T19:20:00+08:00';
       scenarioTasks(s, 6, { energy: name === 'dailyUsed' ? 0 : name === 'shared' ? 2 : 1 });
       if (name === 'dailyUsed') seedPrizesFor('regular', 1, s);
       if (name === 'shared') { s.share.day = dayKey(new Date(s.sim)); s.share.count = 1; }
     } else if (name === 'expired') {
-      s.sim = '2026-12-10T12:00:00+08:00';
+      s.sim = '2026-12-14T12:00:00+08:00';
       scenarioTasks(s, 6, { energy: 0 });
     } else if (name === 'xmas18next') {
       s.sim = '2026-12-25T12:00:00+08:00';
-      scenarioTasks(s, 17, { energy: 0 });
+      scenarioTasks(s, 14, { energy: 0 });
     } else if (name === 'xmas23next') {
       s.sim = '2026-12-25T12:00:00+08:00';
-      scenarioTasks(s, 22, { energy: 0 });
+      scenarioTasks(s, 18, { energy: 0 });
     } else if (name === 'xmas') {
       s.sim = '2026-12-25T12:00:00+08:00';
-      scenarioTasks(s, 17, { energy: 1 });
-      s.completed[TASKS[22].id] = { at: new Date('2026-12-25T11:00:00+08:00').toISOString(), makeup: false, art: demoArt(TASKS[22]) };
+      scenarioTasks(s, 14, { energy: 1 });
+      s.completed[TASKS[18].id] = { at: new Date('2026-12-25T11:00:00+08:00').toISOString(), makeup: false, art: demoArt(TASKS[18]) };
     } else if (name === 'makeupAvailable' || name === 'makeupLimit') {
       s.sim = '2026-12-20T19:20:00+08:00';
-      scenarioTasks(s, 12, { energy: name === 'makeupLimit' ? 3 : 0 });
+      scenarioTasks(s, 9, { energy: name === 'makeupLimit' ? 3 : 0 });
       if (name === 'makeupLimit') {
-        for (var i = 12; i < 15; i++) {
-          s.completed[TASKS[i].id] = { at: new Date('2026-12-20T' + (12 + i - 12) + ':00:00+08:00').toISOString(), makeup: true, art: demoArt(TASKS[i]) };
+        for (var i = 9; i < 12; i++) {
+          s.completed[TASKS[i].id] = { at: new Date('2026-12-20T' + (12 + i - 9) + ':00:00+08:00').toISOString(), makeup: true, art: demoArt(TASKS[i]) };
         }
-      } else { s.ui.selectedId = TASKS[12].id; }
+      } else { s.ui.selectedId = TASKS[9].id; }
     } else if (name === 'makeupUnlimited') {
       s.sim = '2026-12-27T15:00:00+08:00';
       scenarioTasks(s, 15, { energy: 4 });
@@ -2914,15 +2925,15 @@
       s.ui.selectedId = TASKS[5].id;
     } else if (name === 'almostcomplete') {
       s.sim = '2026-12-30T15:00:00+08:00';
-      scenarioTasks(s, 27, { energy: 0 });
+      scenarioTasks(s, 23, { energy: 0 });
     } else if (name === 'complete') {
       s.sim = '2026-12-30T15:00:00+08:00';
-      scenarioTasks(s, 28, { energy: 0 });
+      scenarioTasks(s, 24, { energy: 0 });
       s.keepsake.code = null;
       s.seen.complete = true;
     } else if (name === 'prizesEmpty') {
       // 6 pieces + an open window, but nothing drawn yet → empty prize list.
-      s.sim = '2026-12-08T19:20:00+08:00';
+      s.sim = '2026-12-12T19:20:00+08:00';
       scenarioTasks(s, 6, { energy: 0 });
     } else if (name === 'prizesAll') {
       // 18 pieces on Christmas Day: one Christmas draw used, and every prize
@@ -3131,7 +3142,7 @@
           return;
         }
         if (st === 'locked') {
-          toast(t('album.opensOn', { name: taskName(task), date: fmtShort(taskOpenAt(task)) }));
+          toast(t('album.notOpen'));
         } else if (st === 'missed') {
           toast(t(now() >= MAKEUP_START ? 'makeup.limitReached' : 'album.missed'));
         } else {
@@ -3249,12 +3260,12 @@
     });
 
     // nav active state
-    var sections = ['top', 'studio', 'collection'];
+    var sections = ['top', 'studio', 'collection', 'prizes'];
     var observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (!entry.isIntersecting) return;
         var id = entry.target.id;
-        var nav = id === 'top' ? 'town' : id;
+        var nav = id === 'top' || id === 'collection' ? 'town' : id === 'prizes' ? 'draw' : id;
         $$('.topnav a[data-nav], .bottom-nav a[data-nav]').forEach(function (a) {
           a.classList.toggle('is-active', a.dataset.nav === nav);
         });

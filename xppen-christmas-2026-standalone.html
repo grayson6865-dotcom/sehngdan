@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#05081a">
+<html lang="en" data-page-node-id="nJE2GCZTZe5DqzqCXGwqtJ">
+<head data-page-node-id="k6OG3k3saZSYtAiE3tQ1xv">
+  <meta charset="UTF-8" data-page-node-id="CfFXpQFhA5rCrM9ohphjwY">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" data-page-node-id="13XNLGyfcUED1jWDIh5Ajw">
+  <meta name="theme-color" content="#05081a" data-page-node-id="pWHCqAmSVTlenUjhgzqyKG">
   <title>XPPen Christmas 2026 · Create the Magic, Give the Joy</title>
-  <meta name="description" content="Draw a Christmas element every day, light up a snowbound town piece by piece and unwrap stage prizes — including the Christmas Day draw.">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230b1228'/%3E%3Cg stroke='%23f7c869' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M16 5v22M6.5 10.5l19 11M25.5 10.5l-19 11'/%3E%3Cpath d='M12 7l4 3 4-3M12 25l4-3 4 3'/%3E%3C/g%3E%3C/svg%3E">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <meta name="description" content="Draw a Christmas element every day, light up a snowbound town piece by piece and unwrap stage prizes — including the Christmas Day draw." data-page-node-id="azIJEL3gFB0V72EwETMpP1">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230b1228'/%3E%3Cg stroke='%23f7c869' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M16 5v22M6.5 10.5l19 11M25.5 10.5l-19 11'/%3E%3Cpath d='M12 7l4 3 4-3M12 25l4-3 4 3'/%3E%3C/g%3E%3C/svg%3E" data-page-node-id="AGnulBp3ox60GFnxyBL0qh">
+  <link rel="preconnect" href="https://fonts.googleapis.com" data-page-node-id="bvq1c3HbgkiAdpAjaSV1Uj">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin data-page-node-id="lE587xN4vDVD4gCPFuxCYD">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" data-page-node-id="tzDBy0eDNbWcaSjgTvGFQF">
   <style>
 /* ==========================================================================
    XPPen Christmas 2026 — Create the Magic, Give the Joy
@@ -520,7 +520,7 @@ body.modal-open { overflow: hidden; }
   position: absolute;
   inset: 0;
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   grid-template-rows: repeat(4, 1fr);
   gap: 2px;
 }
@@ -3277,497 +3277,478 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
   .subscription-entry .btn { flex-shrink: 0; padding-inline: 12px; }
 }
 
+/* Work-list actions and close controls. */
+.works-modal > .modal-close, .prizes-modal > .modal-close { display: none; }
+.work-item { min-width: 0; }
+.work-item .work-card { width: 100%; }
+.work-actions { display: flex; gap: 6px; margin-top: 6px; }
+.work-actions button { flex: 1; min-width: 0; padding: 6px 3px; border: 1px solid var(--stroke); border-radius: 8px; background: rgba(255,255,255,.05); color: var(--text); cursor: pointer; font: inherit; font-size: 11px; }
+.work-actions button:hover { border-color: var(--gold); }
+
 </style>
 </head>
-<body>
+<body data-page-node-id="8VBautKgyjJiDHeApBt82M">
 
-<svg class="svg-defs" aria-hidden="true" focusable="false">
-  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
-  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8 10V7.5a4 4 0 0 1 8 0V10" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="15" r="1.4" fill="currentColor"/></symbol>
-  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-  <symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5.5" r="2.6" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="6" cy="12" r="2.6" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="18" cy="18.5" r="2.6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.4 10.7l7.2-4M8.4 13.3l7.2 4" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
-  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 20h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-  <symbol id="i-gift" viewBox="0 0 24 24"><rect x="3.5" y="8.5" width="17" height="4" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="5" y="12.5" width="14" height="8" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 8.5V21M12 8.5C10 8.5 7 7.8 7 5.6 7 4 8.4 3 9.7 3.6 11.2 4.3 12 6.4 12 8.5zm0 0c2 0 5-.7 5-2.9C17 4 15.6 3 14.3 3.6 12.8 4.3 12 6.4 12 8.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
-  <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13.2 2.5L5.5 13.2h5.6L9.8 21.5l8-11.2h-5.7z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
-  <symbol id="i-gift-deco" viewBox="0 0 120 120"><ellipse cx="60" cy="106" rx="36" ry="7" fill="#000" opacity=".22"/><path d="M30 58h60v42a7 7 0 0 1-7 7H37a7 7 0 0 1-7-7z" fill="var(--deco-box,#c23a32)"/><path d="M30 58h60v9H30z" fill="var(--deco-lid,#e05a45)"/><rect x="54" y="58" width="12" height="49" fill="var(--deco-ribbon,#f7c869)"/><rect x="27" y="49" width="66" height="12" rx="4" fill="var(--deco-lid,#e05a45)"/><path d="M54 50C42 34 26 40 32 52c6 10 18 4 22-2z" fill="var(--deco-bow,#f7c869)"/><path d="M66 50c12-16 28-10 22 2-6 10-18 4-22-2z" fill="var(--deco-bow,#f7c869)"/><circle cx="60" cy="50" r="4.5" fill="var(--deco-bow,#f7c869)"/><path d="M36 67h10v9H36z" fill="#fff" opacity=".08"/><path d="M78 67h6v16h-6z" fill="#000" opacity=".1"/><path d="M27 49h66v4H27z" fill="#fff" opacity=".16"/></symbol>
-  <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 2.5l2.4 6.6L21 11.5l-6.6 2.4L12 20.5l-2.4-6.6L3 11.5l6.6-2.4z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
-  <symbol id="i-lock-open" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8 10V7.5a4 4 0 0 1 7.6-1.7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
-  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3v4M16 3v4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
-  <symbol id="i-snow" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 3v18M4.2 7.5l15.6 9M19.8 7.5l-15.6 9"/><path d="M9.4 4.6L12 6.8l2.6-2.2M9.4 19.4L12 17.2l2.6 2.2"/></g></symbol>
-  <symbol id="i-undo" viewBox="0 0 24 24"><path d="M9 7L4.5 11.5 9 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.5 11.5h9a5.5 5.5 0 0 1 0 11H9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
-  <symbol id="i-eraser" viewBox="0 0 24 24"><path d="M8 19h11M5 15.5l8.5-8.5a2.2 2.2 0 0 1 3.1 0l2.4 2.4a2.2 2.2 0 0 1 0 3.1L13.5 19H8l-3-3.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
-  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4.5 7h15M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13M10 11v5.5M14 11v5.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="4" y="4" width="6.4" height="6.4" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="13.6" y="4" width="6.4" height="6.4" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="4" y="13.6" width="6.4" height="6.4" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="13.6" y="13.6" width="6.4" height="6.4" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
-  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
-  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 11v6M12 7.6v.6" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></symbol>
+<svg class="svg-defs" aria-hidden="true" focusable="false" data-page-node-id="6DXDaz7JgSwGHFRDOa7I6O">
+  <symbol id="i-arrow" viewBox="0 0 24 24" data-page-node-id="ZR0YPLRX0lRVCSg7kEmyHu"><path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="AeG5NxDHsYTGU7Wua712SS"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24" data-page-node-id="6Dtdxx5uAYPQN3h2ujssmS"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" data-page-node-id="rBAQc41AFQ6s3l6ddtw39X"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24" data-page-node-id="0s2Frs8GpNUoujf8O5LNme"><rect x="5" y="10" width="14" height="10" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.7" data-page-node-id="JagkzgDsenCqGjWAQa46WC"/><path d="M8 10V7.5a4 4 0 0 1 8 0V10" fill="none" stroke="currentColor" stroke-width="1.7" data-page-node-id="v3uvS9DceLWvmi1dtAAm0M"/><circle cx="12" cy="15" r="1.4" fill="currentColor" data-page-node-id="RDxpEF8ZpkgcrUkUyRLBGH"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" data-page-node-id="1pG0UxlTAui9Pnrbp4GZtT"><path d="M5 12.5l4.5 4.5L19 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="b4QkHMhPFVJcdEZ2bQjEBF"/></symbol>
+  <symbol id="i-share" viewBox="0 0 24 24" data-page-node-id="f8pOs14zpbJqN1AaaB3ZCK"><circle cx="18" cy="5.5" r="2.6" fill="none" stroke="currentColor" stroke-width="1.7" data-page-node-id="q8IpFJo2mCbABtERPM0kbm"/><circle cx="6" cy="12" r="2.6" fill="none" stroke="currentColor" stroke-width="1.7" data-page-node-id="Asw3jMr4tYasoB0JoK0ndm"/><circle cx="18" cy="18.5" r="2.6" fill="none" stroke="currentColor" stroke-width="1.7" data-page-node-id="zEsGKYguLBGHUJS9VWTf4g"/><path d="M8.4 10.7l7.2-4M8.4 13.3l7.2 4" fill="none" stroke="currentColor" stroke-width="1.7" data-page-node-id="l8c67gMMupeyq6qJOLvi7v"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24" data-page-node-id="vMPEkGcRFyEIn9ZaauoEj3"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 20h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="3odJsT9CTMIQvsZ5IKZJiI"/></symbol>
+  <symbol id="i-gift" viewBox="0 0 24 24" data-page-node-id="1GuHXp8rooVajowqJKTAzj"><rect x="3.5" y="8.5" width="17" height="4" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.7" data-page-node-id="Rw6QuUyAYzhF8Wy9HrPxsB"/><rect x="5" y="12.5" width="14" height="8" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.7" data-page-node-id="oPCUe4o3gTvqqzYSmpXFRA"/><path d="M12 8.5V21M12 8.5C10 8.5 7 7.8 7 5.6 7 4 8.4 3 9.7 3.6 11.2 4.3 12 6.4 12 8.5zm0 0c2 0 5-.7 5-2.9C17 4 15.6 3 14.3 3.6 12.8 4.3 12 6.4 12 8.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" data-page-node-id="DlOwhQj8BvWW3Yo9tErpl7"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24" data-page-node-id="u5javsJDKPOdYNfCPmVd2i"><path d="M13.2 2.5L5.5 13.2h5.6L9.8 21.5l8-11.2h-5.7z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" data-page-node-id="qF5EnpeXY2X1YuqgyDmCQU"/></symbol>
+  <symbol id="i-gift-deco" viewBox="0 0 120 120" data-page-node-id="EBZXfQwCcc9Tc4QYOh5PYD"><ellipse cx="60" cy="106" rx="36" ry="7" fill="#000" opacity=".22" data-page-node-id="PnNkCVuz2KvPM2h6sH7pR9"/><path d="M30 58h60v42a7 7 0 0 1-7 7H37a7 7 0 0 1-7-7z" fill="var(--deco-box,#c23a32)" data-page-node-id="8FIDEeHJYt003wooFnOePb"/><path d="M30 58h60v9H30z" fill="var(--deco-lid,#e05a45)" data-page-node-id="Go2r4s0HGuEEoqW4uTs2Zh"/><rect x="54" y="58" width="12" height="49" fill="var(--deco-ribbon,#f7c869)" data-page-node-id="qvHl4dj6p3aw1ExsAnVmpp"/><rect x="27" y="49" width="66" height="12" rx="4" fill="var(--deco-lid,#e05a45)" data-page-node-id="tViD09wlIWAPIzAQJg5shh"/><path d="M54 50C42 34 26 40 32 52c6 10 18 4 22-2z" fill="var(--deco-bow,#f7c869)" data-page-node-id="nDTErxFMPLhNw2QSgKW7qR"/><path d="M66 50c12-16 28-10 22 2-6 10-18 4-22-2z" fill="var(--deco-bow,#f7c869)" data-page-node-id="65k4uEezNoiFJSqLNGdM2S"/><circle cx="60" cy="50" r="4.5" fill="var(--deco-bow,#f7c869)" data-page-node-id="QpQVUrG2QQcSqmSnkvrNKG"/><path d="M36 67h10v9H36z" fill="#fff" opacity=".08" data-page-node-id="VMJLZKiopLzALhLelYYvID"/><path d="M78 67h6v16h-6z" fill="#000" opacity=".1" data-page-node-id="WlIA5vtTDkmU3ZTb2Fh4Mn"/><path d="M27 49h66v4H27z" fill="#fff" opacity=".16" data-page-node-id="JshBSqc4hYPUvdAUunKAUP"/></symbol>
+  <symbol id="i-sparkle" viewBox="0 0 24 24" data-page-node-id="ANVKdR5mr2XEI2uH5HUR8t"><path d="M12 2.5l2.4 6.6L21 11.5l-6.6 2.4L12 20.5l-2.4-6.6L3 11.5l6.6-2.4z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" data-page-node-id="rVuDTDeQwEs5YEdyL3ZYuy"/></symbol>
+  <symbol id="i-lock-open" viewBox="0 0 24 24" data-page-node-id="bERGttlKKsX3W5ZL6FiQi0"><rect x="5" y="10" width="14" height="10" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.7" data-page-node-id="aCo1QjIRvKxMeCWecVx6Re"/><path d="M8 10V7.5a4 4 0 0 1 7.6-1.7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" data-page-node-id="GkdbIZcpNxGKGNUhCdZhkB"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" data-page-node-id="B5bQtTBA8FJMljNjGj2pKI"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.7" data-page-node-id="SHZ5TyaG7pW3zJkOgTTl5i"/><path d="M3.5 9.5h17M8 3v4M16 3v4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" data-page-node-id="ddEv1Kgsah1Kvnu9cxxppC"/></symbol>
+  <symbol id="i-snow" viewBox="0 0 24 24" data-page-node-id="iriF9QF58XxpMDn96zHXep"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" data-page-node-id="maTPXjpABVBoFrxNQ6ouxE"><path d="M12 3v18M4.2 7.5l15.6 9M19.8 7.5l-15.6 9" data-page-node-id="Y2CkNv6srFshhapB34PQp2"/><path d="M9.4 4.6L12 6.8l2.6-2.2M9.4 19.4L12 17.2l2.6 2.2" data-page-node-id="fqjCpJjfvuXyVzZqeHK9Bg"/></g></symbol>
+  <symbol id="i-undo" viewBox="0 0 24 24" data-page-node-id="3CJAvMMgIBGIw4V87VvOJI"><path d="M9 7L4.5 11.5 9 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="jadyTDA0n5K9TMsEe74Hqp"/><path d="M4.5 11.5h9a5.5 5.5 0 0 1 0 11H9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" data-page-node-id="hciIaMYgDitWiKBcODoCTZ"/></symbol>
+  <symbol id="i-eraser" viewBox="0 0 24 24" data-page-node-id="rBwKe1H54BrWtVMYHCoEz8"><path d="M8 19h11M5 15.5l8.5-8.5a2.2 2.2 0 0 1 3.1 0l2.4 2.4a2.2 2.2 0 0 1 0 3.1L13.5 19H8l-3-3.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" data-page-node-id="ojNMEe2zFH4Get9wJR9zYc"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24" data-page-node-id="OoNNm9qnGzn07hN1aExPwo"><path d="M4.5 7h15M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13M10 11v5.5M14 11v5.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="QmRNxGmDA4IGsq7RmX3HtR"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24" data-page-node-id="WJTJtWbQXTAcPDsDIf1nXu"><rect x="4" y="4" width="6.4" height="6.4" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.7" data-page-node-id="6cNLrUXcB8puXiWvZLBvCw"/><rect x="13.6" y="4" width="6.4" height="6.4" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.7" data-page-node-id="3lsbn3hF9O7Z9MxQRTVohU"/><rect x="4" y="13.6" width="6.4" height="6.4" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.7" data-page-node-id="99M1petITPbq0nGgJGIsrF"/><rect x="13.6" y="13.6" width="6.4" height="6.4" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.7" data-page-node-id="6PcdADxeSO6DIVX3EG2UxO"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" data-page-node-id="zj3hqyFE3gGsVeFhfdf7mp"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" data-page-node-id="tDaAE0eNm28FHhAstegxHM"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24" data-page-node-id="8COlmooSIlXpeM2AFsWBqe"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7" data-page-node-id="HEphC4IQCwsMgF56OidajL"/><path d="M12 11v6M12 7.6v.6" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" data-page-node-id="6JgoHLEZmW3dZHfwbm9wv3"/></symbol>
 </svg>
 
-<div class="snowfall" aria-hidden="true"><canvas id="snow-canvas"></canvas></div>
+<div class="snowfall" aria-hidden="true" data-page-node-id="5LnMtSvMU7RVQmZ47Ei5Az"><canvas id="snow-canvas" data-page-node-id="QAGLUyu4ugB1vVPwB3O6Jq"></canvas></div>
 
-<header class="topbar" id="topbar">
-  <a class="brand" href="#top" aria-label="XPPen Christmas 2026 home">
-    <span class="brand-mark">XP<span>Pen</span></span>
-    <span class="brand-divider"></span>
-    <span class="brand-event" data-i18n="brand.event">Christmas 2026</span>
+<header class="topbar" id="topbar" data-page-node-id="VYYUDFEUo0AgHTIwyTmjQg">
+  <a class="brand" href="#top" aria-label="XPPen Christmas 2026 home" data-page-node-id="IzQROBai4zw6HtypnkTxnG">
+    <span class="brand-mark" data-page-node-id="kN22Dg8vhoML0pHZXiZYAU">XP<span data-page-node-id="OkXsOMUUvrwzfI1EsbbYoa">Pen</span></span>
+    <span class="brand-divider" data-page-node-id="B9UpPbBfKfqpfGeb2HFOiF"></span>
+    <span class="brand-event" data-i18n="brand.header" data-page-node-id="rEFCWIJEXUCNupw33ZLDAk">Create the Magic, Give the Joy</span>
   </a>
-  <nav class="topnav" aria-label="Sections" data-i18n-aria="nav.sections">
-    <a href="#studio" data-nav="studio" data-i18n="nav.studio">Studio</a>
-    <a href="#collection" data-nav="town" data-i18n="nav.town">My town</a>
-    <a href="#collection" data-nav="collection" data-i18n="nav.collection">Collection</a>
-    <button type="button" data-open-works data-i18n="nav.myWorks">My works</button>
-    <button type="button" data-open-prizes data-i18n="nav.prizes">Prizes</button>
-    <button type="button" data-open-rules data-i18n="nav.rules">Rules</button>
+  <nav class="topnav" aria-label="Sections" data-i18n-aria="nav.sections" data-page-node-id="BffaMsW22sPp6WB5yOLsYU">
+    <a href="#studio" data-nav="studio" data-i18n="nav.studio" data-page-node-id="n3Xhb7XZqaM9nukHTLTbpg">Studio</a>
+    <a href="#collection" data-nav="town" data-i18n="nav.town" data-page-node-id="TdXT3lI5LnNht4mFTAywNU">My town</a>
+    <a href="#prizes" data-nav="draw" data-i18n="nav.draw" data-page-node-id="AY4s3fcyiUiBgoUevkmsqp">Draw</a>
+    <button type="button" data-open-works data-i18n="nav.myWorks" data-page-node-id="mN2q5M77hvREDwjzAnlIAn">My works</button>
+    <button type="button" data-open-prizes data-i18n="nav.prizes" data-page-node-id="AxGl4eG0J1AhAtoPCr4Wm4">Prizes</button>
+    <button type="button" data-open-rules data-i18n="nav.rules" data-page-node-id="ZSBLO09xf1DnFHERpTsecV">Rules</button>
   </nav>
-  <div class="top-actions">
-    <div class="lang-switch" id="lang-switch" role="group" aria-label="Language" data-i18n-aria="nav.lang">
-      <button type="button" data-lang="en">EN</button>
-      <button type="button" data-lang="zh">中文</button>
+  <div class="top-actions" data-page-node-id="OvQD3PHxC7GFNwtJnQP3h7">
+    <div class="lang-switch" id="lang-switch" role="group" aria-label="Language" data-i18n-aria="nav.lang" data-page-node-id="00EvrNCP3LeCtKYgV3N3x8">
+      <button type="button" data-lang="en" data-page-node-id="UwCO7q4ay2rE9LCkZyfE6p">EN</button>
+      <button type="button" data-lang="zh" data-page-node-id="r9k9Oj9kaewq37pv3ILcYV">中文</button>
     </div>
-    <div class="energy-chip" title="Christmas energy" data-i18n-title="tool.energyTip">
-      <svg class="i"><use href="#i-snow"/></svg>
-      <b id="nav-energy">0</b><span data-i18n="hero.energyUnit">energy</span>
+    <div class="energy-chip" title="Christmas energy" data-i18n-title="tool.energyTip" data-page-node-id="VbtQjunxD4F1BWwq9O4Smy">
+      <svg class="i" data-page-node-id="EM0yBLGhPvpMMwmgCtmhGh"><use href="#i-snow" data-page-node-id="bgirQQWTqiYsPJJBljS8Es"/></svg>
+      <b id="nav-energy" data-page-node-id="GxHWK48r7jOLZUOJBfvxcI">0</b><span data-i18n="hero.energyUnit" data-page-node-id="CQmOgdh4ky8GUBz1xxS7qd">energy</span>
     </div>
-    <button class="signout-btn" id="signout-btn" type="button" hidden aria-label="Sign out" data-i18n-aria="nav.signOut"><span class="signout-text" data-i18n="nav.signOut">Sign out</span><svg class="i signout-icon"><use href="#i-arrow"/></svg></button>
+    <button class="signout-btn" id="signout-btn" type="button" hidden aria-label="Sign out" data-i18n-aria="nav.signOut" data-page-node-id="A7jqq0qi8UBrEfOqdt2FU4"><span class="signout-text" data-i18n="nav.signOut" data-page-node-id="RDVjWUY1FyjcQBlbQQaGpo">Sign out</span><svg class="i signout-icon" data-page-node-id="sMqmubR5kQv3zsDjeEeGmr"><use href="#i-arrow" data-page-node-id="nr6JCBGfZ0GqCJUiWZsahR"/></svg></button>
   </div>
 </header>
 
-<div class="popover" id="avatar-menu" role="menu" hidden>
-  <div class="popover-head">
-    <strong id="menu-name">Demo Maker</strong>
-    <span id="menu-email">demo@xp-pen.com</span>
+<div class="popover" id="avatar-menu" role="menu" hidden data-page-node-id="eX2TjClenHfGrx7lcBC0lw">
+  <div class="popover-head" data-page-node-id="NmUfl5pthxyBEjJDU853Ko">
+    <strong id="menu-name" data-page-node-id="S6s29en9jkHyMVW7oItfK4">Demo Maker</strong>
+    <span id="menu-email" data-page-node-id="8zOGJUIdbn3qaPSL5N2PyT">demo@xp-pen.com</span>
   </div>
-  <button type="button" role="menuitem" data-open-prizes data-i18n="nav.myPrizes">My prizes</button>
-  <button type="button" role="menuitem" data-open-works data-i18n="nav.myWorks">My works</button>
-  <button type="button" role="menuitem" data-open-rules data-i18n="nav.eventRules">Event rules</button>
-  <button type="button" role="menuitem" data-open-keepsake data-i18n="nav.keepsake">My keepsake</button>
-  <button type="button" role="menuitem" data-open-demo data-i18n="nav.demo">Demo controls</button>
-  <button type="button" role="menuitem" class="popover-danger" data-sign-out data-i18n="nav.signOut">Sign out</button>
+  <button type="button" role="menuitem" data-open-prizes data-i18n="nav.myPrizes" data-page-node-id="yhwJRXic1YHTEQ39lhjb8R">My prizes</button>
+  <button type="button" role="menuitem" data-open-works data-i18n="nav.myWorks" data-page-node-id="yej0q3mpsCnMYKYpJCVZdC">My works</button>
+  <button type="button" role="menuitem" data-open-rules data-i18n="nav.eventRules" data-page-node-id="cP3dPkUGmCZfiSbQ5Icbdr">Event rules</button>
+  <button type="button" role="menuitem" data-open-keepsake data-i18n="nav.keepsake" data-page-node-id="uISnetLb62jRMFLW8oBixi">My keepsake</button>
+  <button type="button" role="menuitem" data-open-demo data-i18n="nav.demo" data-page-node-id="NCD5JnBS87k4vq5VlXxis9">Demo controls</button>
+  <button type="button" role="menuitem" class="popover-danger" data-sign-out data-i18n="nav.signOut" data-page-node-id="8YMduBeD8ClxUybINUNHrf">Sign out</button>
 </div>
 
-<main id="main">
-  <span id="top" aria-hidden="true"></span>
+<main id="main" data-page-node-id="OP4NfcLbDnZjUbP3c9zrpN">
+  <span id="top" aria-hidden="true" data-page-node-id="nBC7nAoXCixUkiaC598wPh"></span>
 
   <!-- ============================================================ HERO -->
-  <section class="hero" hidden>
-    <div class="hero-aurora" aria-hidden="true"></div>
-    <div class="container hero-grid">
-      <div class="hero-copy">
-        <div class="eyebrow"><span class="eyebrow-dot"></span><span data-i18n="hero.eyebrow">XPPen Holiday Event · 2026</span></div>
-        <h1 class="hero-title" data-i18n-html="hero.titleHtml">Create the Magic,<br><em>Give the Joy.</em></h1>
-        <p class="hero-lede" data-i18n="hero.lede">Twenty-eight days, twenty-eight Christmas doodles. Every drawing lights one more piece of a snowbound town — and unlocks a little magic along the way.</p>
-        <div class="hero-meta">
-          <span class="meta-pill"><svg class="i"><use href="#i-calendar"/></svg><span data-i18n="hero.date">Dec 3 – Dec 31, 2026</span></span>
+  <section class="hero" hidden data-page-node-id="kYzFpuAAmCMwcnrDTBntuK">
+    <div class="hero-aurora" aria-hidden="true" data-page-node-id="BzA4UZCu3AsexHaRpP6TYB"></div>
+    <div class="container hero-grid" data-page-node-id="UOXplrcFcdud4uEHhM2lad">
+      <div class="hero-copy" data-page-node-id="86tRSiy68hl9WDh0ubc9N3">
+        <div class="eyebrow" data-page-node-id="VxWZKcPTjbTgjXDX9Fozhn"><span class="eyebrow-dot" data-page-node-id="XsKKQQDjhiygF13gqsr3Qv"></span><span data-i18n="hero.eyebrow" data-page-node-id="KIoDIDRZRZDliqpyPqX0VD">XPPen Holiday Event · 2026</span></div>
+        <h1 class="hero-title" data-i18n-html="hero.titleHtml" data-page-node-id="yBm3T11JedjlkPFw56RF8Q">Create the Magic,<br data-page-node-id="feCTiBJeKs5xWPQfovF0IW"><em data-page-node-id="KLCwGTyi2GAJv10pZS1ta0">Give the Joy.</em></h1>
+        <p class="hero-lede" data-i18n="hero.lede" data-page-node-id="vjniM9Oc24zdzf839eg64R">Twenty-eight days, twenty-eight Christmas doodles. Every drawing lights one more piece of a snowbound town — and unlocks a little magic along the way.</p>
+        <div class="hero-meta" data-page-node-id="tHXMqlBr4lEdhUUKsodmtH">
+          <span class="meta-pill" data-page-node-id="im2U5NfYSpZiMIugqeryhq"><svg class="i" data-page-node-id="bXtD61GEXQ0EtsAIuEiPd1"><use href="#i-calendar" data-page-node-id="DAhTtzYD3TTuR07J5tY6Vx"/></svg><span data-i18n="hero.date" data-page-node-id="jvMc3Gm839CrN0Bniq96Zx">Dec 7 – Dec 31, 2026</span></span>
         </div>
-        <div class="hero-actions">
-          <button class="btn btn-primary" id="hero-cta" type="button">
-            <span id="hero-cta-label">Start today's drawing</span>
-            <svg class="i"><use href="#i-arrow"/></svg>
+        <div class="hero-actions" data-page-node-id="KK5CnjdHzhn0EuYYJBO6Z6">
+          <button class="btn btn-primary" id="hero-cta" type="button" data-page-node-id="crlVH9mZmQQv4pG6y4AtFv">
+            <span id="hero-cta-label" data-page-node-id="jDCo6SfJDbAQfMwzlJ4omV">Start today's drawing</span>
+            <svg class="i" data-page-node-id="lTe0qc1mdViwpnG6dI7TTk"><use href="#i-arrow" data-page-node-id="pbKdb8gpFciJjeABYWOHCN"/></svg>
           </button>
-          <button class="btn btn-ghost" type="button" data-open-rules data-i18n="hero.how">How it works</button>
+          <button class="btn btn-ghost" type="button" data-open-rules data-i18n="hero.how" data-page-node-id="MaFFjqs3ptVn1B8ro2U1tE">How it works</button>
         </div>
-        <div class="hero-stats">
-          <div class="stat"><span class="stat-num" id="stat-energy">0</span><span class="stat-label" data-i18n="hero.energy">Energy</span></div>
-          <div class="stat"><span class="stat-num" id="stat-pieces">0</span><span class="stat-label" data-i18n="hero.pieces">Town pieces</span></div>
+        <div class="hero-stats" data-page-node-id="1zPQQyIRGtxQOVL3QkIUQa">
+          <div class="stat" data-page-node-id="kxygv6c9VbQchE4TCsFVfe"><span class="stat-num" id="stat-energy" data-page-node-id="1hBdAUC0XEmixDBr2bil9P">0</span><span class="stat-label" data-i18n="hero.energy" data-page-node-id="dZfczSrVEr6dB6oqLg6ifb">Energy</span></div>
+          <div class="stat" data-page-node-id="73Yq3iyGoP9FTAE0iczcJX"><span class="stat-num" id="stat-pieces" data-page-node-id="ZlzCQu4FUU8ry64EJRZ5jE">0</span><span class="stat-label" data-i18n="hero.pieces" data-page-node-id="vdVYrB91gcgp5Kfm3Ddje7">Town pieces</span></div>
         </div>
       </div>
 
-      <div class="hero-visual">
-        <div class="town-card">
-          <div class="town-window" id="town-window">
-            <div class="scene-mount" id="scene-mount" aria-hidden="true"></div>
-            <div class="mosaic" id="mosaic"></div>
-            <div class="town-topbar">
-              <span class="live"><i></i><span data-i18n="town.live">Live town</span></span>
-              <span id="town-count">00 / 28 lit</span>
+      <div class="hero-visual" data-page-node-id="h4pDx7aaMKVNTVsUFItwaU">
+        <div class="town-card" data-page-node-id="jajVHmuVOTAnJUn8fcBSZJ">
+          <div class="town-window" id="town-window" data-page-node-id="GTdN6sOzPy4Q3tA336SXzt">
+            <div class="scene-mount" id="scene-mount" aria-hidden="true" data-page-node-id="zS08mgKtr2eeIt5R7FskXk"></div>
+            <div class="mosaic" id="mosaic" data-page-node-id="oF6D512ShGH4WrQvOUI8Sg"></div>
+            <div class="town-topbar" data-page-node-id="vv9ys0IKYEdvITZOGwbdTS">
+              <span class="live" data-page-node-id="T99y1tFrlHxprCeoCZZaSA"><i data-page-node-id="cRdpEfUHoEJTc0i1iGpeIq"></i><span data-i18n="town.live" data-page-node-id="nAWgTlIeMuxsFHojGrYbJI">Live town</span></span>
+              <span id="town-count" data-page-node-id="V4UWxIuS1JSBw30iEBUWBE">00 / 24 lit</span>
             </div>
-            <div class="town-flash" id="town-flash" aria-hidden="true"></div>
+            <div class="town-flash" id="town-flash" aria-hidden="true" data-page-node-id="4BTXwOA0wzQ4apHt7HShYN"></div>
           </div>
-          <div class="town-plaque">
-            <div class="plaque-copy">
-              <span class="plaque-kicker" data-i18n="town.name">Christmas Town</span>
-              <span class="plaque-date" id="plaque-date">Dec 7 · Day 5</span>
+          <div class="town-plaque" data-page-node-id="RAidfA5tFOWvq0YkMBv0mO">
+            <div class="plaque-copy" data-page-node-id="73Nxa1H90OpiKbIJljQAkE">
+              <span class="plaque-kicker" data-i18n="town.name" data-page-node-id="zVTWjlIVcrGQLJrNT7jG2X">Christmas Town</span>
+              <span class="plaque-date" id="plaque-date" data-page-node-id="8uew0cJna3BXXl2uSEf0iB">Dec 7 · Day 5</span>
             </div>
-            <div class="plaque-progress">
-              <b id="plaque-count">00</b><span>/ 28</span>
+            <div class="plaque-progress" data-page-node-id="WJUzKRfXl3Foetoj6mmrTw">
+              <b id="plaque-count" data-page-node-id="CCijwNeZCrHVF0mDPHtZU6">00</b><span data-page-node-id="aGSecXBGbbDEDKEm2TDfrC">/ 28</span>
             </div>
           </div>
         </div>
-        <p class="town-caption"><svg class="i"><use href="#i-sparkle"/></svg><span data-i18n="town.caption">Tap a lit piece to see what you drew</span></p>
+        <p class="town-caption" data-page-node-id="l0EqbscawA9st72Kk3BlJA"><svg class="i" data-page-node-id="aorGkovZ3Gl4GdARDtxoiK"><use href="#i-sparkle" data-page-node-id="KJhEHVxAy1XpMqHTgIlK7x"/></svg><span data-i18n="town.caption" data-page-node-id="GLU2R7F9b8pRxIoZpyXhs6">Tap a lit piece to see what you drew</span></p>
       </div>
     </div>
-    <a class="hero-scroll" href="#studio" aria-label="Scroll to the studio" data-i18n-aria="hero.scrollAria">
-      <span class="hero-scroll-track"><span class="hero-scroll-dot"></span></span>
-      <svg class="i hero-scroll-chevron"><use href="#i-arrow"/></svg>
-      <span class="hero-scroll-label" data-i18n="hero.scroll">Scroll to explore</span>
+    <a class="hero-scroll" href="#studio" aria-label="Scroll to the studio" data-i18n-aria="hero.scrollAria" data-page-node-id="XpDfA0yDpEh11JnpQfF3CU">
+      <span class="hero-scroll-track" data-page-node-id="vcGsJnZ2hHRSwthBrnTuD2"><span class="hero-scroll-dot" data-page-node-id="f694UJvAnUh5OcvXGcl4zA"></span></span>
+      <svg class="i hero-scroll-chevron" data-page-node-id="g5gWOz0abQc6bAAmFZqxWJ"><use href="#i-arrow" data-page-node-id="ALljpkAGvPgovaheXYbEqr"/></svg>
+      <span class="hero-scroll-label" data-i18n="hero.scroll" data-page-node-id="rdYfH0GW0lq2lKtnxoP0zu">Scroll to explore</span>
     </a>
   </section>
 
   <!-- ========================================================== STUDIO -->
-  <section class="section studio" id="studio" style="padding-top: calc(var(--header-h) + 48px)">
-    <div class="container">
-      <div class="section-head">
-        <div>
-          <span class="kicker" data-i18n="studio.kicker">Today's studio</span>
-          <h2 class="section-title" data-i18n="studio.title">Draw today's element</h2>
+  <section class="section studio" id="studio" style="padding-top: calc(var(--header-h) + 48px)" data-page-node-id="s5sJ6sgI7AK2lqiSQiUTWj">
+    <div class="container" data-page-node-id="2IWDfKRS51GIU9dGni3Ah9">
+      <div class="section-head" data-page-node-id="w4EKtiqVpX0Bx6E2jCNI4x">
+        <div data-page-node-id="H6hew7uHrYwmSXXwBv2jJU">
+          <h2 class="section-title" data-i18n="studio.title" data-page-node-id="r38zzchCAzXMNEVv0VD1hi">Draw today's element</h2>
         </div>
-        <div class="day-chip" id="day-chip"><b>Day 05</b><span>Dec 7</span></div>
+        <div class="day-chip" id="day-chip" data-page-node-id="h4jvkqvVWDT327iBI6k2ne"><b data-page-node-id="0ZSwsEextiyGVARqV41QZp">Day 05</b><span data-page-node-id="coDEWCb4fP6oMfQ6BxuIlg">Dec 7</span></div>
       </div>
 
-      <div class="studio-grid">
-        <div class="panel studio-card" id="studio-card">
-          <div class="task-head">
-            <div class="task-icon" id="task-icon"></div>
-            <div class="task-copy">
-              <span class="task-day" id="task-day">Day 05 · Dec 7</span>
-              <h3 id="task-name">Candy Cane</h3>
-              <p id="task-blurb">Stripes, curls and a peppermint twist.</p>
+      <div class="studio-grid" data-page-node-id="aFhuX52Am59592QBh0vbEU">
+        <div class="panel studio-card" id="studio-card" data-page-node-id="PpvTqmYgGn1YEKzlmPjR3F">
+          <div class="task-head" data-page-node-id="ySScfE3EXhDVTN5GTnLPCg">
+            <div class="task-icon" id="task-icon" data-page-node-id="WAF9nKuwfFKqhncYlbJ2FX"></div>
+            <div class="task-copy" data-page-node-id="hTSgObjHYACfqEVKiRSNfO">
+              <span class="task-day" id="task-day" data-page-node-id="5yWGjhUwUsO0YoqBwPmtbt">Day 05 · Dec 7</span>
+              <h3 id="task-name" data-page-node-id="IzdFpATjWtuSjEyRmxEMV7">Candy Cane</h3>
+              <p id="task-blurb" data-page-node-id="rdcbyPJIoC7lBWWGU0Qltf">Stripes, curls and a peppermint twist.</p>
             </div>
-            <span class="reward-badge" id="task-badge">+1 energy</span>
+            <span class="reward-badge" id="task-badge" data-page-node-id="9Q3Bw0StgZg5WkVPpTm6Ci">+1 energy</span>
           </div>
 
-          <div class="makeup-picker" id="makeup-picker" hidden>
-            <div class="makeup-head">
-              <span class="makeup-label">Make-up pieces</span>
-              <span class="makeup-note" data-i18n="makeup.noteShort">No energy · make-up can still complete a stage</span>
+          <div class="makeup-picker" id="makeup-picker" hidden data-page-node-id="mUyw9Dl8U16ECFkUd3k3wh">
+            <div class="makeup-head" data-page-node-id="YPLlqFmQ2dheL6JwEZGQGn">
+              <span class="makeup-label" data-page-node-id="aEBpkAP4kpFRO8AF9pvY0m">Make-up pieces</span>
+              <span class="makeup-note" data-i18n="makeup.noteShort" data-page-node-id="Gfi2xLGM0zrtS2Mpx1DwQx">No energy · make-up can still complete a stage</span>
             </div>
-            <div class="makeup-chips" id="makeup-chips"></div>
+            <div class="makeup-chips" id="makeup-chips" data-page-node-id="bRxDbfekGmbnGbQxeDiKId"></div>
           </div>
-          <div class="studio-gate" id="studio-gate" hidden>
-            <div class="gate-icon"><svg class="i"><use href="#i-gift"/></svg></div>
-            <h3 id="gate-title">Your stage draw is waiting</h3>
-            <p id="gate-copy">You have 6 banked chances. Use them all to keep drawing.</p>
-            <button class="btn btn-primary" id="gate-cta" type="button">Open the draw <svg class="i"><use href="#i-arrow"/></svg></button>
+          <div class="studio-gate" id="studio-gate" hidden data-page-node-id="p7lYe3nUExKSHvHF1GHCVG">
+            <div class="gate-icon" data-page-node-id="AZLbJajaE4gh07KVmtH9xE"><svg class="i" data-page-node-id="JFGCTWamWrhJiXoTwlYLnQ"><use href="#i-gift" data-page-node-id="l092ABEXxVuG5j69TiBuTC"/></svg></div>
+            <h3 id="gate-title" data-page-node-id="NJOA5ldjCQooChnO2oHvMy">Your stage draw is waiting</h3>
+            <p id="gate-copy" data-page-node-id="INJEGIiGglQYFyDZOxfyFE">You have 6 banked chances. Use them all to keep drawing.</p>
+            <button class="btn btn-primary" id="gate-cta" type="button" data-page-node-id="vIDN5uresLmOyzunkmhCB7">Open the draw <svg class="i" data-page-node-id="RtG2HsTb0dOaUN3JdCFz3a"><use href="#i-arrow" data-page-node-id="bNE6LsEBA1bio7o985HEgJ"/></svg></button>
           </div>
 
-          <div id="studio-body">
-            <div class="canvas-shell">
-              <div class="paper" id="paper">
-                <div class="paper-guide" id="guide"></div>
-                <canvas id="pad" aria-label="Drawing canvas" data-i18n-aria="tool.canvas"></canvas>
+          <div id="studio-body" data-page-node-id="XIxhumNqkusHkr90Pa6QSn">
+            <div class="canvas-shell" data-page-node-id="7v7BEwFeI9u1zo2XgLA83b">
+              <div class="paper" id="paper" data-page-node-id="IlH8dYZ2rjQV8plxGm784J">
+                <div class="paper-guide" id="guide" data-page-node-id="lOvUiFwlnDC2IoGOwZwvk1"></div>
+                <canvas id="pad" aria-label="Drawing canvas" data-i18n-aria="tool.canvas" data-page-node-id="kXnbs8tqgrTaeQpafqBCUh"></canvas>
               </div>
-              <div class="canvas-hint" id="canvas-hint">
-                <span id="canvas-mode">Trace the guide or go freestyle — anything you make counts.</span>
+              <div class="canvas-hint" id="canvas-hint" data-page-node-id="DEHfLPYUDtg4FJv4VTKnvW">
+                <span id="canvas-mode" data-page-node-id="GtF5iaEPmZytjmOPUN2IRr">Trace the guide or go freestyle — anything you make counts.</span>
               </div>
             </div>
 
-            <div class="toolbar" role="toolbar" aria-label="Drawing tools">
-              <div class="swatches" id="swatches"></div>
-              <div class="tool-divider"></div>
-              <div class="sizes" id="sizes" aria-label="Brush size"></div>
-              <div class="tool-divider"></div>
-              <div class="tool-group">
-                <button class="tool-btn" id="tool-eraser" type="button" aria-pressed="false"><svg class="i"><use href="#i-eraser"/></svg><span data-i18n="tool.eraser">Eraser</span></button>
-                <button class="tool-btn" id="tool-undo" type="button"><svg class="i"><use href="#i-undo"/></svg><span data-i18n="tool.undo">Undo</span></button>
-                <button class="tool-btn" id="tool-clear" type="button"><svg class="i"><use href="#i-trash"/></svg><span data-i18n="tool.clear">Clear</span></button>
+            <div class="toolbar" role="toolbar" aria-label="Drawing tools" data-page-node-id="zgVPUIBWwHnG7tSM2Bipgp">
+              <div class="swatches" id="swatches" data-page-node-id="wZPStOGVuYETxpEu0RCltD"></div>
+              <div class="tool-divider" data-page-node-id="NCXTkuIlGPFVvw7UX2T8js"></div>
+              <div class="sizes" id="sizes" aria-label="Brush size" data-page-node-id="kRe869uGTCuEIKBSZLxUno"></div>
+              <div class="tool-divider" data-page-node-id="aYtZXoHVrlZPfi6Ia0N15Z"></div>
+              <div class="tool-group" data-page-node-id="prI3Gpdu9w5l6FJmwDyuT6">
+                <button class="tool-btn" id="tool-eraser" type="button" aria-pressed="false" data-page-node-id="iUt9iAyEEQFjcqlC619ppA"><svg class="i" data-page-node-id="REqIl3u1ynG19zbohsO02g"><use href="#i-eraser" data-page-node-id="HgwtKIV2v2xJSG3L4wInlw"/></svg><span data-i18n="tool.eraser" data-page-node-id="6ACSrD9J26HkMY1W7lgNky">Eraser</span></button>
+                <button class="tool-btn" id="tool-undo" type="button" data-page-node-id="EULYK1oNx4kwweDoiy1jU1"><svg class="i" data-page-node-id="1hESas4bYyNm3jwmQiEk9H"><use href="#i-undo" data-page-node-id="lSss8MTu8EkI72omzGn8Cg"/></svg><span data-i18n="tool.undo" data-page-node-id="FBHupAd7SgBLZ1yARK6ixU">Undo</span></button>
+                <button class="tool-btn" id="tool-clear" type="button" data-page-node-id="RNhndcYx40QJ6M0P6mTfra"><svg class="i" data-page-node-id="o2VSTGB8LA1D6mPxGzPIJy"><use href="#i-trash" data-page-node-id="usAxvxEH5LIz0pX1G6Ec1x"/></svg><span data-i18n="tool.clear" data-page-node-id="9LUDecboV6kyTD2lWvaQxi">Clear</span></button>
               </div>
-              <button class="tool-btn guide-toggle is-on" id="tool-guide" type="button" aria-pressed="true"><svg class="i"><use href="#i-sparkle"/></svg><span data-i18n="tool.guide">Guide</span></button>
+              <button class="tool-btn guide-toggle is-on" id="tool-guide" type="button" aria-pressed="true" data-page-node-id="PFPXRb9EbmusBt40eME5ql"><svg class="i" data-page-node-id="ceBNfnulSnufFV4hnM7Nkp"><use href="#i-sparkle" data-page-node-id="SsZEB3xHAlx5frCp6AkB86"/></svg><span data-i18n="tool.guide" data-page-node-id="HCSPU31KDgzRrYbqmPaOz7">Guide</span></button>
             </div>
 
-            <button class="btn btn-primary btn-submit" id="submit-drawing" type="button">
-              <span>Submit drawing</span>
-              <span class="submit-plus">+1 energy</span>
+            <button class="btn btn-primary btn-submit" id="submit-drawing" type="button" data-page-node-id="YBaHKEhvJGmDomL3IMlT9r">
+              <span data-page-node-id="FMfCTBTuVIB2VvefPELjYF">Submit drawing</span>
+              <span class="submit-plus" data-page-node-id="oHWJpMUDrwHvxTnUN1weka">+1 energy</span>
             </button>
-            <p class="studio-note" id="studio-note">One daily element · resets at 00:00 UTC+8</p>
+            <p class="studio-note" id="studio-note" data-page-node-id="56BumTiHNO2cr03OhyhbWq">One daily element · resets at 00:00 UTC+8</p>
           </div>
 
-          <div class="studio-done" id="studio-done" hidden>
-            <img class="done-art" id="done-art" alt="Your submitted drawing" hidden>
-            <div class="done-head">
-              <div class="done-check"><svg class="i"><use href="#i-check"/></svg></div>
-              <div class="done-copy">
-                <h3 id="done-title">Today's element is in your town</h3>
-                <p id="done-copy">You earned 1 Christmas energy and lit piece 6.</p>
+          <div class="studio-done" id="studio-done" hidden data-page-node-id="7cxXJzU6ECUge9jgTjh3cy">
+            <img class="done-art" id="done-art" alt="Your submitted drawing" hidden data-page-node-id="rHAsIxwR1wj75HLa2hTiHV">
+            <div class="done-head" data-page-node-id="xWouwh87KltFK8D2cKqTOr">
+              <div class="done-check" data-page-node-id="mlDw9FK8N53zXCNpq4GOvl"><svg class="i" data-page-node-id="PDphhnTxxvVb4MRH5yWFtA"><use href="#i-check" data-page-node-id="8tlkaqkauPb6CJ01gFInTk"/></svg></div>
+              <div class="done-copy" data-page-node-id="BJan9i1gSG8pCjQDx0fmDM">
+                <h3 id="done-title" data-page-node-id="k07Ls3GCGae9m2UkiGRLwT">Today's element is in your town</h3>
+                <p id="done-copy" data-page-node-id="p64xURMkTouvU0NOhcIYN0">You earned 1 Christmas energy and lit piece 6.</p>
               </div>
             </div>
-            <div class="done-actions">
-              <button class="btn btn-primary btn-sm" id="done-continue" type="button" data-i18n="done.continue">Continue drawing</button>
-              <button class="btn btn-ghost btn-sm" id="done-view" type="button" data-i18n="done.view">View my doodle</button>
-              <button class="btn btn-ghost btn-sm" id="done-share" type="button"><svg class="i"><use href="#i-share"/></svg><span data-i18n="done.share">Share +1 chance</span></button>
+            <div class="done-actions" data-page-node-id="jBzrgiEKQxWTPj7e4xLBSr">
+              <button class="btn btn-primary btn-sm" id="done-continue" type="button" data-i18n="done.continue" data-page-node-id="506RPccKG6pIC0cdXpUtVQ">Continue drawing</button>
+              <button class="btn btn-ghost btn-sm" id="done-view" type="button" data-i18n="done.view" data-page-node-id="E1Aa3Po9JvjrdWYcxFjIEn">View my doodle</button>
+              <button class="btn btn-ghost btn-sm" id="done-share" type="button" data-page-node-id="l4kpaPIOsSXwgqwKOMTOLA"><svg class="i" data-page-node-id="vFW61HXS0JeL8jgXKGubVS"><use href="#i-share" data-page-node-id="6e2gFE4fWdsol5DUhzfngf"/></svg><span data-i18n="done.share" data-page-node-id="8TD3fOUKDxBNy6gBwuPuZB">Share +1 chance</span></button>
             </div>
           </div>
 
         </div>
 
-        <div class="panel studio-hud" id="studio-hud">
-          <div class="hud-row">
-          <div class="hud-chance">
-            <div class="hud-chance-head">
-              <span class="card-kicker" data-i18n="chance.kicker">Draw chances</span>
+        <div class="panel studio-hud" id="studio-hud" data-page-node-id="1ehFjeKmZI7XSaN0jOqlsR">
+          <div class="hud-row" data-page-node-id="OgYnjkGvYd44gNmjGO37zP">
+          <div class="hud-chance" data-page-node-id="9cPYBp8u9bRsOSbKqQ0IFi">
+            <div class="hud-chance-head" data-page-node-id="T3uwDhVZZWBnnroxuEaLMS">
+              <span class="card-kicker" data-i18n="chance.kicker" data-page-node-id="n7aPbtEdAPkHGWqTJFfOTf">Draw chances</span>
             </div>
-            <div class="hud-count"><span id="chance-num">0</span><span class="chance-unit" id="chance-unit">chances</span></div>
-            <p class="chance-note" id="chance-note">Draw a piece to earn your first chance.</p>
+            <div class="hud-count" data-page-node-id="nmzTkEBKO90np5FXllkMLG"><span id="chance-num" data-page-node-id="mW0cwJGjr3Rw0gGqaWHYEB">0</span><span class="chance-unit" id="chance-unit" data-page-node-id="GelDHImDHWfFHpPk2Z3xIM">chances</span></div>
+            <p class="chance-note" id="chance-note" data-page-node-id="JtuomWYHVrJFqYCmxCdXEy">Draw a piece to earn your first chance.</p>
           </div>
 
-          <div class="hud-progress" id="hud-milestone">
-            <div class="nm-copy">
-              <span class="card-kicker" data-i18n="chance.milestoneKicker">Pieces</span>
-              <div class="nm-current"><b id="nm-current">0</b><span class="nm-unit">/ 28</span></div>
-              <p class="nm-rule" data-i18n="chance.nmRule">Light 6 / 12 / 18 pieces — one limited draw each</p>
+          <div class="hud-progress" id="hud-milestone" data-page-node-id="9BcJt6dXoAoZTFabL41iiz">
+            <div class="nm-copy" data-page-node-id="FbEH0wwFnXDKclLrAfi9h9">
+              <span class="card-kicker" data-i18n="chance.milestoneKicker" data-page-node-id="LGGGeBJzcy7orLLFDpECbS">Pieces</span>
+              <div class="nm-current" data-page-node-id="dEA1y2Of8RVTyxJEgpM1F4"><b id="nm-current" data-page-node-id="FWlFt1Tu8kTGLlEjf0qdUq">0</b><span class="nm-unit" data-page-node-id="Pg9iqcKmJQx60SpUDemHKk">/ 28</span></div>
+              <p class="nm-rule" data-i18n="chance.nmRule" data-page-node-id="3Y20VV5uK1edurhlEyysFo">Light 6 / 12 / 18 pieces — one limited draw each</p>
             </div>
-            <div class="nm-meter">
-              <div class="nm-bar">
-                <div class="nm-fill" id="nm-fill"></div>
-                <div class="nm-ticks" id="nm-ticks"></div>
-                <span class="nm-here" id="nm-here"></span>
-                <div class="nm-tooltip" id="nm-tooltip" hidden></div>
+            <div class="nm-meter" data-page-node-id="k5meY7eStZjdx3cI2eFh0n">
+              <div class="nm-bar" data-page-node-id="UJJ71RSHacsKHx6tDITeTU">
+                <div class="nm-fill" id="nm-fill" data-page-node-id="lXNb2oErE78jmnWGdIKghT"></div>
+                <div class="nm-ticks" id="nm-ticks" data-page-node-id="OKXm70SrCFqdnAFpdNs0eS"></div>
+                <span class="nm-here" id="nm-here" data-page-node-id="8aFxXK3FUlrRw1aOEgQZHk"></span>
+                <div class="nm-tooltip" id="nm-tooltip" hidden data-page-node-id="heffQdpYAYv1Ilt06aXXUF"></div>
               </div>
             </div>
           </div>
 
-          <div class="hud-draws">
-            <button class="btn btn-ghost btn-sm hud-draw" id="hud-draw" type="button" disabled>
-              <span class="hud-draw-head"><svg class="i"><use href="#i-gift"/></svg><b id="hud-draw-label">Limited draw</b></span>
-              <span class="hud-draw-meta" id="hud-draw-meta">0 energy</span>
-              <span class="hud-draw-sub" id="hud-draw-sub">Unlock in 1 piece</span>
+          <div class="hud-draws" data-page-node-id="Tncbgfzzs5xD4Ga2s38D44">
+            <button class="btn btn-ghost btn-sm hud-draw" id="hud-draw" type="button" disabled data-page-node-id="HK18enECFxD1kM35q4owoe">
+              <span class="hud-draw-head" data-page-node-id="EAO0EIxGE4kJqeRxdr7o6m"><svg class="i" data-page-node-id="hLb8w7SFiNcfZyaed2Gfw0"><use href="#i-gift" data-page-node-id="PGFOtkImgbDasyk65xqQrK"/></svg><b id="hud-draw-label" data-page-node-id="x9NiJAwWrV7h3H3WDzVH95">Limited draw</b></span>
+              <span class="hud-draw-meta" id="hud-draw-meta" data-page-node-id="z1JH1qXbO8fszAoNp8oIAx">0 energy</span>
+              <span class="hud-draw-sub" id="hud-draw-sub" data-page-node-id="uvDawyBCV6oTNu8EfTGAgm">Unlock in 1 piece</span>
             </button>
-            <button class="btn btn-ghost btn-sm hud-draw is-special" id="hud-special-draw" type="button" disabled>
-              <span class="hud-draw-head"><svg class="i"><use href="#i-sparkle"/></svg><b id="hud-special-label">Christmas draw</b></span>
-              <span class="hud-draw-meta" id="hud-special-meta">Christmas energy: 0</span>
-              <span class="hud-draw-sub" id="hud-special-sub">Opens Dec 25</span>
+            <button class="btn btn-ghost btn-sm hud-draw is-special" id="hud-special-draw" type="button" disabled data-page-node-id="iqLfNl2BPZlj8mSCYNxaxh">
+              <span class="hud-draw-head" data-page-node-id="sf2oOzQcws1dXdA2t6gQhp"><svg class="i" data-page-node-id="W9FFlDN8iEO9XHF6A7bvGh"><use href="#i-sparkle" data-page-node-id="JhDoNRFm5FqQRPuPs9h4Bu"/></svg><b id="hud-special-label" data-page-node-id="V9vAyPUO7HiIlASQMxBjVf">Christmas draw</b></span>
+              <span class="hud-draw-meta" id="hud-special-meta" data-page-node-id="uJFHMIqEhCFuR86FoABcGO">Christmas energy: 0</span>
+              <span class="hud-draw-sub" id="hud-special-sub" data-page-node-id="NXmZvgJ7APUaSP5zKk05qD">Opens Dec 25</span>
             </button>
           </div>
         </div>
 </div>
       </div>
-      <div class="subscription-entry" id="subscription-entry" hidden>
-        <span class="subscription-icon" aria-hidden="true">✉</span>
-        <div class="subscription-copy"><strong data-i18n="subscription.title">Subscribe for 1 energy</strong><span data-i18n="subscription.hint">Use it in the limited draw</span></div>
-        <button class="btn btn-primary btn-sm" type="button" id="subscription-open" data-i18n="subscription.open">Subscribe</button>
+      <div class="subscription-entry" id="subscription-entry" hidden data-page-node-id="O9JbAHgmBEWxHwcJDB1USA">
+        <span class="subscription-icon" aria-hidden="true" data-page-node-id="jv1dFs2YUmqdW9lzaHBMR0">✉</span>
+        <div class="subscription-copy" data-page-node-id="CIvOrRLyWjJhZWbtDfp425"><strong data-i18n="subscription.entryTitle" data-page-node-id="qQ2xgkAV8IximPAHiI3Whv">Subscribe to XPPen Emails to Unlock Bonus Energy!</strong></div>
+        <button class="btn btn-primary btn-sm" type="button" id="subscription-open" data-i18n="subscription.open" data-page-node-id="jAfIbnKC4d9qwbY7HnnpOk">Subscribe</button>
       </div>
     </div>
   </section>
 
   <!-- ======================================================= COLLECTION -->
-  <section class="section collection" id="collection">
-    <div class="container">
-      <div class="section-head">
-        <div>
-          <span class="kicker" data-i18n="collection.kicker">The collection</span>
-          <h2 class="section-title" data-i18n="collection.title">Every element, one snowy town</h2>
+  <section class="section collection" id="collection" data-page-node-id="CCjgExk3NrxCg8LzOKnukP">
+    <div class="container" data-page-node-id="41hhEFBwZEu73sYMJNYa4T">
+      <div class="section-head" data-page-node-id="vYAinfk1MSxdOP2M3JsDVV">
+        <div data-page-node-id="txRW0vkGcHK4LQimQpLeSv">
+          <h2 class="section-title" data-i18n="collection.title" data-page-node-id="MLO4HEIOxDoiSYOHgDYzuN">Every element, one snowy town</h2>
         </div>
-        <div class="collection-actions">
-          <div class="collection-count"><b id="collection-count">0</b><span data-i18n="collection.countSuffix"> / 28 pieces lit</span></div>
-          <button class="btn btn-ghost btn-sm" type="button" data-open-works><svg class="i"><use href="#i-grid"/></svg><span data-i18n="works.entry">My works</span></button>
+        <div class="collection-actions" data-page-node-id="TduHiUF7Rq4gEghCvYCNNZ">
+          <div class="collection-count" data-page-node-id="wVnaVPSnyObjTi85kDRzo6"><b id="collection-count" data-page-node-id="JHvfM3pm2pbr750zGtlWtL">0</b><span data-i18n="collection.countSuffix" data-page-node-id="KEC4O6acryRXo8mUzi63a9"> / 24 pieces lit</span></div>
         </div>
       </div>
 
-      <div class="panel collection-panel">
-        <div class="mural" id="mural">
-          <div class="mural-scene" id="mural-scene" aria-hidden="true"></div>
-          <div class="mural-grid" id="mural-grid"></div>
+      <div class="panel collection-panel" data-page-node-id="73r4KsX0h2ku9qv9Awdlpu">
+        <div class="mural" id="mural" data-page-node-id="VnD6l0srCWbCBfXMBFOqD9">
+          <div class="mural-scene" id="mural-scene" aria-hidden="true" data-page-node-id="lWX0NMN4fzsk3LXRkFhCXG"></div>
+          <div class="mural-grid" id="mural-grid" data-page-node-id="ZSg5nEQCLOYI7SdMC1BGOs"></div>
         </div>
-        <div class="mural-foot">
-          <span class="mural-legend"><i class="legend-dot lit"></i><span data-i18n="legend.lit">Lit</span></span>
-          <span class="mural-legend"><i class="legend-dot locked"></i><span data-i18n="legend.locked">Not open yet</span></span>
-          <span class="mural-tip" data-i18n="mural.tip">Tap a lit piece to see your drawing</span>
+        <div class="mural-foot" data-page-node-id="APSFLZaLpaHb1YmakemAiG">
+          <span class="mural-legend" data-page-node-id="YYljmbP1EDL7CApEfel4TJ"><i class="legend-dot lit" data-page-node-id="D0jgHjEr9Ak193j1lqJpPp"></i><span data-i18n="legend.lit" data-page-node-id="gz7KgQ1OzE095pzjy7Dwct">Lit</span></span>
+          <span class="mural-legend" data-page-node-id="xnk8bIlHq4agPirBZd0rwM"><i class="legend-dot locked" data-page-node-id="cPsoVN7pLXrmI4PSqHtVDK"></i><span data-i18n="legend.locked" data-page-node-id="sH8bBEAZqc85FhrnJPmunJ">Not open yet</span></span>
         </div>
       </div>
     </div>
   </section>
 
   <!-- =========================================================== GIFTS -->
-  <section class="section gifts" id="prizes">
-    <div class="container">
-      <div class="panel gifts-panel">
-        <div class="gift-copy">
-          <span class="kicker" data-i18n="gifts.kicker">Under the tree</span>
-          <h2 class="section-title" data-i18n="gifts.title">Two draws, two piles of gifts</h2>
-          <p data-i18n="gifts.copy">Light 6 / 12 / 18 pieces to open each limited draw — or wait for the Christmas Day draw on Dec 25. More festive gifts await.</p>
-          <div class="gift-actions">
-            <button class="btn btn-ghost" type="button" data-open-prizes><svg class="i"><use href="#i-grid"/></svg><span data-i18n="gifts.cta">My prizes & draw history</span></button>
-          </div>
+  <section class="section gifts" id="prizes" data-page-node-id="X8r3wHotG3N0ifr1S4lr9W">
+    <div class="container" data-page-node-id="r1CTEJLwkCEkOBOGR9FIhC">
+      <div class="panel gifts-panel" data-page-node-id="U05B5sEC36gutFAlEFUjjD">
+        <div class="gift-copy" data-page-node-id="yrlGW2DVbUq415hpGeTBCS">
+          <h2 class="section-title" data-i18n="gifts.title" data-page-node-id="PrBcznfd22P6qve95AQ0Jj">Two draws, two piles of gifts</h2>
+          <p data-i18n="gifts.copy" data-page-node-id="1HqhW0sOuJync9PUPFCiTI">Light 6 / 12 / 18 pieces to open each limited draw — or wait for the Christmas Day draw on Dec 25. More festive gifts await.</p>
         </div>
-        <div class="gift-pools">
-          <article class="gift-pool" id="gift-pool-limited">
-            <header class="gift-pool-head">
-              <svg class="gift-deco" aria-hidden="true"><use href="#i-gift-deco"/></svg>
-              <span class="gift-pool-kicker" data-i18n="gifts.stageKicker">Limited pool</span>
-              <h3 data-i18n="gifts.stageTitle">Limited draw</h3>
-              <p data-i18n="gifts.stageCopy">Opens once at 6 / 12 / 18 pieces · up to 24h each · 1 regular energy per draw</p>
+        <div class="gift-pools" data-page-node-id="7lmZSBQPKS8of3dOAeQNDT">
+          <article class="gift-pool" id="gift-pool-limited" data-page-node-id="0F5ZARHGurpLOYP8S7H0n1">
+            <header class="gift-pool-head" data-page-node-id="l0ve0nTtaidENkrCFQM6Ul">
+              <svg class="gift-deco" aria-hidden="true" data-page-node-id="NtBZtuWiHBELstkplNScju"><use href="#i-gift-deco" data-page-node-id="9rqHEhkPZ7zyQNxLPFclwB"/></svg>
+              <h3 data-i18n="gifts.stageTitle" data-page-node-id="u6gVHWLPhxGqFQZBOV5VjK">Limited draw</h3>
             </header>
-            <div class="gift-pool-entry">
-              <div class="gift-pool-facts">
-                <span class="gift-fact is-energy"><svg class="i"><use href="#i-bolt"/></svg><span id="gifts-draw-meta">0 regular energy</span></span>
+            <div class="gift-pool-entry" data-page-node-id="UUnleuT8OsKURILSAaRfK0">
+              <div class="gift-pool-facts" data-page-node-id="YklLOPfRTEv3x6RjwTutn8">
+                <span class="gift-fact is-energy" data-page-node-id="cplI54UCGWAxgdAU4z2TAB"><svg class="i" data-page-node-id="0utM7YdQ5nr0gWr0sqBDWy"><use href="#i-bolt" data-page-node-id="a3xQzVbpzoZXWO7ZYnJOaM"/></svg><span id="gifts-draw-meta" data-page-node-id="OUieZpTp69QDkfFHx0tQqD">0 regular energy</span></span>
               </div>
-              <button class="btn btn-ghost draw-entry" type="button" id="gifts-draw" disabled><svg class="i"><use href="#i-gift"/></svg><span class="draw-copy"><b id="gifts-draw-label">Limited draw</b><small id="gifts-draw-sub">Unlock in 1 piece</small></span></button>
+              <button class="btn btn-ghost draw-entry" type="button" id="gifts-draw" disabled data-page-node-id="ts232jsdznJUNTwhzAt1n9"><svg class="i" data-page-node-id="ElFg33c8jsoJ8GFvuIIZcl"><use href="#i-gift" data-page-node-id="Njy67NqwhPlfoZrkiCfHFP"/></svg><span class="draw-copy" data-page-node-id="1iiuyd8gDsJHlElIcGiIkF"><b id="gifts-draw-label" data-page-node-id="pdl1RR1yy8aWtG9mXQezwZ">Limited draw</b><small id="gifts-draw-sub" data-page-node-id="qx5SSEDGCi2O66M4NTBHQu">Unlock in 1 piece</small></span></button>
             </div>
-            <button class="gift-pool-toggle" type="button" data-gift-toggle aria-expanded="false" aria-controls="stage-prize-list">
-              <span data-gift-toggle-label>View all 6 prizes</span>
-              <svg class="i"><use href="#i-arrow"/></svg>
+            <button class="gift-pool-toggle" type="button" data-gift-toggle aria-expanded="false" aria-controls="stage-prize-list" data-page-node-id="KLRi564mHkJNNQRftPPg4i">
+              <span data-gift-toggle-label data-page-node-id="GZkFFETAoIYEvD9B9H0lHQ">View all 6 prizes</span>
+              <svg class="i" data-page-node-id="MgHuwtfXI9DN157D7V7zgl"><use href="#i-arrow" data-page-node-id="mGNEhSOc8pWgLXRdnRRbOm"/></svg>
             </button>
-            <div class="gift-pool-list" id="stage-prize-list"></div>
+            <div class="gift-pool-list" id="stage-prize-list" data-page-node-id="iFPHNFBvXU3NEJ76WmsuXD"></div>
           </article>
-          <article class="gift-pool is-special" id="gift-pool-special">
-            <header class="gift-pool-head">
-              <svg class="gift-deco" aria-hidden="true"><use href="#i-gift-deco"/></svg>
-              <span class="gift-pool-kicker" data-i18n="gifts.specialKicker">Christmas pool</span>
-              <h3 data-i18n="gifts.specialTitle">Christmas Day draw</h3>
-              <p data-i18n="gifts.specialCopy">Opens 12/25 00:00–12/26 00:00 (UTC+8) · 1 draw at 18 pieces, 2 at 23 · no regular energy</p>
+          <article class="gift-pool is-special" id="gift-pool-special" data-page-node-id="W27wMWqwDWWmhTCFsOIpr0">
+            <header class="gift-pool-head" data-page-node-id="3EmNZh7MpxPi7aJPRMyxNU">
+              <svg class="gift-deco" aria-hidden="true" data-page-node-id="OFpf19UZ35DX07vKoTh9VY"><use href="#i-gift-deco" data-page-node-id="Z1A8wmGGyoyz3CbMB030J0"/></svg>
+              <h3 data-i18n="gifts.specialTitle" data-page-node-id="EhFeYXmNDweUKkXZDLY4gW">Christmas Day draw</h3>
             </header>
-            <div class="gift-pool-entry">
-              <div class="gift-pool-facts">
-                <span class="gift-fact is-chance"><svg class="i"><use href="#i-gift"/></svg><span id="gifts-special-meta">0/0 special energy</span></span>
+            <div class="gift-pool-entry" data-page-node-id="mY4iK18m5p8osTUEjYvDfp">
+              <div class="gift-pool-facts" data-page-node-id="brMU5lKrAYlwCXJm7ULT0S">
+                <span class="gift-fact is-chance" data-page-node-id="PJToY50Wf3xJ46BxgRAoNA"><svg class="i" data-page-node-id="PqiSjLi8baILxdZSbPqFQV"><use href="#i-gift" data-page-node-id="iYEm2s5biMSkIVvdueQDU1"/></svg><span id="gifts-special-meta" data-page-node-id="BgMWa7G8am1HnN3ja8b3AW">0/0 special energy</span></span>
               </div>
-              <button class="btn btn-ghost draw-entry is-special" type="button" id="gifts-special-draw" disabled><svg class="i"><use href="#i-sparkle"/></svg><span class="draw-copy"><b id="gifts-special-label">Christmas draw</b><small id="gifts-special-sub">Opens Dec 25</small></span></button>
+              <button class="btn btn-ghost draw-entry is-special" type="button" id="gifts-special-draw" disabled data-page-node-id="2Br3hst5Do6FffIceKFyqb"><svg class="i" data-page-node-id="Mm7RS3k36namIdS710kgg0"><use href="#i-sparkle" data-page-node-id="lEfDOrjnRlBDwHQYv7A8VF"/></svg><span class="draw-copy" data-page-node-id="28jZl4UefOFmeBPph9EqdN"><b id="gifts-special-label" data-page-node-id="O1Tpr1T4qsHvhzT3Df3lDo">Christmas draw</b><small id="gifts-special-sub" data-page-node-id="ilOSIUR98TX2uyCRAIwfdT">Opens Dec 25</small></span></button>
             </div>
-            <button class="gift-pool-toggle" type="button" data-gift-toggle aria-expanded="false" aria-controls="special-prize-list">
-              <span data-gift-toggle-label>View all 6 prizes</span>
-              <svg class="i"><use href="#i-arrow"/></svg>
+            <button class="gift-pool-toggle" type="button" data-gift-toggle aria-expanded="false" aria-controls="special-prize-list" data-page-node-id="HgaeRRFq5FLFIUoxnSMHkn">
+              <span data-gift-toggle-label data-page-node-id="NLucR02pLA7WpGkZVH7DGN">View all 6 prizes</span>
+              <svg class="i" data-page-node-id="8pN8rsz1ktwBfSalm76xXA"><use href="#i-arrow" data-page-node-id="pFEtjg2Kni91Q1hGLovxVQ"/></svg>
             </button>
-            <div class="gift-pool-list" id="special-prize-list"></div>
+            <div class="gift-pool-list" id="special-prize-list" data-page-node-id="a0UCengLw5Ax5Ayi0cZfpU"></div>
           </article>
         </div>
       </div>
     </div>
   </section>
 
-  <footer class="site-footer">
-    <div class="container footer-grid">
-      <div class="footer-brand">
-        <span class="brand-mark">XP<span>Pen</span></span>
-        <span class="footer-event" data-i18n="footer.event">Christmas 2026 · Create the Magic, Give the Joy</span>
-      </div>
-      <div class="footer-links">
-        <button type="button" data-open-rules data-i18n="footer.rules">Event rules</button>
-        <a href="mailto:official@xp-pen.com">official@xp-pen.com</a>
-        <button type="button" data-open-keepsake data-i18n="footer.keepsake">My keepsake</button>
-      </div>
-      <p class="footer-fine" data-i18n="footer.fine">The personalised Christmas Town keepsake is a digital commemorative reward. It has no cash value and cannot be exchanged for physical goods. Prize list, stock and odds are published by the event team.</p>
-      <p class="footer-copy" data-i18n="footer.copy">© 2026 XPPen. All rights reserved.</p>
-    </div>
-  </footer>
 </main>
 
-<nav class="bottom-nav" aria-label="Primary" data-i18n-aria="nav.primary">
-  <a href="#collection" data-nav="town" class="is-active">
-    <svg class="i"><use href="#i-snow"/></svg><span data-i18n="nav.town">My town</span>
+<nav class="bottom-nav" aria-label="Primary" data-i18n-aria="nav.primary" data-page-node-id="4gFLmCRqulx94PFMiOQh39">
+  <a href="#collection" data-nav="town" class="is-active" data-page-node-id="KMhtE2wLdwlRlPRyYoq1tT">
+    <svg class="i" data-page-node-id="udsbmc8QRYlJcxsnwBoB94"><use href="#i-snow" data-page-node-id="i6t61iYWR7j78hWN3CK4ha"/></svg><span data-i18n="nav.town" data-page-node-id="SFJ2Xm2pKmlesdoB4WIhkJ">My town</span>
   </a>
-  <a href="#studio" data-nav="studio">
-    <svg class="i"><use href="#i-sparkle"/></svg><span data-i18n="nav.studio">Studio</span>
+  <a href="#studio" data-nav="studio" data-page-node-id="rsGcGeuenTt4pwBqQW50eC">
+    <svg class="i" data-page-node-id="9W1sjszDIaNnsC5VlhBYXa"><use href="#i-sparkle" data-page-node-id="VWKnYRGkz1c9wdWo42NCcZ"/></svg><span data-i18n="nav.studio" data-page-node-id="1lpdjrw3izaLYeFtBAZRcz">Studio</span>
   </a>
-  <a href="#collection" data-nav="collection">
-    <svg class="i"><use href="#i-grid"/></svg><span data-i18n="nav.collection">Collection</span>
+  <a href="#collection" data-nav="collection" data-page-node-id="8YmVIssqWAZmWVRqizqATG">
+    <svg class="i" data-page-node-id="XMfw5pmRlGoJTQtRtpEFPs"><use href="#i-grid" data-page-node-id="evpzzkhs2S4Y8aLlh04cqh"/></svg><span data-i18n="nav.collection" data-page-node-id="NotN1cflmigsF0A5GIAhIv">Collection</span>
   </a>
-  <button type="button" id="mobile-draw" class="is-draw">
-    <svg class="i"><use href="#i-gift"/></svg><span id="mobile-draw-label" data-i18n="draw.pill">Draw</span>
-    <em id="mobile-draw-badge" hidden>0</em>
+  <button type="button" id="mobile-draw" class="is-draw" data-page-node-id="phFMbLgFmpWgX1jbP8VRRB">
+    <svg class="i" data-page-node-id="OCeFNQMLUfIBzlH3HznTVN"><use href="#i-gift" data-page-node-id="De1hIYMhdd2VF1aL7e0VbH"/></svg><span id="mobile-draw-label" data-i18n="draw.pill" data-page-node-id="LMJkNlMvlRRk5hyx2XoCgR">Draw</span>
+    <em id="mobile-draw-badge" hidden data-page-node-id="twQxETRy79NK8Ce7wLQ90S">0</em>
   </button>
-  <button type="button" data-open-prizes>
-    <svg class="i"><use href="#i-gift"/></svg><span data-i18n="nav.prizes">Prizes</span>
+  <button type="button" data-open-prizes data-page-node-id="MGBVklXH9IYFPWMVgihUD9">
+    <svg class="i" data-page-node-id="GSRoYFMPCmTxFor2bpjdiJ"><use href="#i-gift" data-page-node-id="9EtbqCjLc97jV0vyXnymmc"/></svg><span data-i18n="nav.prizes" data-page-node-id="faxfQFAYq4HB47Q1reYguB">Prizes</span>
   </button>
 </nav>
 
-<button class="demo-fab" id="demo-fab" type="button" aria-label="Open demo controls" data-i18n-aria="demo.open"><span>DEMO</span></button>
+<button class="demo-fab" id="demo-fab" type="button" aria-label="Open demo controls" data-i18n-aria="demo.open" data-page-node-id="V2swnQuFWc0bcLvB66M1bu"><span data-page-node-id="WP42bJCHbtFuJ4VXGgi2fl">DEMO</span></button>
 
 <!-- ============================================================ AUTH -->
-<div class="auth" id="auth" hidden>
-  <div class="auth-bg" aria-hidden="true"></div>
-  <div class="auth-card" role="dialog" aria-modal="true" aria-label="Sign in" data-i18n-aria="nav.signIn">
-    <button class="auth-close" id="auth-close" type="button" aria-label="Close" data-i18n-aria="common.close"><svg class="i"><use href="#i-close"/></svg></button>
-    <div class="auth-lang lang-switch" role="group" aria-label="Language" data-i18n-aria="nav.lang">
-      <button type="button" data-lang="en">EN</button>
-      <button type="button" data-lang="zh">中文</button>
+<div class="auth" id="auth" hidden data-page-node-id="52HneNDmWaEvZdAF1uhp2S">
+  <div class="auth-bg" aria-hidden="true" data-page-node-id="oO0Rcn4k42EjwDcVamtDVg"></div>
+  <div class="auth-card" role="dialog" aria-modal="true" aria-label="Sign in" data-i18n-aria="nav.signIn" data-page-node-id="8lKvZwNfyHLiCJbGV1swtb">
+    <button class="auth-close" id="auth-close" type="button" aria-label="Close" data-i18n-aria="common.close" data-page-node-id="oB6TlXMqG9DizyklJxq60U"><svg class="i" data-page-node-id="KaKv8hFbDSQGbqzQmenlVj"><use href="#i-close" data-page-node-id="VkV7HEqCZMxGSg7Nv7OTw1"/></svg></button>
+    <div class="auth-lang lang-switch" role="group" aria-label="Language" data-i18n-aria="nav.lang" data-page-node-id="XR9GEY4TtaKBSX43kFfxqG">
+      <button type="button" data-lang="en" data-page-node-id="8Ve6icyc0YL3flUvmViilm">EN</button>
+      <button type="button" data-lang="zh" data-page-node-id="EiHSeKzxRan8xl80cCvIDC">中文</button>
     </div>
-    <div class="auth-art">
-      <div class="auth-art-scene" id="auth-scene" aria-hidden="true"></div>
-      <div class="auth-art-copy">
-        <span class="kicker" data-i18n="auth.kicker">XPPen Christmas 2026</span>
-        <p data-i18n-html="auth.art">28 days of making.<br>A whole town to light.</p>
+    <div class="auth-art" data-page-node-id="PCDzM4JoFIaeroNvpp3R8J">
+      <div class="auth-art-scene" id="auth-scene" aria-hidden="true" data-page-node-id="hQIih3HGcDxzZqUvhvdtSx"></div>
+      <div class="auth-art-copy" data-page-node-id="D05qBV5dSCUiNOlByQAPep">
+        <span class="kicker" data-i18n="auth.kicker" data-page-node-id="wmaYFUaimRvZQIgUticfM4">XPPen Christmas 2026</span>
+        <p data-i18n-html="auth.art" data-page-node-id="NdR64JNyGymljSw2BEtq32">24 days of making.<br data-page-node-id="qBQzj49AfaHRYs17CH8EhV">A whole town to light.</p>
       </div>
     </div>
-    <div class="auth-form-wrap">
-      <div class="brand brand-lg">
-        <span class="brand-mark">XP<span>Pen</span></span>
-        <span class="brand-divider"></span>
-        <span class="brand-event" data-i18n="brand.event">Christmas 2026</span>
+    <div class="auth-form-wrap" data-page-node-id="HzKqo2DySjpBU5CchhQWtM">
+      <div class="brand brand-lg" data-page-node-id="LizhHYSpgioLRIyBRGkqFu">
+        <span class="brand-mark" data-page-node-id="odeOOt2e9vOs4bDCCw3cAq">XP<span data-page-node-id="GuRxoZtSRgAuzemDINIJAR">Pen</span></span>
+        <span class="brand-divider" data-page-node-id="s9cxtE3z8UYfAxycYMKINm"></span>
+        <span class="brand-event" data-i18n="brand.event" data-page-node-id="aGhtkCBV7GBWAVoHwuwebG">Christmas 2026</span>
       </div>
-      <h2 data-i18n="auth.title">Sign in to start creating</h2>
-      <p class="auth-sub" data-i18n="auth.sub">This demo keeps your progress and prize records in this browser only — it is not synced with an XPPen account.</p>
-      <form id="auth-form" novalidate>
-        <label class="field">
-          <span data-i18n="auth.email">Email</span>
-          <input type="email" id="auth-email" autocomplete="email" placeholder="you@example.com" value="demo@xp-pen.com" required>
+      <h2 data-i18n="auth.title" data-page-node-id="e0mDpTjBBDMds4H12qxiDk">Sign in to start creating</h2>
+      <p class="auth-sub" data-i18n="auth.sub" data-page-node-id="3dj1OHFpiGEJVEOVM7fZXl">This demo keeps your progress and prize records in this browser only — it is not synced with an XPPen account.</p>
+      <form id="auth-form" novalidate data-page-node-id="hKHPuXCkHPyytFxmlsPHF5">
+        <label class="field" data-page-node-id="TWnEZsGU211pnJ9vKX3sLV">
+          <span data-i18n="auth.email" data-page-node-id="BVDrCTM6Ne5D6ggT2FO05y">Email</span>
+          <input type="email" id="auth-email" autocomplete="email" placeholder="you@example.com" value="demo@xp-pen.com" required data-page-node-id="gpQxPWV5nhEEvWAO0D5H4G">
         </label>
-        <label class="field">
-          <span data-i18n="auth.password">Password</span>
-          <input type="password" id="auth-pass" autocomplete="current-password" placeholder="••••••••" value="christmas2026" required>
+        <label class="field" data-page-node-id="DHLiov5zCshHIFxOIOWGBc">
+          <span data-i18n="auth.password" data-page-node-id="2ouTG5UhguxtcQsCPYglgG">Password</span>
+          <input type="password" id="auth-pass" autocomplete="current-password" placeholder="••••••••" value="christmas2026" required data-page-node-id="E86Ts1EXBXhuWmmpPq4HSz">
         </label>
-        <p class="field-error" id="auth-error" hidden></p>
-        <button class="btn btn-primary btn-block" type="submit" id="auth-submit" data-i18n="auth.submit">Sign in & start drawing</button>
+        <p class="field-error" id="auth-error" hidden data-page-node-id="szvzaQBhikmUXCsD0KYlJH"></p>
+        <button class="btn btn-primary btn-block" type="submit" id="auth-submit" data-i18n="auth.submit" data-page-node-id="8A4ScVBirt1A9zJVQ1JLFJ">Sign in & start drawing</button>
       </form>
-      <button class="link-btn" type="button" id="auth-demo" data-i18n="auth.demo">Preview with a demo account</button>
-      <p class="auth-fine" data-i18n="auth.fine">Prototype only — no real account is created, sent or verified.</p>
+      <button class="link-btn" type="button" id="auth-demo" data-i18n="auth.demo" data-page-node-id="DzKGmVC1kQeJpVdbAXKE34">Preview with a demo account</button>
+      <p class="auth-fine" data-i18n="auth.fine" data-page-node-id="Dz1Ysz7A7eVKeqbtXyPGWW">Prototype only — no real account is created, sent or verified.</p>
     </div>
   </div>
 </div>
 
 <!-- ========================================================== OVERLAYS -->
-<div id="modal-root"></div>
-<div class="toast-stack" id="toasts" aria-live="polite" aria-atomic="false"></div>
-<div class="fx-layer" id="fx" aria-hidden="true"></div>
+<div id="modal-root" data-page-node-id="RZJnNP3vrxLhIquXx1du7D"></div>
+<div class="toast-stack" id="toasts" aria-live="polite" aria-atomic="false" data-page-node-id="Am5FbQmYTJRS27hL59e63i"></div>
+<div class="fx-layer" id="fx" aria-hidden="true" data-page-node-id="ZtyXKCbNvzV52HByvj5uJu"></div>
 
 <!-- ============================================================= DEMO -->
-<aside class="demo-panel" id="demo-panel" hidden aria-label="Demo controls">
-  <div class="demo-head">
-    <strong data-i18n="demo.title">Demo controls</strong>
-    <button class="icon-btn" type="button" id="demo-close" aria-label="Close demo controls" data-i18n-aria="common.close"><svg class="i"><use href="#i-close"/></svg></button>
+<aside class="demo-panel" id="demo-panel" hidden aria-label="Demo controls" data-page-node-id="3IkzpJZ6O1gpjPdHA9LhMt">
+  <div class="demo-head" data-page-node-id="byJtGN21P62P8ApI8qs3Lf">
+    <strong data-i18n="demo.title" data-page-node-id="CZAk6Y2YHI5VRCLzS7EGJo">Demo controls</strong>
+    <button class="icon-btn" type="button" id="demo-close" aria-label="Close demo controls" data-i18n-aria="common.close" data-page-node-id="3B13Hh0f36KeYlBEFrr9Mn"><svg class="i" data-page-node-id="egD5zs1sxJDkw9lRqcGX9S"><use href="#i-close" data-page-node-id="VyV2KKQaVgKGcsC1QsE4nD"/></svg></button>
   </div>
-  <p class="demo-hint" data-i18n="demo.hint">The event starts Dec 3, 2026. Pick a date and a scenario to review every state.</p>
+  <p class="demo-hint" data-i18n="demo.hint" data-page-node-id="luw0HxOiSCEciwKO0BWG1x">The event starts Dec 7, 2026. Pick a date and a scenario to review every state.</p>
 
-  <div class="demo-block">
-    <span class="demo-label" data-i18n="demo.date">Simulated date</span>
-    <div class="demo-date-row">
-      <input type="datetime-local" id="demo-date" step="60">
-      <button class="btn btn-ghost btn-xs" type="button" id="demo-apply" data-i18n="demo.apply">Apply</button>
+  <div class="demo-block" data-page-node-id="xPSwfwiVUbwduutThtK5kM">
+    <span class="demo-label" data-i18n="demo.date" data-page-node-id="lr2yugBYMFAoRt2i3y5p8q">Simulated date</span>
+    <div class="demo-date-row" data-page-node-id="FqmUsWcBuAFalI6cbOvRJq">
+      <input type="datetime-local" id="demo-date" step="60" data-page-node-id="d3diLXlMRKOo0VLZpF23Be">
+      <button class="btn btn-ghost btn-xs" type="button" id="demo-apply" data-i18n="demo.apply" data-page-node-id="QAS8etWBsJkL0UmCXPCecM">Apply</button>
     </div>
-    <div class="demo-chips">
-      <button type="button" data-jump="2026-12-03T10:30" data-i18n="demo.dec3">Dec 3</button>
-      <button type="button" data-jump="2026-12-08T19:20" data-i18n="demo.dec8">Dec 8</button>
-      <button type="button" data-jump="2026-12-14T19:20" data-i18n="demo.dec14">Dec 14</button>
-      <button type="button" data-jump="2026-12-18T12:00" data-i18n="demo.dec18">Dec 18</button>
-      <button type="button" data-jump="2026-12-20T19:20" data-i18n="demo.dec20">Dec 20</button>
-      <button type="button" data-jump="2026-12-25T12:00" data-i18n="demo.dec25">Dec 25</button>
-      <button type="button" data-jump="2026-12-26T12:00" data-i18n="demo.dec26">Dec 26</button>
-      <button type="button" data-jump="2026-12-27T15:00" data-i18n="demo.dec27">Dec 27</button>
-      <button type="button" data-jump="2026-12-30T15:00" data-i18n="demo.dec30">Dec 30</button>
-      <button type="button" data-jump="2026-12-31T10:00" data-i18n="demo.cutoffTime">Dec 31 · 10:00</button>
-      <button type="button" data-jump="2027-01-02T12:00" data-i18n="demo.ended">Ended</button>
-    </div>
-  </div>
-
-  <div class="demo-block">
-    <span class="demo-label" data-i18n="demo.scenarios">Scenarios</span>
-    <div class="demo-scenarios">
-      <button type="button" data-scenario="fresh" data-i18n="demo.scenario.fresh">Fresh account</button>
-      <button type="button" data-scenario="dailyReady" data-i18n="demo.scenario.dailyReady">Today · draw chance ready</button>
-      <button type="button" data-scenario="dailyUsed" data-i18n="demo.scenario.dailyUsed">Today · chance used</button>
-      <button type="button" data-scenario="shared" data-i18n="demo.scenario.shared">Today · share reward received</button>
-      <button type="button" data-scenario="expired" data-i18n="demo.scenario.expired">Next day · energy expired</button>
-      <button type="button" data-scenario="xmas18next" data-i18n="demo.scenario.xmas18next">Christmas Day · 18th piece next</button>
-      <button type="button" data-scenario="xmas23next" data-i18n="demo.scenario.xmas23next">Christmas Day · 23rd piece next</button>
-      <button type="button" data-scenario="xmas" data-i18n="demo.scenario.xmas">Christmas Day · 18 pieces</button>
-      <button type="button" data-scenario="makeupAvailable" data-i18n="demo.scenario.makeupAvailable">Make-up · up to 3 a day</button>
-      <button type="button" data-scenario="makeupLimit" data-i18n="demo.scenario.makeupLimit">Make-up · daily limit reached</button>
-      <button type="button" data-scenario="makeupUnlimited" data-i18n="demo.scenario.makeupUnlimited">Make-up · no daily limit</button>
-      <button type="button" data-scenario="almostcomplete" data-i18n="demo.scenario.almostcomplete">27 pieces · final piece next</button>
-      <button type="button" data-scenario="cutoff" data-i18n="demo.scenario.cutoff">Final cutoff · 09:30</button>
-      <button type="button" data-scenario="complete" data-i18n="demo.scenario.complete">Full town · 28 pieces</button>
-      <button type="button" data-scenario="prizesEmpty" data-i18n="demo.scenario.prizesEmpty">My prizes · empty list</button>
-      <button type="button" data-scenario="prizesAll" data-i18n="demo.scenario.prizesAll">My prizes · product, coupon, coins</button>
+    <div class="demo-chips" data-page-node-id="dYwQoXSkoq6HAmQdfo3wCc">
+      <button type="button" data-jump="2026-12-07T10:30" data-i18n="demo.dec3" data-page-node-id="61xBkNijaaLdtiFjk3lrJu">Dec 3</button>
+      <button type="button" data-jump="2026-12-08T19:20" data-i18n="demo.dec8" data-page-node-id="Mi0xHhgx8F4g9IKFxAVCad">Dec 8</button>
+      <button type="button" data-jump="2026-12-14T19:20" data-i18n="demo.dec14" data-page-node-id="dLjrAXliDlEELVSQEwF0mu">Dec 14</button>
+      <button type="button" data-jump="2026-12-18T12:00" data-i18n="demo.dec18" data-page-node-id="nnak08jG73hdmVBzQ18LSB">Dec 18</button>
+      <button type="button" data-jump="2026-12-20T19:20" data-i18n="demo.dec20" data-page-node-id="7DSCK1w9HdPw1YHkJSZBxD">Dec 20</button>
+      <button type="button" data-jump="2026-12-25T12:00" data-i18n="demo.dec25" data-page-node-id="IbpKNqF8pOkU1G2k5E90IF">Dec 25</button>
+      <button type="button" data-jump="2026-12-26T12:00" data-i18n="demo.dec26" data-page-node-id="Oii1znCIxunXTolN9ebusm">Dec 26</button>
+      <button type="button" data-jump="2026-12-27T15:00" data-i18n="demo.dec27" data-page-node-id="Mdukrv7NahooJvq1aOFuJn">Dec 27</button>
+      <button type="button" data-jump="2026-12-30T15:00" data-i18n="demo.dec30" data-page-node-id="J2efpfYsFmNqcfLaZVOxtd">Dec 30</button>
+      <button type="button" data-jump="2026-12-31T10:00" data-i18n="demo.cutoffTime" data-page-node-id="lm3AK7vk1Wh7tYJssKyAX3">Dec 31 · 10:00</button>
+      <button type="button" data-jump="2027-01-02T12:00" data-i18n="demo.ended" data-page-node-id="CHX3No7ZdbzQAaZGa1Bbwb">Ended</button>
     </div>
   </div>
 
-  <div class="demo-block">
-    <span class="demo-label" data-i18n="demo.tweak">Tweak state</span>
-    <div class="demo-actions">
-      <button type="button" data-demo="subscription-subscribed" data-i18n="subscription.demoSetSubscribed">Demo: subscribed</button>
-      <button type="button" data-demo="subscription-unsubscribed" data-i18n="subscription.demoSetUnsubscribed">Demo: unsubscribed</button>
-      <button type="button" data-demo="subscription-failure" data-i18n="subscription.demoToggleFailure">Demo: toggle subscription failure</button>
-      <button type="button" data-demo="reset" class="danger" data-i18n="demo.reset">Reset</button>
+  <div class="demo-block" data-page-node-id="a1ym4xKZiEnz5eQP21fvtW">
+    <span class="demo-label" data-i18n="demo.scenarios" data-page-node-id="u6uF1vtguE2GUDM6BTQxPK">Scenarios</span>
+    <div class="demo-scenarios" data-page-node-id="9zcPDCtg4Rz4lfzWFh63LO">
+      <button type="button" data-scenario="fresh" data-i18n="demo.scenario.fresh" data-page-node-id="NPEGi4PhBM5GkOGJtkEkMi">Fresh account</button>
+      <button type="button" data-scenario="dailyReady" data-i18n="demo.scenario.dailyReady" data-page-node-id="gSOqVPKPI848L2R7oEKsbP">Today · draw chance ready</button>
+      <button type="button" data-scenario="dailyUsed" data-i18n="demo.scenario.dailyUsed" data-page-node-id="csjqQEi8vPPCNSy9Js5CBK">Today · chance used</button>
+      <button type="button" data-scenario="shared" data-i18n="demo.scenario.shared" data-page-node-id="nAXDVA4MGmsUKPRsE56AxT">Today · share reward received</button>
+      <button type="button" data-scenario="expired" data-i18n="demo.scenario.expired" data-page-node-id="WpMfL4iyuX5inetpLdjtlA">Next day · energy expired</button>
+      <button type="button" data-scenario="xmas18next" data-i18n="demo.scenario.xmas18next" data-page-node-id="YtfFiraBN8yTTnJhpOG8VP">Christmas Day · 15th piece next</button>
+      <button type="button" data-scenario="xmas23next" data-i18n="demo.scenario.xmas23next" data-page-node-id="w2NSWFVaIukh9lg1EpP1vW">Christmas Day · 19th piece next</button>
+      <button type="button" data-scenario="xmas" data-i18n="demo.scenario.xmas" data-page-node-id="Xq1uDu0KEEHoVWAEYP1aol">Christmas Day · 15 pieces</button>
+      <button type="button" data-scenario="makeupAvailable" data-i18n="demo.scenario.makeupAvailable" data-page-node-id="5s48ZdWrAFnDOV1QRGdL5b">Make-up · up to 3 a day</button>
+      <button type="button" data-scenario="makeupLimit" data-i18n="demo.scenario.makeupLimit" data-page-node-id="OPCqNGsA5ghaMZ4L3snV4W">Make-up · daily limit reached</button>
+      <button type="button" data-scenario="makeupUnlimited" data-i18n="demo.scenario.makeupUnlimited" data-page-node-id="MUEVts0VPWwdmf3oSQF5Bi">Make-up · no daily limit</button>
+      <button type="button" data-scenario="almostcomplete" data-i18n="demo.scenario.almostcomplete" data-page-node-id="iMdHDZycDWG6Gx4pSUTbAH">23 pieces · final piece next</button>
+      <button type="button" data-scenario="cutoff" data-i18n="demo.scenario.cutoff" data-page-node-id="bq22mhBT2SL52IP9xuBLbS">Final cutoff · 09:30</button>
+      <button type="button" data-scenario="complete" data-i18n="demo.scenario.complete" data-page-node-id="A7lRId0J530YNIIIZgnRVI">Full town · 24 pieces</button>
+      <button type="button" data-scenario="prizesEmpty" data-i18n="demo.scenario.prizesEmpty" data-page-node-id="IJKPv8iadibZNGCHX9YmQ0">My prizes · empty list</button>
+      <button type="button" data-scenario="prizesAll" data-i18n="demo.scenario.prizesAll" data-page-node-id="hS07pJsEQrPWrpybtY6dpI">My prizes · product, coupon, coins</button>
     </div>
   </div>
-  <p class="demo-foot" data-i18n="demo.foot">State is stored in this browser only.</p>
+
+  <div class="demo-block" data-page-node-id="ucxWU9cWO8MRApvLsUL78y">
+    <span class="demo-label" data-i18n="demo.tweak" data-page-node-id="FvbH4wKsWeDdYUI98WY84x">Tweak state</span>
+    <div class="demo-actions" data-page-node-id="HYirjHeLPjnJATd53Gcugu">
+      <button type="button" data-demo="subscription-subscribed" data-i18n="subscription.demoSetSubscribed" data-page-node-id="3ex8xu0VnMY6SHTugRNW0g">Demo: subscribed</button>
+      <button type="button" data-demo="subscription-unsubscribed" data-i18n="subscription.demoSetUnsubscribed" data-page-node-id="mvocYgyMMOAFUbvKRW70NV">Demo: unsubscribed</button>
+      <button type="button" data-demo="subscription-failure" data-i18n="subscription.demoToggleFailure" data-page-node-id="OLwU19I29qDBf5TWS9fZm3">Demo: toggle subscription failure</button>
+      <button type="button" data-demo="reset" class="danger" data-i18n="demo.reset" data-page-node-id="KiXDpA56O6qPnEvyGqUDaS">Reset</button>
+    </div>
+  </div>
+  <p class="demo-foot" data-i18n="demo.foot" data-page-node-id="o32DCQ8taxzc3qWp67xfUR">State is stored in this browser only.</p>
 </aside>
 
 <script>
@@ -3786,18 +3767,21 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'meta.desc': 'Draw a Christmas element every day, light up a snowbound town piece by piece and unwrap stage prizes — including the Christmas Day draw.',
 
       'common.close': 'Close',
+      'studio.eventBefore': 'The event has not started yet',
+      'studio.eventEnded': 'The event has ended',
       'common.done': 'Done',
       'common.apply': 'Apply',
 
       'subscription.kicker': 'EMAIL UPDATES',
-      'subscription.title': 'Subscribe for 1 energy',
+      'subscription.title': 'Subscribe to XPPen Emails and Get 1 Bonus Energy!',
+      'subscription.entryTitle': 'Subscribe to XPPen Emails to Unlock Bonus Energy!',
       'subscription.hint': 'Use it in the limited draw',
       'subscription.open': 'Subscribe',
       'subscription.modalCopy': 'Subscribe to receive 1 regular energy for the limited draw.',
       'subscription.email': 'Signed-in account email',
       'subscription.demoNote': 'Demo only: no email is sent and no real subscription is created.',
       'subscription.submit': 'Subscribe and claim',
-      'subscription.success': 'Demo subscription complete: +1 regular energy.',
+      'subscription.success': "You're Subscribed! You've Earned 1 Bonus Energy!",
       'subscription.failed': 'Demo subscription failed. Please try again.',
       'subscription.saveFailed': 'Could not save the demo result. Please try again.',
       'subscription.unavailable': 'This reward is unavailable right now.',
@@ -3810,10 +3794,13 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'subscription.demoFailOff': 'Demo subscription failure disabled.',
 
       'brand.event': 'Christmas 2026',
-      'nav.studio': 'Studio',
-      'nav.town': 'My town',
+      'brand.header': 'Create the Magic, Give the Joy',
+      'nav.studio': 'Canvas',
+      'nav.draw': 'Lucky Draw',
+      'draw.noChancesAvailable': 'No Lucky Draw Chances Available',
+      'nav.town': 'Christmas town',
       'nav.collection': 'Collection',
-      'nav.prizes': 'Prizes',
+      'nav.prizes': 'My prizes',
       'nav.rules': 'Rules',
       'nav.myPrizes': 'My prizes',
       'nav.myWorks': 'My works',
@@ -3847,9 +3834,9 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'hero.eyebrow': 'XPPen Holiday Event · 2026',
       'hero.titleHtml': 'Create the Magic,<br><em>Give the Joy.</em>',
       'hero.lede': 'Twenty-eight days, twenty-eight Christmas doodles. Every drawing lights one more piece of a snowbound town — and unlocks a little magic along the way.',
-      'hero.date': 'Dec 3 – Dec 31, 2026',
+      'hero.date': 'Dec 7 – Dec 31, 2026',
       'hero.tz': 'UTC+8',
-      'hero.elements': '28 elements',
+      'hero.elements': '24 elements',
       'hero.how': 'How it works',
       'hero.energy': 'Energy',
       'hero.scroll': 'Scroll to explore',
@@ -3860,26 +3847,26 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'hero.chances': 'Energy',
       'hero.cta.start': 'Start your artwork',
       'hero.cta.finish': 'Finish your {stage} draw',
-      'hero.cta.before': 'The town opens Dec 3',
+      'hero.cta.before': 'The town opens Dec 7',
       'hero.cta.town': 'See my Christmas town',
       'hero.cta.keepsake': 'Create your keepsake',
       'hero.cta.done': 'Start your artwork',
       'hero.cta.makeup': 'Make up a missed element',
 
       'town.live': 'Live town',
-      'town.lit': '{n} / 28 lit',
+      'town.lit': '{n} / 24 lit',
       'town.name': 'Christmas Town',
       'town.caption': 'Tap a lit piece to see what you drew',
-      'town.opens': 'Opens Dec 3, 2026',
+      'town.opens': 'Opens Dec 7, 2026',
       'town.closed': 'Season closed',
       'town.preseason': 'Pre-season',
-      'town.opensShort': 'Opens Dec 3',
+      'town.opensShort': 'Opens Dec 7',
       'town.closedShort': 'Closed',
       'town.dayShort': 'Day {n}',
       'town.plaqueLive': '{date} · Day {n}',
 
       'studio.kicker': "Today's studio",
-      'studio.title': "Draw today's element",
+      'studio.title': 'Draw Every Day, Unlock the Town & Win Prizes!',
       'studio.day': 'Day {n}',
       'studio.reward': '+1 energy',
       'studio.freeKicker': 'FREE CREATION',
@@ -3893,7 +3880,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'studio.makeupNoChance': 'Make-up · no energy',
       'studio.canvasHint': 'Trace the guide or go freestyle — anything you make counts.',
       'studio.canvasHintMakeup': 'Make-up drawings light a piece and can complete a stage, but never add energy.',
-      'studio.submit': 'Submit drawing',
+      'studio.submit': 'Submit',
       'studio.submitMakeup': 'Submit make-up',
       'studio.noChance': 'no energy',
       'studio.noteDaily': 'One daily element · next opens in {time}',
@@ -3908,18 +3895,18 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'gate.drawCopy': 'You have {n} banked {chanceWord} from {pieces}. Stage chances must be used in one go before you draw again.',
       'gate.drawCta': 'Open the draw',
       'gate.drawNote': 'All banked chances are used in a single session.',
-      'gate.beforeTitle': 'The town opens December 3',
-      'gate.beforeCopy': 'Come back at 10:00 UTC+8 for the first element. There are 28 to light before December 31.',
+      'gate.beforeTitle': 'The town opens December 7',
+      'gate.beforeCopy': 'Come back at 10:00 UTC+8 for the first element. There are 24 to light before December 31.',
       'gate.beforeCta': 'Read the rules',
       'gate.beforeNote': 'The event starts in {time}.',
       'gate.endedTitle': "That's a wrap for 2026",
       'gate.endedCopy': 'Drawing has closed. Your lit pieces, prizes and keepsake stay in your account.',
       'gate.endedCta': 'See my prizes',
       'gate.endedNote': 'The event closed on December 31, 10:00 UTC+8.',
-      'gate.completeTitle': 'All 28 pieces are glowing',
+      'gate.completeTitle': 'All 24 pieces are glowing',
       'gate.completeCopy': 'The whole town is lit. Create your personalised keepsake, download it and share it.',
       'gate.completeCta': 'Create my keepsake',
-      'gate.completeNote': '28 / 28 pieces · Christmas Town complete',
+      'gate.completeNote': '24 / 24 pieces · Christmas Town complete',
       'gate.caughtTitle': 'All caught up for today',
       'gate.caughtCopy': 'The next element opens at 00:00 UTC+8. Your town and energy are saved.',
       'gate.caughtCta': 'See my town',
@@ -3962,7 +3949,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'tool.undo': 'Undo',
       'tool.clear': 'Clear',
       'tool.sure': 'Sure?',
-      'tool.guide': 'Guide',
+      'tool.guide': 'Free Create',
       'tool.colour': 'Colour {n}',
       'tool.customColor': 'Pick a custom colour',
       'tool.brushSize': 'Brush size {n}',
@@ -3975,7 +3962,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'chance.unitOne': 'energy',
       'chance.noteFirst': 'Draw a piece to earn your first energy.',
       'chance.noteEnded': 'The event has closed — unused energy has expired.',
-      'chance.noteBefore': 'The first energy arrives with your first drawing on Dec 3.',
+      'chance.noteBefore': 'The first energy arrives with your first drawing on Dec 7.',
       'chance.noteComplete': 'All stage payouts are complete — keep drawing for your keepsake.',
       'chance.toNext': '{n} pieces to {stage} — keep drawing to earn more energy.',
       'chance.nmNext': 'Next · limited draw',
@@ -3999,7 +3986,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'chance.shareDrawFirst': 'Draw one to unlock sharing',
       'chance.shareJoy': 'Share for the joy — no more energy',
       'chance.shareClosed': 'The event has closed',
-      'chance.shareBefore': 'Energy starts on December 3',
+      'chance.shareBefore': 'Energy starts on December 7',
       'chance.info': 'How energy works',
       'chance.energyNote': 'Regular energy: {n}. Each limited draw uses 1.',
       'chance.energyBanked': '{n} energy carries into the limited draw — {toGo} to open it.',
@@ -4020,7 +4007,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'result.specialOpens': 'Dec 25, 00:00 (UTC+8)',
       'result.title.update': 'Drawing updated',
       'result.fragmentLabel': 'Fragment',
-      'result.fragment': '+1 · {n} / 28 lit',
+      'result.fragment': '+1 · {n} / 24 lit',
       'result.energyLabel': 'Regular energy',
       'result.energy': '+1',
       'result.specialLabel': 'Special energy',
@@ -4063,14 +4050,14 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'draw.subSpecialEnds': 'Closes in {t}',
       'draw.subLocked': 'Draw opens at {n} pieces',
       'draw.subDone': 'All draws complete',
-      'draw.subBefore': 'Opens Dec 3',
+      'draw.subBefore': 'Opens Dec 7',
       'draw.subEnded': 'Draws closed',
       'draw.subSpecialOn': 'Opens Dec 25',
       'draw.entryReady': 'Open draw · {n}',
       'draw.entrySpecial': 'Christmas draw · {n}',
       'draw.entryLocked': '{n} pieces to open the draw',
       'draw.entryLockedOne': '1 piece to open the draw',
-      'draw.entryBefore': 'Draws open Dec 3',
+      'draw.entryBefore': 'Draws open Dec 7',
       'draw.entryEnded': 'Draws closed',
       'draw.entryDone': 'All draws complete',
       'draw.entryNoEnergy': 'No energy — draw to earn',
@@ -4089,10 +4076,10 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'draw.limitedNoEnergy': 'Limited draw · no regular energy',
       'draw.limitedNoEnergySub': 'Ends in {t}; energy earned later still works',
       'draw.specialName': 'Christmas Day draw',
-      'draw.specialNoFundLabel': 'Christmas Day draw · not qualified',
+      'draw.specialNoFundLabel': 'No Lucky Draw Chances Available',
       'draw.specialUsedLabel': 'Christmas Day draw · chances used',
       'draw.enterSpecial': 'Enter Christmas Day draw',
-      'draw.specialLockedSub': 'Light 18 pieces for 1 draw; 23 for 2',
+      'draw.specialLockedSub': 'Light 15 pieces for 1 draw; 19 for 2',
       'draw.specialSoonSub': '{n} special energy · opens Dec 25, 00:00',
       'draw.specialOpenSub': '{n} special energy · {t} left',
       'draw.specialEndedSub': 'Closed Dec 26, 00:00 (UTC+8)',
@@ -4140,10 +4127,10 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'mstone.toGo': '{n} pieces to go',
 
       'collection.kicker': 'The collection',
-      'collection.title': 'Every element, one snowy town',
-      'collection.count': '{n} / 28 pieces lit',
-      'collection.countSuffix': ' / 28 pieces lit',
-      'collection.all': 'All 28',
+      'collection.title': 'Light Up Your Own Christmas Town!',
+      'collection.count': '{n} / 24 pieces lit',
+      'collection.countSuffix': ' / 24 pieces lit',
+      'collection.all': 'All 24',
       'collection.lit': 'Lit',
       'collection.open': 'Open now',
       'collection.notyet': 'Not yet',
@@ -4159,18 +4146,19 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'mural.piece': 'Piece {n}',
       'album.day': 'Day {n}',
       'album.opensOn': '{name} opens on {date}.',
+      'album.notOpen': 'Not yet available',
       'album.missed': 'Missed — make-up opens December 26.',
       'album.closed': 'The event has closed for this element.',
 
       'gifts.kicker': 'Under the tree',
-      'gifts.title': 'Two draws, two piles of gifts',
+      'gifts.title': 'Draw Every Day, Discover New Surprises!',
       'gifts.copy': 'Light 6 / 12 / 18 pieces to open each limited draw — or wait for the Christmas Day draw on Dec 25. More festive gifts await.',
       'gifts.stageKicker': 'Limited pool',
       'gifts.stageTitle': 'Limited draw',
       'gifts.stageCopy': 'Opens once at 6 / 12 / 18 pieces · up to 24h each · 1 regular energy per draw',
       'gifts.specialKicker': 'Christmas pool',
-      'gifts.specialTitle': 'Christmas Day draw',
-      'gifts.specialCopy': 'Opens 12/25 00:00–12/26 00:00 (UTC+8) · 1 energy at 18 pieces, 2 at 23 · no regular energy',
+      'gifts.specialTitle': 'Christmas Grand Prize Draw',
+      'gifts.specialCopy': 'Opens 12/25 00:00–12/26 00:00 (UTC+8) · 1 energy at 15 pieces, 2 at 19 · no regular energy',
       'gifts.cta': 'My prizes',
       'gifts.coupon': 'Store coupon',
       'gifts.coins': 'X-Coins',
@@ -4183,7 +4171,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'gifts.statusEnded': 'Ended',
       'gifts.statusUsed': 'In progress · chances used',
       'gifts.statusSoon': 'Not open · opens Dec 25, 00:00',
-      'gifts.statusLockedSpecial': 'Not open · 18 pieces needed',
+      'gifts.statusLockedSpecial': 'Not open · 15 pieces needed',
       'gifts.statusNoFund': 'In progress · not qualified',
       'gifts.metaEnergy': 'Energy: {n}',
       'gifts.metaSpecial': 'Christmas energy: {n}',
@@ -4209,7 +4197,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'auth.demo': 'Preview with a demo account',
       'auth.fine': 'Prototype only — no real account is created, sent or verified.',
       'auth.kicker': 'XPPen Christmas 2026',
-      'auth.art': '28 days of making.<br>A whole town to light.',
+      'auth.art': '24 days of making.<br>A whole town to light.',
       'auth.invalidEmail': 'Enter a valid email address.',
       'auth.shortPass': 'Password must be at least 6 characters.',
       'auth.signingIn': 'Signing in…',
@@ -4217,7 +4205,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'auth.signOutToast': 'Signed out. Your progress stays on this device.',
 
       'demo.title': 'Demo controls',
-      'demo.hint': 'The event starts Dec 3, 2026. Pick a date and a scenario to review every state.',
+      'demo.hint': 'The event starts Dec 7, 2026. Pick a date and a scenario to review every state.',
       'demo.date': 'Simulated date',
       'demo.apply': 'Apply',
       'demo.scenarios': 'Scenarios',
@@ -4225,24 +4213,24 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'demo.scenario.stage1': '5 pieces · Stage 1 next',
       'demo.scenario.stage2': '11 pieces · Stage 2 next',
       'demo.scenario.stage3': '17 pieces · Stage 3 next',
-      'demo.scenario.xmas18next': 'Christmas Day · 18th piece next',
-      'demo.scenario.xmas23next': 'Christmas Day · 23rd piece next',
+      'demo.scenario.xmas18next': 'Christmas Day · 15th piece next',
+      'demo.scenario.xmas23next': 'Christmas Day · 19th piece next',
       'demo.scenario.expired': 'Limited draw expired · energy saved',
-      'demo.scenario.xmas': 'Christmas Day · 18 pieces',
+      'demo.scenario.xmas': 'Christmas Day · 15 pieces',
       'demo.scenario.makeup': 'Make-up day · 20 pieces',
       'demo.scenario.makeupstage': 'Make-up · 5 pieces → Stage 1',
       'demo.scenario.overlap': 'Overlapping windows · 11 pieces',
       'demo.scenario.noenergy': 'Open draw · no energy',
-      'demo.scenario.almostcomplete': '27 pieces · final piece next',
+      'demo.scenario.almostcomplete': '23 pieces · final piece next',
       'demo.scenario.cutoff': 'Final cutoff · 09:30',
-      'demo.scenario.complete': 'Full town · 28 pieces',
+      'demo.scenario.complete': 'Full town · 24 pieces',
       'demo.tweak': 'Tweak state',
       'demo.piece': '+1 piece',
       'demo.chance': '+1 energy',
       'demo.finish': 'Finish draws',
       'demo.reset': 'Reset',
       'demo.foot': 'State is stored in this browser only.',
-      'demo.dec3': 'Dec 3',
+      'demo.dec3': 'Dec 7',
       'demo.dec8': 'Dec 8',
       'demo.dec14': 'Dec 14',
       'demo.dec20': 'Dec 20',
@@ -4257,11 +4245,11 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'demo.chanceToast': '+1 energy.',
       'demo.finishToast': 'All pending draws are marked complete.',
       'demo.resetToast': 'Progress reset.',
-      'demo.allPieces': 'All 28 pieces are lit.',
+      'demo.allPieces': 'All 24 pieces are lit.',
 
       'rules.kicker': 'Event rules',
       'rules.title': 'How the Christmas town works',
-      'rules.sub': 'December 3 – 31, 2026 · UTC+8. Please read before you draw.',
+      'rules.sub': 'December 7 – 31, 2026 · UTC+8. Please read before you draw.',
       'rules.foot': 'Questions? Write to official@xp-pen.com. XPPen may adjust the event within the published rules where required by law.',
 
       'prizes.kicker': 'My prizes',
@@ -4318,7 +4306,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'share.noteEarn': 'Sharing counts once per day (UTC+8) and adds 1 energy before your 18th piece.',
       'share.noteUsed': "Today's share reward is already claimed — you can still send the card.",
       'share.noteNoChance': 'This share adds no extra energy today. Send it for the love.',
-      'share.townGate': 'Town sharing unlocks when all 28 pieces are lit.',
+      'share.townGate': 'Town sharing unlocks when all 24 pieces are lit.',
       'share.demoNote': 'The demo does not post to social networks — it opens your share sheet or downloads the card.',
       'share.saved': 'Share card saved.',
       'share.claimed': '+1 energy added for sharing.',
@@ -4330,11 +4318,11 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'share.opening': 'Opening share sheet…',
       'share.nativeTitleTown': 'My XPPen Christmas Town',
       'share.nativeTitleDoodle': 'My XPPen Christmas doodle',
-      'share.nativeTextTown': 'I lit up {n} of 28 pieces of the XPPen Christmas Town. Create the Magic, Give the Joy.',
+      'share.nativeTextTown': 'I lit up {n} of 24 pieces of the XPPen Christmas Town. Create the Magic, Give the Joy.',
       'share.nativeTextDoodle': 'A Christmas doodle from my XPPen Christmas Town. Create the Magic, Give the Joy.',
 
       'keepsake.lockedTitle': 'Your keepsake is still frozen',
-      'keepsake.lockedCopy': 'Light all 28 pieces to unlock your personalised Christmas Town poster with your name, wish and a unique code.',
+      'keepsake.lockedCopy': 'Light all 24 pieces to unlock your personalised Christmas Town poster with your name, wish and a unique code.',
       'keepsake.back': 'Back to the town',
       'keepsake.kicker': 'Your keepsake',
       'keepsake.title': 'The town is yours',
@@ -4346,14 +4334,14 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'keepsake.saved': 'Keepsake saved — check your downloads.',
       'keepsake.failed': 'Could not render the poster in this browser.',
       'keepsake.fine': 'The keepsake is a digital commemorative reward. It has no cash value and cannot be exchanged for physical goods.',
-      'keepsake.progress': '{n} / 28 pieces lit',
+      'keepsake.progress': '{n} / 24 pieces lit',
       'keepsake.placeholderName': 'Your name',
       'keepsake.placeholderWish': 'A wish for the season',
       'keepsake.lit': 'pieces lit',
       'keepsake.cardKicker': 'Christmas Town · 2026',
-      'keepsake.piecesAll': '28 / 28 pieces',
+      'keepsake.piecesAll': '24 / 24 pieces',
 
-      'complete.kicker': '28 / 28 pieces lit',
+      'complete.kicker': '24 / 24 pieces lit',
       'complete.title': 'The whole town is glowing.',
       'complete.copy': 'Every element you drew is part of it. Your keepsake is ready.',
       'complete.share': 'Share my town',
@@ -4379,14 +4367,14 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'toast.milestoneNeed': '{n} pieces needed — {m} more to go.',
       'toast.stageNoChanceNode': 'This stage was reached with no banked chances, so there is nothing to draw.',
       'toast.stageDone': 'This stage draw is already complete.',
-      'toast.need18': 'Light 18 pieces to unlock the Christmas Day draw.',
+      'toast.need18': 'Light 15 pieces to unlock the Christmas Day draw.',
       'toast.specialNotOpen': 'The Christmas Day draw opens on December 25 at 00:00 UTC+8.',
       'toast.specialClosed': 'The Christmas Day draw window has closed.',
       'toast.specialUsed': 'The Christmas Day draw is already complete.',
       'toast.shareNoArt': 'Draw your first element to unlock sharing.',
       'toast.todayDone': "Today's element is done — a new one opens at 00:00 UTC+8.",
       'toast.eventOver': 'The event has closed.',
-      'toast.beforeStart': 'The first element opens on December 3 at 10:00 UTC+8.',
+      'toast.beforeStart': 'The first element opens on December 7 at 10:00 UTC+8.',
       'draw.subEnergy': 'You have {n} energy — each draw uses 1.',
       'draw.energyLeft': 'ENERGY {n}',
       'draw.energyEmpty': 'ENERGY 0',
@@ -4400,7 +4388,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'toast.noEnergy': 'No energy — draw a daily element to earn 1.',
       'toast.limitedClosed': 'This limited round has ended.',
       'toast.stageLocked': 'This stage is not unlocked yet.',
-      'toast.allPieces': 'All 28 pieces are lit.'
+      'toast.allPieces': 'All 24 pieces are lit.'
     },
 
     zh: {
@@ -4408,11 +4396,14 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'meta.desc': '每天画一个圣诞元素，逐块点亮雪夜小镇，解锁阶段抽奖与圣诞日特别抽奖。',
 
       'common.close': '关闭',
+      'studio.eventBefore': '活动未开始',
+      'studio.eventEnded': '活动已结束',
       'common.done': '完成',
       'common.apply': '应用',
 
       'subscription.kicker': '邮件订阅',
       'subscription.title': '订阅邮件，获得 1 点能量',
+      'subscription.entryTitle': '订阅邮件，获得 1 点能量',
       'subscription.hint': '可用于限时抽奖',
       'subscription.open': '订阅邮件',
       'subscription.modalCopy': '订阅成功后获得 1 点能量，可用于限时抽奖。',
@@ -4432,16 +4423,19 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'subscription.demoFailOff': '已关闭订阅失败演示。',
 
       'brand.event': '圣诞 2026',
-      'nav.studio': '画室',
-      'nav.town': '我的小镇',
+      'brand.header': 'Create the Magic, Give the Joy',
+      'nav.studio': '画板',
+      'nav.draw': '抽奖',
+      'draw.noChancesAvailable': '暂无抽奖机会',
+      'nav.town': '圣诞小镇',
       'nav.collection': '小镇拼图',
-      'nav.prizes': '奖品',
+      'nav.prizes': '我的奖品',
       'nav.rules': '规则',
       'nav.myPrizes': '我的奖品',
       'nav.myWorks': '我的作品',
       'works.entry': '我的作品',
       'works.kicker': '你的作品',
-      'works.title': '我的圣诞作品',
+      'works.title': '我的作品',
       'works.sub': '共 {n} 幅作品——点击查看、下载或分享。',
       'works.subOne': '共 1 幅作品——点击查看、下载或分享。',
       'works.dailyGroup': '每日作品',
@@ -4469,10 +4463,10 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
 
       'hero.eyebrow': 'XPPen 圣诞活动 · 2026',
       'hero.titleHtml': '创造魔法，<br><em>传递快乐！</em>',
-      'hero.lede': '28 天，28 个圣诞涂鸦。每一笔都会点亮雪夜小镇的一块拼图，也解锁一份小小的惊喜。',
-      'hero.date': '2026年12月3日 – 12月31日',
+      'hero.lede': '24 天，24 个圣诞涂鸦。每一笔都会点亮雪夜小镇的一块拼图，也解锁一份小小的惊喜。',
+      'hero.date': '2026年12月7日 – 12月31日',
       'hero.tz': 'UTC+8',
-      'hero.elements': '28 个元素',
+      'hero.elements': '24 个元素',
       'hero.how': '玩法说明',
       'hero.energy': '能量',
       'hero.scroll': '向下滚动探索',
@@ -4483,20 +4477,20 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'hero.chances': '能量',
       'hero.cta.start': '开始画作',
       'hero.cta.finish': '完成{stage}抽奖',
-      'hero.cta.before': '12月3日开启',
+      'hero.cta.before': '12月7日开启',
       'hero.cta.town': '看看我的圣诞小镇',
       'hero.cta.keepsake': '生成我的纪念图',
       'hero.cta.done': '开始画作',
       'hero.cta.makeup': '补画一个错过的元素',
 
       'town.live': '小镇进度',
-      'town.lit': '{n} / 28 已点亮',
+      'town.lit': '{n} / 24 已点亮',
       'town.name': '圣诞小镇',
       'town.caption': '点击已点亮的碎片，查看你的作品',
-      'town.opens': '2026年12月3日开启',
+      'town.opens': '2026年12月7日开启',
       'town.closed': '活动已结束',
       'town.preseason': '未开始',
-      'town.opensShort': '12月3日开启',
+      'town.opensShort': '12月7日开启',
       'town.closedShort': '已结束',
       'town.dayShort': '第 {n} 天',
       'town.plaqueLive': '{date} · 第 {n} 天',
@@ -4531,18 +4525,18 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'gate.drawCopy': '你有 {n} 次已累计的能量（{pieces}）。阶段能量必须一次抽完，才能继续创作。',
       'gate.drawCta': '开始抽奖',
       'gate.drawNote': '所有已累计能量需在同一轮抽完。',
-      'gate.beforeTitle': '小镇将于 12 月 3 日开启',
-      'gate.beforeCopy': '12 月 3 日 10:00（UTC+8）回来画第一个元素。12 月 31 日前，共有 28 个元素等你点亮。',
+      'gate.beforeTitle': '小镇将于 12 月 7 日开启',
+      'gate.beforeCopy': '12 月 7 日 10:00（UTC+8）回来画第一个元素。12 月 31 日前，共有 24 个元素等你点亮。',
       'gate.beforeCta': '查看规则',
       'gate.beforeNote': '活动将在 {time} 后开始。',
       'gate.endedTitle': '2026 圣诞活动已结束',
       'gate.endedCopy': '创作已关闭。你点亮的碎片、奖品和纪念图仍保留在账号中。',
       'gate.endedCta': '查看我的奖品',
       'gate.endedNote': '活动已于 12 月 31 日 10:00（UTC+8）结束。',
-      'gate.completeTitle': '28 块碎片全部点亮',
+      'gate.completeTitle': '24 块碎片全部点亮',
       'gate.completeCopy': '整座小镇已点亮。生成专属纪念图，下载并分享。',
       'gate.completeCta': '生成我的纪念图',
-      'gate.completeNote': '28 / 28 块 · 圣诞小镇已完成',
+      'gate.completeNote': '24 / 24 块 · 圣诞小镇已完成',
       'gate.caughtTitle': '今天已经完成',
       'gate.caughtCopy': '下一个元素将于 00:00（UTC+8）开放。小镇和能量都已保存。',
       'gate.caughtCta': '看看我的小镇',
@@ -4566,8 +4560,8 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'free.kicker': '自由创作',
       'free.savedTitle': '已保存到「我的作品」',
       'free.savedCopy': '作品保存在当前浏览器，可在「我的作品」中随时下载。',
-      'free.view': '查看我的作品',
-      'free.keep': '继续画',
+      'free.view': '我的作品',
+      'free.keep': '继续创作',
       'studio.todayCompleteFree': '今日任务已完成，可以继续创作。',
       'free.failKicker': '保存失败',
       'free.failTitle': '作品保存失败',
@@ -4585,7 +4579,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'tool.undo': '撤销',
       'tool.clear': '清空',
       'tool.sure': '确定？',
-      'tool.guide': '参考线',
+      'tool.guide': '自由创作',
       'tool.colour': '颜色 {n}',
       'tool.customColor': '自定义颜色',
       'tool.brushSize': '画笔粗细 {n}',
@@ -4598,7 +4592,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'chance.unitOne': '次',
       'chance.noteFirst': '完成一幅作品，获得第一点能量。',
       'chance.noteEnded': '活动已结束——未使用的能量已失效。',
-      'chance.noteBefore': '第一点能量将在 12 月 3 日首次创作后获得。',
+      'chance.noteBefore': '第一点能量将在 12 月 7 日首次创作后获得。',
       'chance.noteComplete': '所有阶段抽奖已完成——继续创作，点亮完整小镇。',
       'chance.toNext': '距离{stage}还差 {n} 块，继续创作即可累积能量。',
       'chance.nmNext': '下一个 · 限时抽奖',
@@ -4622,7 +4616,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'chance.shareDrawFirst': '先画一幅作品即可分享',
       'chance.shareJoy': '为快乐分享——不再获得能量',
       'chance.shareClosed': '活动已结束',
-      'chance.shareBefore': '12 月 3 日开始获得能量',
+      'chance.shareBefore': '12 月 7 日开始获得能量',
       'chance.info': '能量说明',
       'result.kicker.daily': '今日创作',
       'result.kicker.makeup': '补画',
@@ -4638,7 +4632,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'result.specialOpens': '12 月 25 日 00:00（UTC+8）',
       'result.title.update': '作品已更新',
       'result.fragmentLabel': '碎片',
-      'result.fragment': '+1 · 第 {n} / 28 块',
+      'result.fragment': '+1 · 第 {n} / 24 块',
       'result.energyLabel': '能量',
       'result.energy': '+1',
       'result.specialLabel': '特殊能量',
@@ -4681,14 +4675,14 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'draw.subSpecialEnds': '距圣诞日结束 {t}',
       'draw.subLocked': '点亮 {n} 块开启抽奖',
       'draw.subDone': '抽奖已全部完成',
-      'draw.subBefore': '12月3日开启',
+      'draw.subBefore': '12月7日开启',
       'draw.subEnded': '抽奖已结束',
       'draw.subSpecialOn': '12月25日开启',
       'draw.entryReady': '去抽奖 · {n}',
       'draw.entrySpecial': '圣诞日抽奖 · {n}',
       'draw.entryLocked': '还差 {n} 块开奖',
       'draw.entryLockedOne': '还差 1 块开奖',
-      'draw.entryBefore': '12月3日开启抽奖',
+      'draw.entryBefore': '12月7日开启抽奖',
       'draw.entryEnded': '抽奖已结束',
       'draw.entryDone': '抽奖已全部完成',
       'draw.entryNoEnergy': '能量不足，画画获得',
@@ -4710,7 +4704,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'draw.specialNoFundLabel': '圣诞日抽奖 · 未获得资格',
       'draw.specialUsedLabel': '圣诞日抽奖 · 次数已用完',
       'draw.enterSpecial': '进入圣诞日抽奖',
-      'draw.specialLockedSub': '点亮 18 块获得 1 次；23 块累计 2 次',
+      'draw.specialLockedSub': '点亮 15 块获得 1 次；19 块累计 2 次',
       'draw.specialSoonSub': '{n} 点特殊能量 · 12/25 00:00 开启',
       'draw.specialOpenSub': '{n} 点特殊能量 · 还剩 {t}',
       'draw.specialEndedSub': '截止 12/26 00:00（UTC+8）',
@@ -4758,10 +4752,10 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'mstone.toGo': '还差 {n} 块',
 
       'collection.kicker': '小镇拼图',
-      'collection.title': '28 个元素，点亮一座小镇',
-      'collection.count': '已点亮 {n} / 28 块',
-      'collection.countSuffix': ' / 28 块已点亮',
-      'collection.all': '全部 28',
+      'collection.title': '点亮你的圣诞小镇！',
+      'collection.count': '已点亮 {n} / 24 块',
+      'collection.countSuffix': ' / 24 块已点亮',
+      'collection.all': '全部 24',
       'collection.lit': '已点亮',
       'collection.open': '今日可画',
       'collection.notyet': '未开放',
@@ -4777,18 +4771,19 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'mural.piece': '第 {n} 块',
       'album.day': '第 {n} 天',
       'album.opensOn': '{name}将于{date}开放。',
+      'album.notOpen': '暂未开放',
       'album.missed': '已错过——12 月 26 日起可补画。',
       'album.closed': '该元素的活动已结束。',
 
       'gifts.kicker': '圣诞树下',
-      'gifts.title': '两种抽奖，两份礼物',
+      'gifts.title': '每日抽奖，发现更多惊喜！',
       'gifts.copy': '点亮 6 / 12 / 18 块时各开启一次限时抽奖；12/25 圣诞日抽奖，更多节日礼物等你发现。',
       'gifts.stageKicker': '限时奖池',
       'gifts.stageTitle': '限时抽奖',
       'gifts.stageCopy': '6 / 12 / 18 块各开启一次 · 每次最多 24 小时 · 每抽消耗 1 点能量',
       'gifts.specialKicker': '圣诞日奖池',
-      'gifts.specialTitle': '圣诞日抽奖',
-      'gifts.specialCopy': '12/25 00:00–12/26 00:00（UTC+8）· 18 块 1 点，23 块 2 点 · 不消耗普通能量',
+      'gifts.specialTitle': '圣诞大奖抽奖',
+      'gifts.specialCopy': '12/25 00:00–12/26 00:00（UTC+8）· 15 块 1 点，19 块 2 点 · 不消耗普通能量',
       'gifts.cta': '我的奖品',
       'gifts.coupon': '商城优惠券',
       'gifts.coins': 'X-Coins',
@@ -4801,7 +4796,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'gifts.statusEnded': '已结束',
       'gifts.statusUsed': '进行中 · 次数已用完',
       'gifts.statusSoon': '未开启 · 12/25 00:00 开放',
-      'gifts.statusLockedSpecial': '未开启 · 需点亮 18 块',
+      'gifts.statusLockedSpecial': '未开启 · 需点亮 15 块',
       'gifts.statusNoFund': '进行中 · 未获得资格',
       'gifts.metaEnergy': '能量：{n} 点',
       'gifts.metaSpecial': '圣诞能量：{n} 点',
@@ -4827,7 +4822,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'auth.demo': '使用演示账号预览',
       'auth.fine': '仅为原型演示——不会创建、发送或校验真实账号。',
       'auth.kicker': 'XPPen 圣诞 2026',
-      'auth.art': '28 天创作，<br>点亮整座小镇。',
+      'auth.art': '24 天创作，<br>点亮整座小镇。',
       'auth.invalidEmail': '请输入有效的邮箱地址。',
       'auth.shortPass': '密码至少 6 位。',
       'auth.signingIn': '登录中…',
@@ -4835,7 +4830,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'auth.signOutToast': '已退出登录。进度仍保存在本设备。',
 
       'demo.title': '演示控制',
-      'demo.hint': '活动将于 2026 年 12 月 3 日开始。选择日期和场景查看各种状态。',
+      'demo.hint': '活动将于 2026 年 12 月 7 日开始。选择日期和场景查看各种状态。',
       'demo.date': '模拟日期',
       'demo.apply': '应用',
       'demo.scenarios': '场景',
@@ -4843,24 +4838,24 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'demo.scenario.stage1': '5 块 · 即将触发第一阶段',
       'demo.scenario.stage2': '11 块 · 即将开启第二次限时抽奖',
       'demo.scenario.stage3': '17 块 · 即将触发第三阶段',
-      'demo.scenario.xmas18next': '圣诞日 · 即将点亮第 18 块',
-      'demo.scenario.xmas23next': '圣诞日 · 即将点亮第 23 块',
+      'demo.scenario.xmas18next': '圣诞日 · 即将点亮第 15 块',
+      'demo.scenario.xmas23next': '圣诞日 · 即将点亮第 19 块',
       'demo.scenario.expired': '限时抽奖已过期 · 能量保留',
-      'demo.scenario.xmas': '圣诞日 · 18 块',
+      'demo.scenario.xmas': '圣诞日 · 15 块',
       'demo.scenario.makeup': '补画日 · 20 块',
       'demo.scenario.makeupstage': '补画 · 5 块触发第一阶段',
       'demo.scenario.overlap': '窗口重叠 · 11 块补画第 12 块',
       'demo.scenario.noenergy': '限时窗口开放 · 无能量',
-      'demo.scenario.almostcomplete': '27 块 · 即将完成小镇',
+      'demo.scenario.almostcomplete': '23 块 · 即将完成小镇',
       'demo.scenario.cutoff': '活动截止前 · 09:30',
-      'demo.scenario.complete': '完整小镇 · 28 块',
+      'demo.scenario.complete': '完整小镇 · 24 块',
       'demo.tweak': '调整状态',
       'demo.piece': '+1 块',
       'demo.chance': '+1 点能量',
       'demo.finish': '完成抽奖',
       'demo.reset': '重置',
       'demo.foot': '状态仅保存在本浏览器。',
-      'demo.dec3': '12月3日',
+      'demo.dec3': '12月7日',
       'demo.dec8': '12月8日',
       'demo.dec14': '12月14日',
       'demo.dec20': '12月20日',
@@ -4875,15 +4870,15 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'demo.chanceToast': '+1 次累计能量。',
       'demo.finishToast': '所有待抽奖已标记为完成。',
       'demo.resetToast': '进度已重置。',
-      'demo.allPieces': '28 块已全部点亮。',
+      'demo.allPieces': '24 块已全部点亮。',
 
       'rules.kicker': '活动规则',
       'rules.title': '圣诞小镇玩法',
-      'rules.sub': '2026 年 12 月 3 日 – 31 日 · UTC+8。开始创作前请阅读。',
+      'rules.sub': '2026 年 12 月 7 日 – 31 日 · UTC+8。开始创作前请阅读。',
       'rules.foot': '如有疑问，请发送邮件至 official@xp-pen.com。在法律允许范围内，XPPen 可依据公布规则调整活动。',
 
       'prizes.kicker': '我的奖品',
-      'prizes.title': '我的圣诞战利品',
+      'prizes.title': '我的奖品',
       'prizes.subMany': '已收集 {n} 件奖品。',
       'prizes.subOne': '已收集 1 件奖品。',
       'prizes.subEmpty': '抽中的奖品都会出现在这里。',
@@ -4906,7 +4901,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'draw.chanceOf': '第 {n} / {m} 次',
       'draw.spinning': '抽取中…',
       'draw.warming': '光轨准备中…',
-      'draw.unwrapped': '你抽中了',
+      'draw.unwrapped': '恭喜获得',
       'draw.next': '继续抽奖 · 剩 {n} 点能量',
       'draw.nextSpecial': '继续抽奖 · 剩 {n} 次圣诞日抽奖',
       'draw.allUsed': '{n} 点能量已用完',
@@ -4936,7 +4931,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'share.noteEarn': '每天首次分享 +1 点能量（UTC+8），18 块前有效。',
       'share.noteUsed': '今天的分享奖励已领取，仍可继续分享卡片。',
       'share.noteNoChance': '小镇分享是纪念分享，本次不再增加能量。',
-      'share.townGate': '点亮全部 28 块后即可分享完整小镇。',
+      'share.townGate': '点亮全部 24 块后即可分享完整小镇。',
       'share.demoNote': '演示版不会发布到社交平台——会打开系统分享或下载卡片。',
       'share.saved': '分享卡已保存。',
       'share.claimed': '分享成功，+1 点能量。',
@@ -4948,11 +4943,11 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'share.opening': '正在打开分享…',
       'share.nativeTitleTown': '我的 XPPen 圣诞小镇',
       'share.nativeTitleDoodle': '我的 XPPen 圣诞涂鸦',
-      'share.nativeTextTown': '我点亮了 XPPen 圣诞小镇的 {n} / 28 块碎片。创造魔法，传递快乐。',
+      'share.nativeTextTown': '我点亮了 XPPen 圣诞小镇的 {n} / 24 块碎片。创造魔法，传递快乐。',
       'share.nativeTextDoodle': '来自我的 XPPen 圣诞小镇的一幅涂鸦。创造魔法，传递快乐。',
 
       'keepsake.lockedTitle': '纪念图还未解锁',
-      'keepsake.lockedCopy': '点亮全部 28 块，即可解锁包含昵称、祝福与唯一编号的圣诞小镇纪念图。',
+      'keepsake.lockedCopy': '点亮全部 24 块，即可解锁包含昵称、祝福与唯一编号的圣诞小镇纪念图。',
       'keepsake.back': '回到小镇',
       'keepsake.kicker': '我的纪念图',
       'keepsake.title': '这座小镇属于你',
@@ -4964,14 +4959,14 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'keepsake.saved': '纪念图已保存，请查看下载。',
       'keepsake.failed': '当前浏览器无法生成纪念图。',
       'keepsake.fine': '纪念图为数字纪念奖励，不具备现金价值，不可兑换实物。',
-      'keepsake.progress': '已点亮 {n} / 28 块',
+      'keepsake.progress': '已点亮 {n} / 24 块',
       'keepsake.placeholderName': '你的昵称',
       'keepsake.placeholderWish': '写下一句圣诞祝福',
       'keepsake.lit': '块已点亮',
       'keepsake.cardKicker': '圣诞小镇 · 2026',
-      'keepsake.piecesAll': '28 / 28 块',
+      'keepsake.piecesAll': '24 / 24 块',
 
-      'complete.kicker': '28 / 28 块已点亮',
+      'complete.kicker': '24 / 24 块已点亮',
       'complete.title': '整座小镇都亮了。',
       'complete.copy': '你画下的每个元素都在其中。纪念图已准备好。',
       'complete.share': '分享我的小镇',
@@ -4995,14 +4990,14 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'toast.milestoneNeed': '需要 {n} 块——还差 {m} 块。',
       'toast.stageNoChanceNode': '该阶段没有已累计能量，暂无可抽奖内容。',
       'toast.stageDone': '该阶段抽奖已完成。',
-      'toast.need18': '点亮 18 块即可解锁圣诞日抽奖。',
+      'toast.need18': '点亮 15 块即可解锁圣诞日抽奖。',
       'toast.specialNotOpen': '圣诞日抽奖将于 12 月 25 日 00:00（UTC+8）开放。',
       'toast.specialClosed': '圣诞日抽奖窗口已关闭。',
       'toast.specialUsed': '圣诞日抽奖已完成。',
       'toast.shareNoArt': '先画一个元素即可解锁分享。',
       'toast.todayDone': '今日元素已完成——新元素将在 00:00（UTC+8）开放。',
       'toast.eventOver': '活动已结束。',
-      'toast.beforeStart': '第一个元素将于 12 月 3 日 10:00（UTC+8）开放。',
+      'toast.beforeStart': '第一个元素将于 12 月 7 日 10:00（UTC+8）开放。',
       'chance.energyNote': '能量：{n} 点。限时抽奖每次消耗 1 点。',
       'chance.energyBanked': '已存下 {n} 点能量——{toGo}开启限时抽奖。',
       'chance.noEnergyNext': '能量已用完——再点亮 {n} 块开启下一次限时抽奖。',
@@ -5020,7 +5015,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'toast.noEnergy': '能量不足——画一个每日元素获得 1 点能量。',
       'toast.limitedClosed': '本轮限时抽奖已结束。',
       'toast.stageLocked': '该阶段还未解锁。',
-      'toast.allPieces': '28 块已全部点亮。'
+      'toast.allPieces': '24 块已全部点亮。'
     }
   };
 
@@ -5035,8 +5030,8 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
 
   // Copy for the revised daily draw and make-up rules.
   Object.assign(DICT.en, {
-    'chance.dailyEnergy': 'You have {n} regular draw chances today. Unused chances expire at midnight (UTC+8).',
-    'chance.nmRule': '18 / 23 pieces unlock Christmas Day draw chances',
+    'chance.dailyEnergy': 'Energy can be used to enter the lucky draw. Unused energy will expire at the end of each day (UTC+8).',
+    'chance.nmRule': '15 / 19 pieces unlock Christmas Day draw chances',
     'chance.nmSpecialAt': '{n} pieces · Christmas Day draw',
     'draw.dailyUntil': 'Expires in {t}', 'draw.dailyNoEnergy': 'Draw, share or make up a task to earn a chance',
     'subscription.accountEmailUnavailable': 'Your signed-in account has no valid email address.',
@@ -5048,10 +5043,10 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     'done.makeupCopy': 'Make-up saved. A piece is lit and 1 draw chance was earned.',
     'toast.makeup': 'Make-up saved · piece {n} lit · +1 draw chance',
     'legend.missed': 'Missed · make-up opens Dec 18', 'album.missed': 'Missed — make-up opens December 18.',
-    'draw.limitedName': 'Regular draw', 'draw.enterLimited': 'Enter regular draw', 'draw.limitedKicker': 'Regular draw', 'draw.limitedTitle': 'Regular draw',
-    'draw.limitedNoEnergy': 'Regular draw · no chances', 'draw.limitedEnded': 'Regular draw ended',
+    'draw.limitedName': 'Regular draw', 'draw.enterLimited': 'Enter regular draw', 'draw.limitedKicker': 'Regular draw', 'draw.limitedTitle': 'Choose a Gift Box to Win a Prize!',
+    'draw.limitedNoEnergy': 'No Lucky Draw Chances Available', 'draw.limitedEnded': 'Regular draw ended',
     'draw.costNote': 'Each regular draw uses 1 chance.', 'draw.limitedModalSub': 'You have {n} chances today. Unused chances expire at {date} {time} (UTC+8).',
-    'gifts.stageKicker': 'Regular pool', 'gifts.stageTitle': 'Regular draw',
+    'gifts.stageKicker': 'Regular pool', 'gifts.stageTitle': 'Daily Lucky Draw',
     'gifts.stageCopy': 'Draw or make up a task for 1 chance · first daily share adds 1 · unused chances expire daily',
     'gifts.copy': 'Earn daily chances for the regular draw; the Christmas Day draw opens on December 25.',
     'share.noteEarn': 'First successful drawing share each day earns 1 chance (UTC+8).',
@@ -5085,7 +5080,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
   });
   Object.assign(DICT.zh, {
     'chance.dailyEnergy': '今日可用 {n} 次普通抽奖机会，未使用的机会于当天结束时失效（UTC+8）。',
-    'chance.nmRule': '点亮 18 / 23 块可获得圣诞日抽奖机会',
+    'chance.nmRule': '点亮 15 / 19 块可获得圣诞日抽奖机会',
     'chance.nmSpecialAt': '点亮 {n} 块 · 圣诞日抽奖',
     'draw.dailyUntil': '距今日失效 {t}', 'draw.dailyNoEnergy': '完成绘画、补画或分享可获得机会',
     'subscription.accountEmailUnavailable': '当前登录账号没有有效的邮箱地址，暂无法订阅。',
@@ -5097,10 +5092,10 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     'done.makeupCopy': '补画已保存，点亮对应碎片并获得 1 次普通抽奖机会。',
     'toast.makeup': '补画已保存 · 点亮第 {n} 块 · 抽奖机会 +1',
     'legend.missed': '错过 · 12月18日起可补画', 'album.missed': '已错过——12 月 18 日起可补画。',
-    'draw.limitedName': '抽奖', 'draw.enterLimited': '进入抽奖', 'draw.limitedKicker': '抽奖', 'draw.limitedTitle': '抽奖',
+    'draw.limitedName': '抽奖', 'draw.enterLimited': '进入抽奖', 'draw.limitedKicker': '抽奖', 'draw.limitedTitle': '选择礼物盒，赢取奖品！',
     'draw.limitedNoEnergy': '抽奖 · 暂无机会', 'draw.limitedEnded': '抽奖已结束',
     'draw.costNote': '每次抽奖消耗 1 次机会。', 'draw.limitedModalSub': '今日还有 {n} 次机会，未使用的机会于 {date} {time}（UTC+8）失效。',
-    'gifts.stageKicker': '奖池', 'gifts.stageTitle': '抽奖',
+    'gifts.stageKicker': '奖池', 'gifts.stageTitle': '每日幸运抽奖',
     'gifts.stageCopy': '每日绘画及补画各获得 1 次 · 每日首次分享额外 1 次 · 未使用机会当日失效',
     'gifts.copy': '每日获取抽奖机会；12 月 25 日开启圣诞日抽奖。',
     'share.noteEarn': '每天首次成功分享画作获得 1 次机会（UTC+8）。',
@@ -5201,7 +5196,6 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     dict: DICT
   };
 })(window);
-
 </script>
 <script>
 /* XPPen Christmas 2026 — content & rules data
@@ -5213,18 +5207,18 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
   var EVENT = {
     year: 2026,
     // All times are fixed to UTC+8 per the event plan (business confirmation pending).
-    startISO: '2026-12-03T10:00:00+08:00',
+    startISO: '2026-12-07T10:00:00+08:00',
     endISO: '2026-12-31T10:00:00+08:00',
     specialOpenISO: '2026-12-25T00:00:00+08:00',
     specialCloseISO: '2026-12-26T00:00:00+08:00',
     makeupStartISO: '2026-12-18T00:00:00+08:00',
-    startLabel: 'Dec 3, 2026 · 10:00',
+    startLabel: 'Dec 7, 2026 · 10:00',
     endLabel: 'Dec 31, 2026 · 10:00',
     tzLabel: 'UTC+8',
     tagline: 'Create the Magic, Give the Joy.'
   };
 
-  // 28 daily elements. Day 1 opens Dec 3 2026; day N opens on Dec (2 + N).
+  // The first 24 elements are used: day 1 opens Dec 7, then one per day through Dec 30.
   // Categories follow the plan: Decor 7 / Characters 6 / Cozy 7 / Town 7 / Sky 1
   var TASKS = [
     { id: 'christmas-tree', day: 1,  name: 'Christmas Tree',     nameZh: '圣诞树',       category: 'Decor',      blurb: 'Evergreen, star-topped, impossibly tall.',        blurbZh: '常青、顶星，高得不可思议。' },
@@ -5257,16 +5251,18 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     { id: 'night-sky',      day: 28, name: 'Night Sky',          nameZh: '夜空',         category: 'Sky',        blurb: 'Stars, moon and the whole town below.',           blurbZh: '星星、月亮和脚下的小镇。' }
   ];
 
+  TASKS = TASKS.slice(0, 24);
+
   var MILESTONES = [
-    { id: 'stage1', at: 6,  index: 1, label: 'Stage One',   labelZh: '第一阶段', piecesLabel: '6 / 28',  short: 'Stage 1' },
-    { id: 'stage2', at: 12, index: 2, label: 'Stage Two',   labelZh: '第二阶段', piecesLabel: '12 / 28', short: 'Stage 2' },
-    { id: 'stage3', at: 18, index: 3, label: 'Stage Three', labelZh: '第三阶段', piecesLabel: '18 / 28', short: 'Stage 3' }
+    { id: 'stage1', at: 6,  index: 1, label: 'Stage One',   labelZh: '第一阶段', piecesLabel: '6 / 24',  short: 'Stage 1' },
+    { id: 'stage2', at: 12, index: 2, label: 'Stage Two',   labelZh: '第二阶段', piecesLabel: '12 / 24', short: 'Stage 2' },
+    { id: 'stage3', at: 18, index: 3, label: 'Stage Three', labelZh: '第三阶段', piecesLabel: '18 / 24', short: 'Stage 3' }
   ];
 
   var SPECIAL = {
     id: 'special',
-    at: 18,
-    bonusAt: 23,
+    at: 15,
+    bonusAt: 19,
     label: 'Christmas Day Draw',
     labelZh: '圣诞日抽奖',
     windowLabel: 'Dec 25 only',
@@ -5335,8 +5331,8 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     {
       title: 'Event period',
       titleZh: '活动时间',
-      body: '<p>The event runs from <strong>December 3, 2026, 10:00</strong> to <strong>December 31, 2026, 10:00 (UTC+8)</strong>. Drawings and make-up drawings cannot be submitted after the closing time. One new Christmas element opens each day from December 3 to December 30 — 28 elements in total.</p>',
-      bodyZh: '<p>活动时间为 <strong>2026 年 12 月 3 日 10:00</strong> 至 <strong>12 月 31 日 10:00（UTC+8）</strong>。活动结束后无法继续提交创作或补画。12 月 3 日至 12 月 30 日每天开放 1 个圣诞元素，共 28 个。</p>'
+      body: '<p>The event runs from <strong>December 7, 2026, 10:00</strong> to <strong>December 31, 2026, 10:00 (UTC+8)</strong>. Drawings and make-up drawings cannot be submitted after the closing time. One new Christmas element opens each day from December 7 to December 30 — 24 elements in total.</p>',
+      bodyZh: '<p>活动时间为 <strong>2026 年 12 月 7 日 10:00</strong> 至 <strong>12 月 31 日 10:00（UTC+8）</strong>。活动结束后无法继续提交创作或补画。12 月 7 日至 12 月 30 日每天开放 1 个圣诞元素，共 24 个。</p>'
     },
     {
       title: 'Who can join',
@@ -5353,20 +5349,20 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     {
       title: 'Energy & town pieces',
       titleZh: '能量与小镇',
-      body: '<p>Every <strong>daily</strong> drawing gives <strong>1 regular energy</strong> and lights <strong>1 piece</strong> of the town. Make-up drawings light a piece but add no energy. There are 28 pieces; this browser keeps your demo energy and pieces.</p>',
-      bodyZh: '<p>每完成一个<strong>每日</strong>任务，获得 <strong>1 点能量</strong>并点亮 <strong>1 块</strong>小镇碎片；补画点亮碎片但不增加能量。共 28 块；演示能量与碎片保存在当前浏览器。</p>'
+      body: '<p>Every <strong>daily</strong> drawing gives <strong>1 regular energy</strong> and lights <strong>1 piece</strong> of the town. Make-up drawings light a piece but add no energy. There are 24 pieces; this browser keeps your demo energy and pieces.</p>',
+      bodyZh: '<p>每完成一个<strong>每日</strong>任务，获得 <strong>1 点能量</strong>并点亮 <strong>1 块</strong>小镇碎片；补画点亮碎片但不增加能量。共 24 块；演示能量与碎片保存在当前浏览器。</p>'
     },
     {
       title: 'Energy & limited draws',
       titleZh: '能量与限时抽奖',
-      body: '<p><strong>1 regular energy = 1 limited draw.</strong> Each daily drawing adds 1 energy while the town has 18 or fewer lit pieces; from the 19th piece no more regular energy is added. Sharing once a day adds 1 energy before 18 pieces. Lighting <strong>6, 12 and 18</strong> pieces opens the limited draw <strong>once per threshold</strong>. Each opening lasts up to <strong>24 hours</strong> and ends no later than <strong>December 31, 10:00 (UTC+8)</strong>. If windows overlap, the later end time applies. There is one limited prize pool; no stage selection. Unused energy stays in your balance for a later window.</p><p>The complete town can only be shared once all <strong>28 pieces</strong> are lit.</p>',
-      bodyZh: '<p><strong>1 点能量 = 抽 1 次限时抽奖。</strong>小镇点亮 18 块及以前，每完成一个每日任务 +1 点能量；第 19 块起不再增加。18 块前每天首次分享 +1 点。点亮 <strong>6、12、18 块</strong>时，每个门槛各开启<strong>一次</strong>限时抽奖，每次最多开放 <strong>24 小时</strong>，最晚不超过 <strong>2026 年 12 月 31 日 10:00（UTC+8）</strong>。若窗口重叠，以较晚的结束时间为准。限时奖池只有一套，不再分阶段选择；未用完的能量保留到后续窗口。</p><p>完整小镇需点亮全部 <strong>28 块</strong>后才能分享。</p>'
+      body: '<p><strong>1 regular energy = 1 limited draw.</strong> Each daily drawing adds 1 energy while the town has 18 or fewer lit pieces; from the 19th piece no more regular energy is added. Sharing once a day adds 1 energy before 18 pieces. Lighting <strong>6, 12 and 18</strong> pieces opens the limited draw <strong>once per threshold</strong>. Each opening lasts up to <strong>24 hours</strong> and ends no later than <strong>December 31, 10:00 (UTC+8)</strong>. If windows overlap, the later end time applies. There is one limited prize pool; no stage selection. Unused energy stays in your balance for a later window.</p><p>The complete town can only be shared once all <strong>24 pieces</strong> are lit.</p>',
+      bodyZh: '<p><strong>1 点能量 = 抽 1 次限时抽奖。</strong>小镇点亮 18 块及以前，每完成一个每日任务 +1 点能量；第 19 块起不再增加。18 块前每天首次分享 +1 点。点亮 <strong>6、12、18 块</strong>时，每个门槛各开启<strong>一次</strong>限时抽奖，每次最多开放 <strong>24 小时</strong>，最晚不超过 <strong>2026 年 12 月 31 日 10:00（UTC+8）</strong>。若窗口重叠，以较晚的结束时间为准。限时奖池只有一套，不再分阶段选择；未用完的能量保留到后续窗口。</p><p>完整小镇需点亮全部 <strong>24 块</strong>后才能分享。</p>'
     },
     {
       title: 'Christmas Day draw',
       titleZh: '圣诞日抽奖',
-      body: '<p>The Christmas Day draw opens from <strong>December 25, 2026, 00:00 (inclusive)</strong> to <strong>December 26, 2026, 00:00 (exclusive), UTC+8</strong>. Lighting <strong>18 pieces</strong> gives <strong>1 special energy</strong>; <strong>23 pieces</strong> gives <strong>2 special energy</strong> in total. Each Christmas draw uses <strong>1 special energy</strong> and never deducts regular energy. The draw can be closed; unused special energy expires when the window closes. Make-up drawings start December 26 and cannot add special energy before this window closes.</p>',
-      bodyZh: '<p>圣诞日抽奖开放时间为 <strong>2026 年 12 月 25 日 00:00（含）至 12 月 26 日 00:00（不含，UTC+8）</strong>。点亮 <strong>18 块</strong>获得 <strong>1 点特殊能量</strong>；<strong>23 块</strong>累计获得 <strong>2 点特殊能量</strong>。每次圣诞日抽奖消耗 <strong>1 点特殊能量</strong>，不扣普通能量。抽奖可随时关闭；未使用的特殊能量在窗口结束时失效。补画从 12 月 26 日开始，无法在本窗口关闭前增加特殊能量。</p>'
+      body: '<p>The Christmas Day draw opens from <strong>December 25, 2026, 00:00 (inclusive)</strong> to <strong>December 26, 2026, 00:00 (exclusive), UTC+8</strong>. Lighting <strong>15 pieces</strong> gives <strong>1 special energy</strong>; <strong>19 pieces</strong> gives <strong>2 special energy</strong> in total. Each Christmas draw uses <strong>1 special energy</strong> and never deducts regular energy. The draw can be closed; unused special energy expires when the window closes. Make-up drawings start December 26 and cannot add special energy before this window closes.</p>',
+      bodyZh: '<p>圣诞日抽奖开放时间为 <strong>2026 年 12 月 25 日 00:00（含）至 12 月 26 日 00:00（不含，UTC+8）</strong>。点亮 <strong>15 块</strong>获得 <strong>1 点特殊能量</strong>；<strong>19 块</strong>累计获得 <strong>2 点特殊能量</strong>。每次圣诞日抽奖消耗 <strong>1 点特殊能量</strong>，不扣普通能量。抽奖可随时关闭；未使用的特殊能量在窗口结束时失效。补画从 12 月 26 日开始，无法在本窗口关闭前增加特殊能量。</p>'
     },
     {
       title: 'Make-up drawings',
@@ -5400,7 +5396,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'Daily drawing': ['One new task opens each day. Each task can award one piece and one regular draw chance.', '每天开放一个新任务；每个任务首次完成获得对应碎片及 1 次普通抽奖机会。'],
       'Energy & town pieces': ['Each completed daily or make-up task lights one piece and earns one regular draw chance.', '每日任务和补画首次完成时，各点亮对应碎片并获得 1 次普通抽奖机会。'],
       'Energy & limited draws': ['Each chance is valid only on the day it is earned (UTC+8). The first successful drawing share each day adds one chance; make-up and subscription rewards are additional.', '普通抽奖机会仅在获得当天有效（UTC+8），每日首次成功分享画作额外获得 1 次；补画和订阅奖励另计。'],
-      'Christmas Day draw': ['On December 25 (UTC+8), reaching 18 pieces awards one chance and reaching 23 awards another, including pieces earned by make-up. Unused chances expire when the draw closes.', '12 月 25 日（UTC+8）达到 18 块获得 1 次，达到 23 块再获得 1 次；补画碎片计入。未使用的机会在大奖日结束后失效。'],
+      'Christmas Day draw': ['On December 25 (UTC+8), reaching 15 pieces awards one chance and reaching 19 awards another, including pieces earned by make-up. Unused chances expire when the draw closes.', '12 月 25 日（UTC+8）达到 15 块获得 1 次，达到 19 块再获得 1 次；补画碎片计入。未使用的机会在大奖日结束后失效。'],
       'Make-up drawings': ['December 18–25: up to 3 missed tasks per day. From December 26 until the activity ends: no daily limit. Each task earns a piece and one regular draw chance.', '12 月 18—25 日每天最多补画 3 个；12 月 26 日至活动结束不限每日数量。每个补画任务获得对应碎片和 1 次普通抽奖机会。']
     }[rule.title];
     if (revised) { rule.body = '<p>' + revised[0] + '</p>'; rule.bodyZh = '<p>' + revised[1] + '</p>'; }
@@ -5871,10 +5867,10 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
   function tileOrder() {
     var cells = [];
     for (var r = 0; r < 4; r++) {
-      for (var c = 0; c < 7; c++) {
-        var dx = (c - 3) / 7;
+      for (var c = 0; c < 6; c++) {
+        var dx = (c - 2.5) / 6;
         var dy = (r - 1.5) / 4;
-        cells.push({ idx: r * 7 + c, d: dx * dx + dy * dy + ((r * 7 + c) % 3) * 0.0015 });
+        cells.push({ idx: r * 6 + c, d: dx * dx + dy * dy + ((r * 6 + c) % 3) * 0.0015 });
       }
     }
     cells.sort(function (a, b) { return a.d - b.d; });
@@ -6721,7 +6717,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
   }
 
   function drawFrost(ctx, x, y, w, h, pieces, radius) {
-    if (pieces >= 28) return;
+    if (pieces >= 24) return;
     var order = global.XMASArt.tileOrder();
     var lit = {};
     order.slice(0, pieces).forEach(function (p) { lit[p] = true; });
@@ -6730,12 +6726,12 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     roundRect(ctx, x, y, w, h, radius);
     ctx.clip();
 
-    var tw = w / 7;
+    var tw = w / 6;
     var th = h / 4;
-    for (var p = 0; p < 28; p++) {
+    for (var p = 0; p < 24; p++) {
       if (lit[p]) continue;
-      var tx = x + (p % 7) * tw;
-      var ty = y + Math.floor(p / 7) * th;
+      var tx = x + (p % 6) * tw;
+      var ty = y + Math.floor(p / 6) * th;
       ctx.fillStyle = 'rgba(6,12,26,.3)';
       ctx.fillRect(tx, ty, tw + .5, th + .5);
       var g = ctx.createLinearGradient(tx, ty, tx + tw, ty + th);
@@ -6808,7 +6804,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       var sx = 62, sy = 64, sw = W - 124, sh = Math.round(sw * 700 / 1120);
       drawScene(ctx, img, sx, sy, sw, sh);
       drawNoticeboard(ctx, artwork, sx, sy, sw, sh);
-      drawFrost(ctx, sx, sy, sw, sh, opts.pieces || 28, 18);
+      drawFrost(ctx, sx, sy, sw, sh, opts.pieces || 24, 18);
 
       // ribbon of light under the scene
       var line = ctx.createLinearGradient(sx, 0, sx + sw, 0);
@@ -6842,11 +6838,11 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
         ctx.fillText(l, W / 2, 1042 + i * 42);
       });
 
-      var pieces = opts.pieces || 28;
+      var pieces = opts.pieces || 24;
       ctx.font = '700 15px ' + sans;
       setSpacing(ctx, zh ? '2px' : '4px');
       ctx.fillStyle = 'rgba(154,172,205,.85)';
-      ctx.fillText(zh ? pieces + ' / 28 块已点亮  ·  2026年12月' : pieces + ' / 28 PIECES LIT  ·  DEC 2026', W / 2, 1150);
+      ctx.fillText(zh ? pieces + ' / 24 块已点亮  ·  2026年12月' : pieces + ' / 24 PIECES LIT  ·  DEC 2026', W / 2, 1150);
       setSpacing(ctx, '0px');
 
       // code plate
@@ -6922,7 +6918,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       var pieces = opts.pieces || 0;
       ctx.fillStyle = '#f7c869';
       ctx.font = '600 88px ' + serif;
-      ctx.fillText(pieces + ' / 28', W / 2, 928);
+      ctx.fillText(pieces + ' / 24', W / 2, 928);
       setSpacing(ctx, '4px');
       ctx.fillStyle = 'rgba(154,172,205,.9)';
       ctx.font = '700 14px ' + sans;
@@ -7023,7 +7019,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
 
       ctx.fillStyle = '#f7c869';
       ctx.font = '600 64px ' + serif;
-      ctx.fillText((opts.pieces || 0) + ' / 28', W / 2, 1015);
+      ctx.fillText((opts.pieces || 0) + ' / 24', W / 2, 1015);
       setSpacing(ctx, '4px');
       ctx.fillStyle = 'rgba(154,172,205,.9)';
       ctx.font = '700 14px ' + sans;
@@ -7221,8 +7217,8 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
   }
 
   function taskOpenAt(task) {
-    if (task.day === 1) return shDate(2026, 12, 3, 10, 0);
-    return shDate(2026, 12, 2 + task.day, 0, 0);
+    if (task.day === 1) return shDate(2026, 12, 7, 10, 0);
+    return shDate(2026, 12, 6 + task.day, 0, 0);
   }
 
   var simBaseMs = 0;
@@ -7254,8 +7250,8 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
   function eventDayIndex(date) {
     var p = shParts(date);
     if (p.m === 11) return 0;
-    if (p.m === 12) return Math.max(1, Math.min(28, p.d - 2));
-    return 28;
+    if (p.m === 12) return Math.max(1, Math.min(24, p.d - 6));
+    return 24;
   }
 
   function pad2(n) { return String(n).padStart(2, '0'); }
@@ -7288,7 +7284,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     return {
       v: 3,
       user: null,
-      sim: '2026-12-03T10:30:00+08:00',
+      sim: '2026-12-07T10:30:00+08:00',
       completed: {},
       energy: 0,
       energyDay: null,
@@ -7358,7 +7354,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     }
   }
 
-  function fragments() { return Object.keys(state.completed).length; }
+  function fragments() { return TASKS.filter(function (task) { return isDone(task.id); }).length; }
 
   function isDone(taskId) { return !!state.completed[taskId]; }
 
@@ -7578,7 +7574,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     modal.setAttribute('aria-modal', 'true');
     if (opts.label) modal.setAttribute('aria-label', opts.label);
     modal.setAttribute('tabindex', '-1');
-    modal.innerHTML = (opts.closable === false ? '' :
+    modal.innerHTML = (opts.closable === false || opts.hideCloseButton ? '' :
       '<button type="button" class="modal-close" data-close aria-label="' + t('common.close') + '">' + icon('i-close') + '</button>') + html;
     overlay.appendChild(modal);
     $('#modal-root').appendChild(overlay);
@@ -7708,14 +7704,11 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     if (eventPhase() !== 'live') return;
     var record = subscriptionRecord();
     if (record && (record.subscribed || record.rewarded)) { updateSubscriptionEntry(); return; }
-    var html = '<div class="modal-head"><span class="modal-kicker">' + t('subscription.kicker') + '</span>' +
-      '<h2>' + t('subscription.title') + '</h2><p>' + t('subscription.modalCopy') + '</p></div>' +
+    var html = '<div class="modal-head"><h2>' + t('subscription.title') + '</h2></div>' +
       '<form id="subscription-form" novalidate><label class="field"><span>' + t('subscription.email') + '</span>' +
       '<input id="subscription-email" type="email" readonly aria-readonly="true"></label>' +
       '<p class="field-error" id="subscription-error" role="alert" hidden></p>' +
-      '<p class="subscription-demo-note">' + t('subscription.demoNote') + '</p>' +
-      '<div class="modal-actions"><button class="btn btn-primary" type="submit">' + t('subscription.submit') + '</button>' +
-      '<button class="btn btn-ghost" type="button" data-close>' + t('common.close') + '</button></div></form>';
+      '<div class="modal-actions"><button class="btn btn-primary" type="submit">' + t('subscription.submit') + '</button></div></form>';
     var dialog = openModal(html, { className: 'modal--narrow', label: t('subscription.title') });
     var input = $('#subscription-email', dialog.modal);
     var error = $('#subscription-error', dialog.modal);
@@ -7769,7 +7762,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     var dayForCell = {};
     order.forEach(function (pos, i) { dayForCell[pos] = i + 1; });
     var cells = '';
-    for (var pos = 0; pos < 28; pos++) {
+    for (var pos = 0; pos < 24; pos++) {
       var t = TASKS[dayForCell[pos] - 1];
       cells += '<div class="frag" data-task="' + t.id + '" data-tile="' + (pos + 1) + '" data-label="' +
         pad2(t.day) + ' · ' + taskName(t) + '"></div>';
@@ -7911,6 +7904,16 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
   var clearTimer = null;
   var submitting = false;
 
+  function blockStudioOutsideEvent() {
+    var phase = eventPhase();
+    if (phase === 'live') return false;
+    var message = t(phase === 'before' ? 'studio.eventBefore' : 'studio.eventEnded');
+    openModal('<div class="modal-head"><h2>' + message + '</h2></div>' +
+      '<div class="modal-actions"><button type="button" class="btn btn-primary" data-close>' + t('common.close') + '</button></div>',
+      { className: 'modal--narrow', label: message, hideCloseButton: true });
+    return true;
+  }
+
   function initPad() {
     var canvas = $('#pad');
     pad = new window.DrawingPad(canvas, function (p) {
@@ -7919,6 +7922,11 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     var paperEl = $('#paper');
     if (paperEl) {
       paperEl.addEventListener('pointerdown', function (e) {
+        if (blockStudioOutsideEvent()) {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          return;
+        }
         if (state.user) return;
         e.preventDefault();
         e.stopImmediatePropagation();
@@ -7927,6 +7935,14 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
         });
       }, true);
     }
+
+    $('#studio-body').addEventListener('click', function (e) {
+      if (!e.target.closest('.toolbar, #submit-drawing')) return;
+      if (blockStudioOutsideEvent()) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+      }
+    }, true);
 
     var sw = $('#swatches');
     sw.innerHTML = COLORS.map(function (c, i) {
@@ -8100,7 +8116,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     var phase = eventPhase();
     if (phase === 'before') return { label: t('hero.cta.before'), action: 'before' };
     if (phase === 'ended') return { label: t('hero.cta.town'), action: 'town' };
-    if (fragments() >= 28) return { label: t('hero.cta.keepsake'), action: 'keepsake' };
+    if (fragments() >= 24) return { label: t('hero.cta.keepsake'), action: 'keepsake' };
     var today = todaysTask();
     if (today && !isDone(today.id)) return { label: t('hero.cta.start'), action: 'studio' };
     if (makeupTasks().length) return { label: t('hero.cta.makeup'), action: 'studio' };
@@ -8160,9 +8176,13 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
   function taskHeader(task, mode) {
     $('#task-icon').innerHTML = ART.icon(task.id);
     $('#task-day').textContent = t('studio.day', { n: pad2(task.day) }) + ' · ' + fmtShort(taskOpenAt(task));
+    $('#task-day').hidden = mode === 'daily';
+    $('#task-blurb').hidden = mode === 'daily';
+    $('#canvas-mode').hidden = mode === 'daily';
     $('#task-name').textContent = taskName(task);
     $('#task-blurb').textContent = taskBlurb(task) + (dayKey(now()) >= '2026-12-18' && dayKey(now()) <= '2026-12-25' ? ' · ' + t('makeup.remaining', { n: Math.max(0, 3 - makeupCountToday()) }) : '');
     var badge = $('#task-badge');
+    badge.hidden = false;
     if (mode === 'makeup') {
       badge.textContent = t('studio.makeupNoChance');
       badge.classList.add('is-makeup');
@@ -8219,10 +8239,14 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     $('#makeup-picker').hidden = true;
     $('#task-icon').innerHTML = icon('i-sparkle');
     $('#task-day').textContent = t('studio.freeKicker');
+    $('#task-day').hidden = false;
+    $('#task-blurb').hidden = true;
+    $('#canvas-mode').hidden = true;
     $('#task-name').textContent = t('studio.freeTitle');
     $('#task-blurb').textContent = t('studio.freeBlurb');
     var badge = $('#task-badge');
     badge.textContent = t('studio.freeBadge');
+    badge.hidden = true;
     badge.classList.add('is-makeup');
     var sub = $('#submit-drawing');
     sub.querySelector('span').textContent = t('studio.freeSave');
@@ -8238,7 +8262,8 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     note.hidden = false;
     delete note.dataset.deadline;
     var today = TASKS.filter(function (task) { return sameDay(now(), taskOpenAt(task)); })[0];
-    note.textContent = today && isDone(today.id) ? t('studio.todayCompleteFree') : t('studio.freeNote');
+    note.hidden = !!(today && isDone(today.id));
+    note.textContent = note.hidden ? '' : t('studio.freeNote');
     updateToolState();
   }
 
@@ -8250,35 +8275,17 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     var frag = fragments();
     var note = $('#studio-note');
 
-    if (phase === 'before') {
-      currentStudio = null;
-      showGate({
-        icon: 'i-calendar',
-        title: t('gate.beforeTitle'),
-        copy: t('gate.beforeCopy'),
-        cta: t('gate.beforeCta'),
-        handler: openRules,
-        note: t('gate.beforeNote', { time: countdownText(START) })
-      });
-      return;
-    }
-
-    if (phase === 'ended') {
-      currentStudio = null;
-      showGate({
-        icon: 'i-lock',
-        title: t('gate.endedTitle'),
-        copy: t('gate.endedCopy'),
-        cta: t('gate.endedCta'),
-        handler: openPrizes,
-        note: t('gate.endedNote')
-      });
+    if (phase !== 'live') {
+      showFreeStudio();
+      $('.task-head').style.display = 'none';
+      $('#studio-note').hidden = true;
+      $('#submit-drawing').querySelector('.submit-plus').textContent = '';
       return;
     }
 
     if (currentStudio && currentStudio.mode === 'free' && !state.ui.selectedId && !todayAvailable) { showFreeStudio(); return; }
 
-    if (frag >= 28) {
+    if (frag >= 24) {
       currentStudio = null;
       showGate({
         icon: 'i-sparkle',
@@ -8388,7 +8395,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     var phase = eventPhase();
     note.textContent = phase === 'before' ? t('chance.noteBefore') : phase === 'ended' ? t('chance.noteEnded') : t('chance.dailyEnergy', { n: total });
 
-    var fillPct = Math.min(100, fragments() / 28 * 100);
+    var fillPct = Math.min(100, fragments() / 24 * 100);
     $('#nm-fill').style.width = fillPct + '%';
     var currentEl = $('#nm-current');
     if (currentEl) currentEl.textContent = fragments();
@@ -8396,8 +8403,8 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     if (here) here.style.left = fillPct + '%';
     var tip = $('#nm-tooltip');
     if (tip) tip.hidden = true;
-    $('#nm-ticks').innerHTML = [18, 23].map(function (n) {
-      var left = n / 28 * 100;
+    $('#nm-ticks').innerHTML = [SPECIAL.at, SPECIAL.bonusAt].map(function (n) {
+      var left = n / 24 * 100;
       var text = t('chance.nmSpecialAt', { n: n });
       return '<span class="nm-tick' + (fragments() >= n ? ' is-past' : '') + '" style="left:' + left + '%" data-tip="' + escapeAttr(text) + '" tabindex="0" aria-label="' + escapeAttr(text) + '"></span>' +
         '<span class="nm-tick-label" style="left:' + left + '%">' + n + '</span>';
@@ -8500,31 +8507,29 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       btn.classList.toggle('is-special', e[0] === 'special');
       var labelText = info.label;
       var subText = info.sub;
-      if (e[1] === 'gifts-draw' && info.end && info.kind !== 'limited-ended' && info.end > now()) {
+      if (e[1] === 'gifts-draw') {
         if (info.ready) labelText = t('draw.enterLimited');
-        subText = t('gifts.subRemain', { t: countdownHMS(info.end) });
+        if (info.kind === 'limited-noenergy') labelText = t('draw.noChancesAvailable');
+        if (info.ready || info.kind === 'limited-noenergy') subText = '';
       }
       if (e[1] === 'gifts-special-draw' &&
           (info.kind === 'special' || info.kind === 'special-nofund' || info.kind === 'special-used') &&
           now() < SPEC_CLOSE) {
         if (info.ready) labelText = t('draw.enterSpecial');
-        subText = t('gifts.subRemain', { t: countdownHMS(SPEC_CLOSE) });
+        else labelText = t('draw.noChancesAvailable');
+        subText = '';
       }
       if (e[1] === 'hud-draw') {
         var hudMeta = document.getElementById('hud-draw-meta');
         if (hudMeta) hudMeta.textContent = t('gifts.metaEnergy', { n: energy() });
         if (info.ready) labelText = t('draw.enterLimited');
-        if (info.end && info.kind !== 'limited-ended' && info.end > now()) {
-          subText = t('gifts.subRemain', { t: countdownHMS(info.end) });
-        }
+        if (info.ready) subText = '';
       }
       if (e[1] === 'hud-special-draw') {
         var hudSpecialMeta = document.getElementById('hud-special-meta');
         if (hudSpecialMeta) hudSpecialMeta.textContent = t('gifts.metaSpecial', { n: specialRemaining() });
         if (info.ready) labelText = t('draw.enterSpecial');
-        if (info.kind === 'special' && now() < SPEC_CLOSE) {
-          subText = t('gifts.subRemain', { t: countdownHMS(SPEC_CLOSE) });
-        }
+        if (info.kind === 'special') subText = '';
       }
       if (e[1] === 'gifts-draw') updateGiftCard('limited', info);
       if (e[1] === 'gifts-special-draw') updateGiftCard('special', info);
@@ -8567,7 +8572,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     var sub = $('#share-sub');
     var label = $('#share-label');
     if (!sub || !label) return;
-    var town = fragments() >= 28;
+    var town = fragments() >= 24;
     var phase = eventPhase();
     if (label) label.textContent = town ? t('chance.shareTown') : t('chance.shareDoodle');
     if (phase === 'ended') {
@@ -8651,9 +8656,9 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
         (done ? '' : makeup ? '<span class="mural-makeup">' + t('mural.makeup') + '</span>' : '<span class="mural-lock">' + icon('i-lock') + '</span>') +
         '</button>';
     }).join('');
-    html += '<div class="mural-sign' + (lit >= 28 ? ' is-complete' : '') + '"' + (lit >= 28 ? ' data-complete="1"' : '') + '>' +
-      '<span class="mural-sign-count"><b>' + lit + '</b><span>/ 28</span></span>' +
-      '<span class="mural-sign-text">' + (lit >= 28 ? t('mural.signDone') : t('mural.sign')) + '</span>' +
+    html += '<div class="mural-sign' + (lit >= 24 ? ' is-complete' : '') + '"' + (lit >= 24 ? ' data-complete="1"' : '') + '>' +
+      '<span class="mural-sign-count"><b>' + lit + '</b><span>/ 24</span></span>' +
+      '<span class="mural-sign-text">' + (lit >= 24 ? t('mural.signDone') : t('mural.sign')) + '</span>' +
       '</div>';
     grid.innerHTML = html;
   }
@@ -8687,7 +8692,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     }
 
     var lines = '';
-    lines += resultLine(t('result.fragmentLabel'), t('result.fragment', { n: fragments() }));
+    lines += resultLine(t('result.fragmentLabel'), '+1');
     if (opts.energyGain) lines += resultLine(t('result.energyLabel'), t('result.energy'));
     if (opts.specialGain) {
       lines += resultLine(t('result.specialLabel'), t('result.special', { n: opts.specialTotal }));
@@ -8714,7 +8719,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       actions += '<button type="button" class="btn ' + (regularReady ? 'btn-ghost' : 'btn-primary') + '" id="result-special-draw">' + t('result.specialDraw') + '</button>';
     }
 
-    var html = '<div class="modal-head"><span class="modal-kicker">' + kicker + '</span><h2>' + title + '</h2></div>' +
+    var html = '<div class="modal-head"><h2>' + title + '</h2></div>' +
       (artwork ? '<div class="result-preview"><img src="' + escapeAttr(artwork) + '" alt="' + escapeAttr(taskName(opts.task)) + '"></div>' : '') +
       (lines ? '<div class="result-lines">' + lines + '</div>' : '') +
       '<div class="modal-actions">' + actions + '</div>' +
@@ -8722,7 +8727,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       (artwork ? '<div class="free-social"><p>' + t('result.share') + ' <span id="result-share-reward">' + (canEarnShareChance() ? '<span class="result-share-reward">' + t('studio.reward') + '</span>' : '') + '</span></p>' +
         '<div class="free-social-buttons"><button type="button" class="free-social-button" data-result-channel="Facebook"><span class="free-social-icon is-facebook" aria-hidden="true">f</span>Facebook</button>' +
         '<button type="button" class="free-social-button" data-result-channel="X"><span class="free-social-icon is-x" aria-hidden="true">𝕏</span>X</button></div>' +
-        '<small>' + t('share.demoChannelNote') + '</small></div>' : '');
+        '</div>' : '');
 
     var modal = openModal(html, { className: 'stage-notice result-modal', closable: true, label: title });
     var continueButton = $('#result-continue', modal.modal);
@@ -8772,15 +8777,14 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
   }
 
   function openFreeSaved(work) {
-    var html = '<div class="modal-head"><span class="modal-kicker">' + t('free.kicker') + '</span>' +
-      '<h2>' + t('free.savedTitle') + '</h2><p>' + t('free.savedCopy') + '</p></div>' +
+    var html = '<div class="modal-head"><h2>' + t('free.savedTitle') + '</h2></div>' +
       '<div class="result-preview"><img src="' + escapeAttr(work.art) + '" alt="' + escapeAttr(t('works.freeTitle')) + '"></div>' +
       '<div class="modal-actions"><button type="button" class="btn btn-primary" id="free-view">' + t('free.view') + '</button>' +
       '<button type="button" class="btn btn-ghost" data-close>' + t('free.keep') + '</button></div>' +
       '<div class="free-social"><p>' + t('free.shareChannels') + '</p><div class="free-social-buttons">' +
       '<button type="button" class="free-social-button" data-free-channel="Facebook"><span class="free-social-icon is-facebook" aria-hidden="true">f</span>Facebook</button>' +
       '<button type="button" class="free-social-button" data-free-channel="X"><span class="free-social-icon is-x" aria-hidden="true">𝕏</span>X</button>' +
-      '</div><small>' + t('free.shareDemoNote') + '</small></div>';
+      '</div></div>';
     var modal = openModal(html, { className: 'modal--narrow', label: t('free.savedTitle') });
     modal.modal.querySelectorAll('[data-free-channel]').forEach(function (button) {
       button.addEventListener('click', function () {
@@ -8822,15 +8826,12 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     var deadline = fmtLong(win.end) + ' ' + fmtClock(win.end);
 
     var html =
-      '<div class="modal-head"><span class="modal-kicker">' + t('draw.limitedKicker') + '</span>' +
-      '<h2>' + t('draw.limitedTitle') + '</h2>' +
-      '<p>' + t('draw.limitedModalSub', { n: total, date: fmtLong(win.end), time: fmtClock(win.end) }) + '</p>' +
-      '<p class="draw-cost">' + t('draw.costNote') + ' · ' + t('draw.deadlineLabel', { date: fmtLong(win.end), time: fmtClock(win.end) }) + '</p></div>' +
+      '<div class="modal-head"><h2>' + t('draw.limitedTitle') + '</h2></div>' +
       '<div class="draw-topline"><span class="muted-small" id="draw-count">' + t('draw.energyLeft', { n: total }) + '</span></div>' +
       '<div class="reel-frame" id="draw-reel"><div class="reel-pointer"></div><div class="reel-track"></div>' +
       '<div class="reel-pointer reel-pointer--bottom"></div>' +
       '<div class="reel-idle" id="draw-idle"><span class="reel-idle-q">?</span><span>' + t('draw.idle') + '</span></div></div>' +
-      '<div class="draw-result is-pending" id="draw-result">' + t('draw.readyResult') + '</div>' +
+      '<div class="draw-result is-pending" id="draw-result" hidden></div>' +
       '<div class="draw-actions" id="draw-actions"></div>';
 
     var modal = openModal(html, {
@@ -8855,6 +8856,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       actionsEl.innerHTML = '';
       var idleEl = $('#draw-idle', modal.modal);
       if (idleEl) idleEl.hidden = true;
+      resultEl.hidden = false;
       resultEl.className = 'draw-result is-pending';
       resultEl.innerHTML = t('draw.spinning');
 
@@ -8879,7 +8881,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
           '<div class="result-icon">' + ART.prizeIcon(prize.kind, prize.iconLabel, prize.rarity) + '</div>' +
           '<div class="result-copy"><span class="result-kicker">' + t('draw.unwrapped') + '</span>' +
           '<div class="result-name">' + prizeName(prize) + '</div>' +
-          '<p class="result-note">' + prizeNote(prize) + '</p>' +
+
           (record.code ? '<span class="result-code">' + record.code + '</span>' : '') + '</div>';
 
         busy = false;
@@ -9023,13 +9025,8 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
   }
 
   function giftPrize(p) {
-    var type = p.kind === 'product' ? t('gifts.product')
-      : p.kind === 'coupon' ? t('gifts.coupon')
-      : p.kind === 'coins' ? t('gifts.coins')
-      : t('gifts.bundle');
     return '<div class="gift-prize">' + ART.prizeIcon(p.kind, p.iconLabel, p.rarity) +
-      '<span class="gift-prize-copy"><b>' + prizeName(p) + '</b><small>' + type +
-      ' · <em class="r-' + p.rarity + '">' + t('rarity.' + p.rarity) + '</em></small></span></div>';
+      '<span class="gift-prize-copy"><b>' + prizeName(p) + '</b></span></div>';
   }
 
   function findPrize(pool, id) {
@@ -9069,6 +9066,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
 
   function submitDrawing() {
     if (submitting) return;
+    if (blockStudioOutsideEvent()) return;
     if (!state.user) {
       requireAuth(submitDrawing);
       return;
@@ -9139,7 +9137,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     var energyGain = energy() > energyBefore;
     var specialGain = specialLimit() > specialLimitBefore;
     var specialTotal = specialLimit();
-    var isComplete = fragments() >= 28;
+    var isComplete = fragments() >= 24;
     state.ui.freshTask = task.id;
     state.ui.selectedId = null;
     state.ui.justSubmitted = mode === 'daily' ? 'daily' : null;
@@ -9266,12 +9264,10 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     if (!state.user) { requireAuth(openPrizes); return; }
     var n = state.prizes.length;
     var modal = openModal(
-      '<div class="modal-head"><span class="modal-kicker">' + t('prizes.kicker') + '</span><h2>' + t('prizes.title') + '</h2>' +
-      '<p id="prizes-sub">' + (n ? t(n === 1 ? 'prizes.subOne' : 'prizes.subMany', { n: n }) : t('prizes.subEmpty')) + '</p></div>' +
+      '<div class="modal-head"><h2>' + t('prizes.title') + '</h2></div>' +
       '<div id="prizes-view">' + prizesListHtml() + '</div>' +
-      '<p class="prizes-note" id="prizes-note">' + t('prizes.note') + '</p>' +
-      '<div class="modal-actions is-end" id="prizes-foot"><button type="button" class="btn btn-primary" data-close>' + t('prizes.done') + '</button></div>',
-      { className: n ? 'modal--wide' : 'modal--narrow', label: t('prizes.kicker') }
+      '<div class="modal-actions is-end" id="prizes-foot"><button type="button" class="btn btn-primary" data-close>' + t('common.close') + '</button></div>',
+      { className: (n ? 'modal--wide' : 'modal--narrow') + ' prizes-modal', label: t('prizes.kicker') }
     );
 
     modal.modal.addEventListener('click', function (e) {
@@ -9435,8 +9431,8 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
 
   function openKeepsake() {
     if (!state.user) { requireAuth(openKeepsake); return; }
-    if (fragments() < 28) {
-      var pct = Math.round(fragments() / 28 * 100);
+    if (fragments() < 24) {
+      var pct = Math.round(fragments() / 24 * 100);
       openModal(
         '<div class="keepsake-locked"><div>' + icon('i-lock') + '</div>' +
         '<h3>' + t('keepsake.lockedTitle') + '</h3>' +
@@ -9452,7 +9448,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     var code = keepsakeCode();
     var name = state.keepsake.name || (state.user ? state.user.name : t('keepsake.placeholderName'));
     var blessing = state.keepsake.blessing || blessingList()[0];
-    var lastArt = state.completed[TASKS[27].id] && state.completed[TASKS[27].id].art;
+    var lastArt = state.completed[TASKS[23].id] && state.completed[TASKS[23].id].art;
 
     var html =
       '<div class="modal-head"><span class="modal-kicker">' + t('keepsake.kicker') + '</span><h2>' + t('keepsake.title') + '</h2>' +
@@ -9509,7 +9505,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
           blessing: inputBless.value,
           code: code,
           pieces: fragments(),
-          art: state.completed[TASKS[27].id] && state.completed[TASKS[27].id].art,
+          art: state.completed[TASKS[23].id] && state.completed[TASKS[23].id].art,
           lang: I18N.current()
         });
       }).then(function (canvas) {
@@ -9593,7 +9589,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
         return { kind: 'doodle', id: preferredTaskId, task: BY_ID[preferredTaskId], rec: preferred };
       }
     }
-    if (fragments() >= 28) return { kind: 'town' };
+    if (fragments() >= 24) return { kind: 'town' };
     var latest = latestArt();
     if (!latest) return null;
     return { kind: 'doodle', id: latest.id, task: BY_ID[latest.id], rec: latest.rec };
@@ -9622,7 +9618,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       ? t('share.subTown')
       : isFree ? t('share.subFree', { date: fmtLong(new Date(target.rec.at)) })
       : t('share.subDoodle', { name: taskName(target.task), n: pad2(target.task.day), date: fmtLong(new Date(target.rec.at)) });
-    var townNote = (!isTown && fragments() < 28) ? ' ' + t('share.townGate') : '';
+    var townNote = (!isTown && fragments() < 24) ? ' ' + t('share.townGate') : '';
 
     var html =
       '<div class="modal-head"><span class="modal-kicker">' + kicker + '</span><h2>' + title + '</h2>' +
@@ -9650,7 +9646,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
           name: state.user ? state.user.name : 'A Christmas maker',
           pieces: fragments(),
           code: state.keepsake.code || '',
-          art: state.completed[TASKS[27].id] && state.completed[TASKS[27].id].art,
+          art: state.completed[TASKS[23].id] && state.completed[TASKS[23].id].art,
           lang: I18N.current()
         });
       }
@@ -9748,23 +9744,26 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     var cards = works.map(function (w) {
       var task = w.task;
       var label = taskName(task) + ' · ' + fmtShort(new Date(w.rec.at));
-      return '<button type="button" class="work-card" data-work="' + task.id + '" aria-label="' + escapeAttr(label) + '">' +
-        '<img class="work-thumb" src="' + w.rec.art + '" alt="' + escapeAttr(taskName(task)) + '">' +
-        '<span class="work-meta"><b>' + taskName(task) + '</b><small>' + fmtShort(new Date(w.rec.at)) + '</small></span></button>';
+      return '<div class="work-item"><button type="button" class="work-card" data-work="' + task.id + '" aria-label="' + escapeAttr(label) + '">' +
+        '<img class="work-thumb" src="' + escapeAttr(w.rec.art) + '" alt="' + escapeAttr(taskName(task)) + '">' +
+        '<span class="work-meta"><b>' + taskName(task) + '</b><small>' + fmtShort(new Date(w.rec.at)) + '</small></span></button>' +
+        '<div class="work-actions"><button type="button" data-work-action="download" data-work-id="' + escapeAttr(task.id) + '">' + t('doodle.download') + '</button>' +
+        '<button type="button" data-work-action="share" data-work-id="' + escapeAttr(task.id) + '">' + t('doodle.share') + '</button></div></div>';
     }).join('');
 
     var freeCards = free.map(function (w) {
       var label = t('works.freeLabel', { date: fmtShort(new Date(w.at)) });
-      return '<button type="button" class="work-card is-free" data-free="' + w.id + '" aria-label="' + escapeAttr(label) + '">' +
-        '<img class="work-thumb" src="' + w.art + '" alt="' + escapeAttr(t('works.freeTitle')) + '">' +
-        '<span class="work-meta"><b>' + t('works.freeTitle') + '</b><small>' + fmtShort(new Date(w.at)) + '</small></span></button>';
+      return '<div class="work-item"><button type="button" class="work-card is-free" data-free="' + escapeAttr(w.id) + '" aria-label="' + escapeAttr(label) + '">' +
+        '<img class="work-thumb" src="' + escapeAttr(w.art) + '" alt="' + escapeAttr(t('works.freeTitle')) + '">' +
+        '<span class="work-meta"><b>' + t('works.freeTitle') + '</b><small>' + fmtShort(new Date(w.at)) + '</small></span></button>' +
+        '<div class="work-actions"><button type="button" data-work-action="download" data-free-id="' + escapeAttr(w.id) + '">' + t('doodle.download') + '</button>' +
+        '<button type="button" data-work-action="share" data-free-id="' + escapeAttr(w.id) + '">' + t('doodle.share') + '</button></div></div>';
     }).join('');
 
     var body = '';
     if (total) {
       if (works.length) {
-        body += '<h3 class="works-group-title">' + t('works.dailyGroup') + ' · ' + works.length + '</h3>' +
-          '<div class="works-grid">' + cards + '</div>';
+        body += '<div class="works-grid">' + cards + '</div>';
       }
       if (free.length) {
         body += '<h3 class="works-group-title">' + t('works.freeGroup') + ' · ' + free.length + '</h3>' +
@@ -9775,14 +9774,22 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     }
 
     var html =
-      '<div class="modal-head"><span class="modal-kicker">' + t('works.kicker') + '</span>' +
-      '<h2>' + t('works.title') + '</h2>' +
-      '<p>' + t(total === 1 ? 'works.subOne' : 'works.sub', { n: total }) + '</p></div>' +
+      '<div class="modal-head"><h2>' + t('works.title') + '</h2></div>' +
       body +
-      '<div class="modal-actions is-end"><button type="button" class="btn btn-primary" data-close>' + t('common.done') + '</button></div>';
+      '<div class="modal-actions is-end"><button type="button" class="btn btn-primary" data-close>' + t('common.close') + '</button></div>';
 
     var modal = openModal(html, { className: 'modal--wide works-modal', label: t('works.kicker') });
     modal.modal.addEventListener('click', function (e) {
+      var action = e.target.closest('[data-work-action]');
+      if (action) {
+        var workId = action.dataset.workId;
+        var freeId = action.dataset.freeId;
+        var rec = workId ? state.completed[workId] : (state.freeWorks || []).filter(function (w) { return w.id === freeId; })[0];
+        if (!rec || !rec.art) return;
+        if (action.dataset.workAction === 'download') downloadArt(rec.art, 'xppen-' + (workId || freeId) + '.png');
+        else if (action.dataset.workAction === 'share') { modal.close(); setTimeout(function () { openShare(workId || null, freeId || null); }, 180); }
+        return;
+      }
       var freeCard = e.target.closest('[data-free]');
       if (freeCard) {
         var id = freeCard.dataset.free;
@@ -9872,7 +9879,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     }
     if (action === 'before') { toast(t('toast.beforeStart')); openRules(); return; }
     if (action === 'done') {
-      if (fragments() >= 28) { openKeepsake(); return; }
+      if (fragments() >= 24) { openKeepsake(); return; }
       openFreeStudio();
       return;
       document.getElementById('studio').scrollIntoView({ behavior: 'smooth' });
@@ -9989,33 +9996,33 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     s.ui = { filter: 'all', selectedId: null, justSubmitted: null };
 
     if (name === 'fresh') {
-      s.sim = '2026-12-03T10:30:00+08:00';
+      s.sim = '2026-12-07T10:30:00+08:00';
     } else if (name === 'dailyReady' || name === 'dailyUsed' || name === 'shared') {
-      s.sim = '2026-12-08T19:20:00+08:00';
+      s.sim = '2026-12-12T19:20:00+08:00';
       scenarioTasks(s, 6, { energy: name === 'dailyUsed' ? 0 : name === 'shared' ? 2 : 1 });
       if (name === 'dailyUsed') seedPrizesFor('regular', 1, s);
       if (name === 'shared') { s.share.day = dayKey(new Date(s.sim)); s.share.count = 1; }
     } else if (name === 'expired') {
-      s.sim = '2026-12-10T12:00:00+08:00';
+      s.sim = '2026-12-14T12:00:00+08:00';
       scenarioTasks(s, 6, { energy: 0 });
     } else if (name === 'xmas18next') {
       s.sim = '2026-12-25T12:00:00+08:00';
-      scenarioTasks(s, 17, { energy: 0 });
+      scenarioTasks(s, 14, { energy: 0 });
     } else if (name === 'xmas23next') {
       s.sim = '2026-12-25T12:00:00+08:00';
-      scenarioTasks(s, 22, { energy: 0 });
+      scenarioTasks(s, 18, { energy: 0 });
     } else if (name === 'xmas') {
       s.sim = '2026-12-25T12:00:00+08:00';
-      scenarioTasks(s, 17, { energy: 1 });
-      s.completed[TASKS[22].id] = { at: new Date('2026-12-25T11:00:00+08:00').toISOString(), makeup: false, art: demoArt(TASKS[22]) };
+      scenarioTasks(s, 14, { energy: 1 });
+      s.completed[TASKS[18].id] = { at: new Date('2026-12-25T11:00:00+08:00').toISOString(), makeup: false, art: demoArt(TASKS[18]) };
     } else if (name === 'makeupAvailable' || name === 'makeupLimit') {
       s.sim = '2026-12-20T19:20:00+08:00';
-      scenarioTasks(s, 12, { energy: name === 'makeupLimit' ? 3 : 0 });
+      scenarioTasks(s, 9, { energy: name === 'makeupLimit' ? 3 : 0 });
       if (name === 'makeupLimit') {
-        for (var i = 12; i < 15; i++) {
-          s.completed[TASKS[i].id] = { at: new Date('2026-12-20T' + (12 + i - 12) + ':00:00+08:00').toISOString(), makeup: true, art: demoArt(TASKS[i]) };
+        for (var i = 9; i < 12; i++) {
+          s.completed[TASKS[i].id] = { at: new Date('2026-12-20T' + (12 + i - 9) + ':00:00+08:00').toISOString(), makeup: true, art: demoArt(TASKS[i]) };
         }
-      } else { s.ui.selectedId = TASKS[12].id; }
+      } else { s.ui.selectedId = TASKS[9].id; }
     } else if (name === 'makeupUnlimited') {
       s.sim = '2026-12-27T15:00:00+08:00';
       scenarioTasks(s, 15, { energy: 4 });
@@ -10029,15 +10036,15 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       s.ui.selectedId = TASKS[5].id;
     } else if (name === 'almostcomplete') {
       s.sim = '2026-12-30T15:00:00+08:00';
-      scenarioTasks(s, 27, { energy: 0 });
+      scenarioTasks(s, 23, { energy: 0 });
     } else if (name === 'complete') {
       s.sim = '2026-12-30T15:00:00+08:00';
-      scenarioTasks(s, 28, { energy: 0 });
+      scenarioTasks(s, 24, { energy: 0 });
       s.keepsake.code = null;
       s.seen.complete = true;
     } else if (name === 'prizesEmpty') {
       // 6 pieces + an open window, but nothing drawn yet → empty prize list.
-      s.sim = '2026-12-08T19:20:00+08:00';
+      s.sim = '2026-12-12T19:20:00+08:00';
       scenarioTasks(s, 6, { energy: 0 });
     } else if (name === 'prizesAll') {
       // 18 pieces on Christmas Day: one Christmas draw used, and every prize
@@ -10246,7 +10253,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
           return;
         }
         if (st === 'locked') {
-          toast(t('album.opensOn', { name: taskName(task), date: fmtShort(taskOpenAt(task)) }));
+          toast(t('album.notOpen'));
         } else if (st === 'missed') {
           toast(t(now() >= MAKEUP_START ? 'makeup.limitReached' : 'album.missed'));
         } else {
@@ -10364,12 +10371,12 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     });
 
     // nav active state
-    var sections = ['top', 'studio', 'collection'];
+    var sections = ['top', 'studio', 'collection', 'prizes'];
     var observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (!entry.isIntersecting) return;
         var id = entry.target.id;
-        var nav = id === 'top' ? 'town' : id;
+        var nav = id === 'top' || id === 'collection' ? 'town' : id === 'prizes' ? 'draw' : id;
         $$('.topnav a[data-nav], .bottom-nav a[data-nav]').forEach(function (a) {
           a.classList.toggle('is-active', a.dataset.nav === nav);
         });
@@ -10429,7 +10436,6 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
 
   document.addEventListener('DOMContentLoaded', init);
 })();
-
 </script>
 </body>
 </html>
