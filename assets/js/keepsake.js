@@ -209,9 +209,30 @@
     ctx.restore();
   }
 
+  function drawNoticeboard(ctx, artwork, sx, sy, sw, sh) {
+    if (artwork) {
+        // The noticeboard is composited only into generated keepsake images.
+        var bx = sx + sw * .075, by = sy + sh * .57, bw = sw * .22, bh = sh * .31;
+        ctx.save();
+        ctx.shadowColor = 'rgba(0,0,0,.65)'; ctx.shadowBlur = 12;
+        ctx.fillStyle = '#563321'; ctx.fillRect(bx + bw * .08, by + bh * .85, bw * .06, bh * .45);
+        ctx.fillRect(bx + bw * .86, by + bh * .85, bw * .06, bh * .45);
+        roundRect(ctx, bx, by, bw, bh, 7); ctx.fill();
+        ctx.shadowBlur = 0;
+        var margin = bw * .08, ix = bx + margin, iy = by + margin, iw = bw - margin * 2, ih = bh - margin * 2;
+        ctx.fillStyle = '#fffaf0'; ctx.fillRect(ix, iy, iw, ih);
+        var scale = Math.min(iw / artwork.width, ih / artwork.height);
+        var aw = artwork.width * scale, ah = artwork.height * scale;
+        ctx.drawImage(artwork, ix + (iw-aw)/2, iy + (ih-ah)/2, aw, ah);
+        ctx.restore();
+      }
+
+  }
+
   function renderKeepsake(canvas, opts) {
     opts = opts || {};
-    return sceneImage().then(function (img) {
+    return Promise.all([sceneImage(), opts.art ? loadImage(opts.art) : Promise.resolve(null)]).then(function (images) {
+      var img = images[0], artwork = images[1];
       var W = 1200, H = 1500;
       canvas.width = W;
       canvas.height = H;
@@ -225,6 +246,7 @@
 
       var sx = 62, sy = 64, sw = W - 124, sh = Math.round(sw * 700 / 1120);
       drawScene(ctx, img, sx, sy, sw, sh);
+      drawNoticeboard(ctx, artwork, sx, sy, sw, sh);
       drawFrost(ctx, sx, sy, sw, sh, opts.pieces || 28, 18);
 
       // ribbon of light under the scene
@@ -304,7 +326,8 @@
 
   function renderShareCard(canvas, opts) {
     opts = opts || {};
-    return sceneImage().then(function (img) {
+    return Promise.all([sceneImage(), opts.art ? loadImage(opts.art) : Promise.resolve(null)]).then(function (images) {
+      var img = images[0], artwork = images[1];
       var W = 1080, H = 1350;
       canvas.width = W;
       canvas.height = H;
@@ -318,6 +341,8 @@
 
       var sx = 54, sy = 54, sw = W - 108, sh = Math.round(sw * 700 / 1120);
       drawScene(ctx, img, sx, sy, sw, sh);
+      drawNoticeboard(ctx, artwork, sx, sy, sw, sh);
+
       drawFrost(ctx, sx, sy, sw, sh, opts.pieces || 0, 18);
 
       ctx.textAlign = 'center';
@@ -406,7 +431,8 @@
       ctx.fillStyle = 'rgba(154,172,205,.85)';
       ctx.font = '600 14px ' + sans;
       setSpacing(ctx, zh ? '2px' : '3px');
-      ctx.fillText((zh ? '第 ' + pad2(opts.day || 1) + ' 天' : 'DAY ' + pad2(opts.day || 1)) + '  ·  ' + (opts.dateLabel || 'DEC 2026'), W / 2, 238);
+      var dateText = opts.dateLabel || 'DEC 2026';
+      ctx.fillText(opts.isFree ? dateText : (zh ? '第 ' + pad2(opts.day || 1) + ' 天' : 'DAY ' + pad2(opts.day || 1)) + '  ·  ' + dateText, W / 2, 238);
       setSpacing(ctx, '0px');
 
       var px = 70, py = 280, pw = W - 140, ph = 620;

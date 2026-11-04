@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css?v=20261102d">
+  <link rel="stylesheet" href="assets/css/style.css?v=20261104g">
 </head>
 <body>
 
@@ -46,7 +46,7 @@
   </a>
   <nav class="topnav" aria-label="Sections" data-i18n-aria="nav.sections">
     <a href="#studio" data-nav="studio" data-i18n="nav.studio">Studio</a>
-    <a href="#top" data-nav="town" data-i18n="nav.town">My town</a>
+    <a href="#collection" data-nav="town" data-i18n="nav.town">My town</a>
     <a href="#collection" data-nav="collection" data-i18n="nav.collection">Collection</a>
     <button type="button" data-open-works data-i18n="nav.myWorks">My works</button>
     <button type="button" data-open-prizes data-i18n="nav.prizes">Prizes</button>
@@ -79,9 +79,10 @@
 </div>
 
 <main id="main">
+  <span id="top" aria-hidden="true"></span>
 
   <!-- ============================================================ HERO -->
-  <section class="hero" id="top">
+  <section class="hero" hidden>
     <div class="hero-aurora" aria-hidden="true"></div>
     <div class="container hero-grid">
       <div class="hero-copy">
@@ -136,7 +137,7 @@
   </section>
 
   <!-- ========================================================== STUDIO -->
-  <section class="section studio" id="studio">
+  <section class="section studio" id="studio" style="padding-top: calc(var(--header-h) + 48px)">
     <div class="container">
       <div class="section-head">
         <div>
@@ -372,7 +373,7 @@
 </main>
 
 <nav class="bottom-nav" aria-label="Primary" data-i18n-aria="nav.primary">
-  <a href="#top" data-nav="town" class="is-active">
+  <a href="#collection" data-nav="town" class="is-active">
     <svg class="i"><use href="#i-snow"/></svg><span data-i18n="nav.town">My town</span>
   </a>
   <a href="#studio" data-nav="studio">
@@ -457,10 +458,13 @@
       <button type="button" data-jump="2026-12-03T10:30" data-i18n="demo.dec3">Dec 3</button>
       <button type="button" data-jump="2026-12-08T19:20" data-i18n="demo.dec8">Dec 8</button>
       <button type="button" data-jump="2026-12-14T19:20" data-i18n="demo.dec14">Dec 14</button>
+      <button type="button" data-jump="2026-12-18T12:00" data-i18n="demo.dec18">Dec 18</button>
       <button type="button" data-jump="2026-12-20T19:20" data-i18n="demo.dec20">Dec 20</button>
       <button type="button" data-jump="2026-12-25T12:00" data-i18n="demo.dec25">Dec 25</button>
+      <button type="button" data-jump="2026-12-26T12:00" data-i18n="demo.dec26">Dec 26</button>
       <button type="button" data-jump="2026-12-27T15:00" data-i18n="demo.dec27">Dec 27</button>
       <button type="button" data-jump="2026-12-30T15:00" data-i18n="demo.dec30">Dec 30</button>
+      <button type="button" data-jump="2026-12-31T10:00" data-i18n="demo.cutoffTime">Dec 31 · 10:00</button>
       <button type="button" data-jump="2027-01-02T12:00" data-i18n="demo.ended">Ended</button>
     </div>
   </div>
@@ -469,17 +473,16 @@
     <span class="demo-label" data-i18n="demo.scenarios">Scenarios</span>
     <div class="demo-scenarios">
       <button type="button" data-scenario="fresh" data-i18n="demo.scenario.fresh">Fresh account</button>
-      <button type="button" data-scenario="stage1" data-i18n="demo.scenario.stage1">5 pieces · Stage 1 next</button>
-      <button type="button" data-scenario="stage2" data-i18n="demo.scenario.stage2">11 pieces · Stage 2 next</button>
-      <button type="button" data-scenario="stage3" data-i18n="demo.scenario.stage3">17 pieces · Stage 3 next</button>
+      <button type="button" data-scenario="dailyReady" data-i18n="demo.scenario.dailyReady">Today · draw chance ready</button>
+      <button type="button" data-scenario="dailyUsed" data-i18n="demo.scenario.dailyUsed">Today · chance used</button>
+      <button type="button" data-scenario="shared" data-i18n="demo.scenario.shared">Today · share reward received</button>
+      <button type="button" data-scenario="expired" data-i18n="demo.scenario.expired">Next day · energy expired</button>
       <button type="button" data-scenario="xmas18next" data-i18n="demo.scenario.xmas18next">Christmas Day · 18th piece next</button>
       <button type="button" data-scenario="xmas23next" data-i18n="demo.scenario.xmas23next">Christmas Day · 23rd piece next</button>
-      <button type="button" data-scenario="expired" data-i18n="demo.scenario.expired">Limited draw expired · energy saved</button>
       <button type="button" data-scenario="xmas" data-i18n="demo.scenario.xmas">Christmas Day · 18 pieces</button>
-      <button type="button" data-scenario="makeup" data-i18n="demo.scenario.makeup">Make-up day · 20 pieces</button>
-      <button type="button" data-scenario="makeupstage" data-i18n="demo.scenario.makeupstage">Make-up · 5 pieces → Stage 1</button>
-      <button type="button" data-scenario="overlap" data-i18n="demo.scenario.overlap">Overlapping windows</button>
-      <button type="button" data-scenario="noenergy" data-i18n="demo.scenario.noenergy">Open draw · no energy</button>
+      <button type="button" data-scenario="makeupAvailable" data-i18n="demo.scenario.makeupAvailable">Make-up · up to 3 a day</button>
+      <button type="button" data-scenario="makeupLimit" data-i18n="demo.scenario.makeupLimit">Make-up · daily limit reached</button>
+      <button type="button" data-scenario="makeupUnlimited" data-i18n="demo.scenario.makeupUnlimited">Make-up · no daily limit</button>
       <button type="button" data-scenario="almostcomplete" data-i18n="demo.scenario.almostcomplete">27 pieces · final piece next</button>
       <button type="button" data-scenario="cutoff" data-i18n="demo.scenario.cutoff">Final cutoff · 09:30</button>
       <button type="button" data-scenario="complete" data-i18n="demo.scenario.complete">Full town · 28 pieces</button>
@@ -489,9 +492,6 @@
   <div class="demo-block">
     <span class="demo-label" data-i18n="demo.tweak">Tweak state</span>
     <div class="demo-actions">
-      <button type="button" data-demo="piece" data-i18n="demo.piece">+1 piece</button>
-      <button type="button" data-demo="chance" data-i18n="demo.chance">+1 chance</button>
-      <button type="button" data-demo="finish-draws" data-i18n="demo.finish">Finish draws</button>
       <button type="button" data-demo="subscription-subscribed" data-i18n="subscription.demoSetSubscribed">Demo: subscribed</button>
       <button type="button" data-demo="subscription-unsubscribed" data-i18n="subscription.demoSetUnsubscribed">Demo: unsubscribed</button>
       <button type="button" data-demo="subscription-failure" data-i18n="subscription.demoToggleFailure">Demo: toggle subscription failure</button>
@@ -501,12 +501,13 @@
   <p class="demo-foot" data-i18n="demo.foot">State is stored in this browser only.</p>
 </aside>
 
-<script src="assets/js/i18n.js?v=20261102d"></script>
-<script src="assets/js/data.js?v=20261102d"></script>
+<script src="assets/js/i18n.js?v=20261104j"></script>
+<script src="assets/js/data.js?v=20261104j"></script>
 <script src="assets/js/art.js?v=20261102d"></script>
 <script src="assets/js/draw.js?v=20261102d"></script>
 <script src="assets/js/reel.js?v=20261102d"></script>
-<script src="assets/js/keepsake.js?v=20261102d"></script>
-<script src="assets/js/app.js?v=20261102d"></script>
+<script src="assets/js/keepsake.js?v=20261104f"></script>
+<script src="assets/js/activity-rules.js?v=20261103a"></script>
+<script src="assets/js/app.js?v=20261104k"></script>
 </body>
 </html>

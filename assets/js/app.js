@@ -6,6 +6,7 @@
   'use strict';
 
   var D = window.XMASData;
+  var RULE = window.XMASActivityRules;
   var ART = window.XMASArt;
   var CARDS = window.XMASCards;
 
@@ -175,6 +176,7 @@
       sim: '2026-12-03T10:30:00+08:00',
       completed: {},
       energy: 0,
+      energyDay: null,
       nodes: {
         stage1: { achievedAt: null, endAt: null },
         stage2: { achievedAt: null, endAt: null },
@@ -245,7 +247,28 @@
 
   function isDone(taskId) { return !!state.completed[taskId]; }
 
-  function energy() { return state.energy || 0; }
+  function energy() {
+    var today = dayKey(now());
+    if (state.energyDay !== today) {
+      if (!state.energyDay && state.energy > 0 && state.legacyEnergy === undefined) state.legacyEnergy = state.energy;
+      state.energy = RULE.energyForDay(state.energy, state.energyDay, today);
+      state.energyDay = today;
+    }
+    if (now() >= END) state.energy = 0;
+    return state.energy || 0;
+  }
+
+  function makeupCountToday() {
+    var today = dayKey(now());
+    return Object.keys(state.completed).filter(function (id) {
+      var rec = state.completed[id];
+      return rec && rec.makeup && rec.at && dayKey(new Date(rec.at)) === today;
+    }).length;
+  }
+
+  function canMakeupNow() {
+    return eventPhase() === 'live' && RULE.makeupAvailable(dayKey(now()), makeupCountToday());
+  }
 
   function unlockedStages() {
     return MILESTONES.filter(function (m) { return !!state.nodes[m.id].achievedAt; });
@@ -263,6 +286,7 @@
   }
 
   function specialRemaining() {
+    if (now() >= SPEC_CLOSE) return 0;
     return Math.max(0, specialLimit() - state.special.used);
   }
 
@@ -280,7 +304,7 @@
     var open = taskOpenAt(task);
     if (n < open) return 'locked';
     if (sameDay(n, open)) return 'today';
-    if (n >= MAKEUP_START) return 'makeup';
+    if (n >= MAKEUP_START && canMakeupNow()) return 'makeup';
     return 'missed';
   }
 
@@ -327,17 +351,12 @@
     return opened;
   }
 
-  /* Each threshold opens its own 24h window. The effective limited window is
-     the latest end among all achieved, not-yet-ended nodes. Event end caps it. */
+  /* Regular draw chances expire at midnight or when the activity ends. */
   function limitedWindow() {
-    var achieved = MILESTONES.map(function (m) {
-      var node = state.nodes[m.id];
-      return node && node.achievedAt ? { milestone: m, node: node, end: new Date(node.endAt) } : null;
-    }).filter(Boolean);
-    if (!achieved.length) return { open: false, none: true, node: null, end: null, expired: false };
-    var latest = achieved.reduce(function (a, b) { return b.end > a.end ? b : a; });
-    var open = now() < latest.end && eventPhase() === 'live';
-    return { open: open, none: false, node: latest.milestone, end: latest.end, expired: !open && now() >= latest.end };
+    var date = shParts(now());
+    var midnight = shDate(date.y, date.m, date.d + 1, 0, 0);
+    var end = new Date(Math.min(midnight.getTime(), END.getTime()));
+    return { open: eventPhase() === 'live', none: false, node: null, end: end, expired: eventPhase() === 'ended' };
   }
 
   function limitedEnd() { return limitedWindow().end; }
@@ -564,7 +583,7 @@
     var html = '<div class="modal-head"><span class="modal-kicker">' + t('subscription.kicker') + '</span>' +
       '<h2>' + t('subscription.title') + '</h2><p>' + t('subscription.modalCopy') + '</p></div>' +
       '<form id="subscription-form" novalidate><label class="field"><span>' + t('subscription.email') + '</span>' +
-      '<input id="subscription-email" type="email" autocomplete="email" required></label>' +
+      '<input id="subscription-email" type="email" readonly aria-readonly="true"></label>' +
       '<p class="field-error" id="subscription-error" role="alert" hidden></p>' +
       '<p class="subscription-demo-note">' + t('subscription.demoNote') + '</p>' +
       '<div class="modal-actions"><button class="btn btn-primary" type="submit">' + t('subscription.submit') + '</button>' +
@@ -575,9 +594,9 @@
     input.value = state.user.email || '';
     $('#subscription-form', dialog.modal).addEventListener('submit', function (e) {
       e.preventDefault();
-      var email = input.value.trim();
+      var email = state.user && state.user.email ? String(state.user.email).trim() : '';
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        error.textContent = t('auth.invalidEmail'); error.hidden = false; return;
+        error.textContent = t('subscription.accountEmailUnavailable'); error.hidden = false; return;
       }
       if (!state.user || eventPhase() !== 'live') {
         error.textContent = t('subscription.unavailable'); error.hidden = false; return;
@@ -968,7 +987,7 @@
     $('#task-icon').innerHTML = ART.icon(task.id);
     $('#task-day').textContent = t('studio.day', { n: pad2(task.day) }) + ' · ' + fmtShort(taskOpenAt(task));
     $('#task-name').textContent = taskName(task);
-    $('#task-blurb').textContent = taskBlurb(task);
+    $('#task-blurb').textContent = taskBlurb(task) + (dayKey(now()) >= '2026-12-18' && dayKey(now()) <= '2026-12-25' ? ' · ' + t('makeup.remaining', { n: Math.max(0, 3 - makeupCountToday()) }) : '');
     var badge = $('#task-badge');
     if (mode === 'makeup') {
       badge.textContent = t('studio.makeupNoChance');
@@ -1044,7 +1063,8 @@
     var note = $('#studio-note');
     note.hidden = false;
     delete note.dataset.deadline;
-    note.textContent = t('studio.freeNote');
+    var today = TASKS.filter(function (task) { return sameDay(now(), taskOpenAt(task)); })[0];
+    note.textContent = today && isDone(today.id) ? t('studio.todayCompleteFree') : t('studio.freeNote');
     updateToolState();
   }
 
@@ -1082,7 +1102,7 @@
       return;
     }
 
-    if (currentStudio && currentStudio.mode === 'free') { showFreeStudio(); return; }
+    if (currentStudio && currentStudio.mode === 'free' && !state.ui.selectedId && !todayAvailable) { showFreeStudio(); return; }
 
     if (frag >= 28) {
       currentStudio = null;
@@ -1099,7 +1119,7 @@
 
     // just submitted today's element this session
     if (state.ui.justSubmitted === 'daily' && todayCard && isDone(todayCard.id)) {
-      showTodayDone(todayCard, makeups);
+      showFreeStudio();
       return;
     }
 
@@ -1117,13 +1137,10 @@
       }
     }
     if (!current && todayAvailable) { current = todayAvailable; mode = 'daily'; }
+    if (!current && todayCard && isDone(todayCard.id)) { showFreeStudio(); return; }
     if (!current && makeups.length) { current = makeups[0]; mode = 'makeup'; }
 
     if (!current) {
-      if (todayCard && isDone(todayCard.id)) {
-        showTodayDone(todayCard, makeups);
-        return;
-      }
       currentStudio = null;
       showGate({
         icon: 'i-calendar',
@@ -1195,29 +1212,7 @@
 
     var note = $('#chance-note');
     var phase = eventPhase();
-    if (phase === 'ended') {
-      note.textContent = t('chance.noteEnded');
-    } else if (phase === 'before') {
-      note.textContent = t('chance.noteBefore');
-    } else if (total > 0) {
-      if (unlockedStages().length) {
-        note.textContent = t('chance.energyNote', { n: total });
-      } else {
-        var next = MILESTONES.filter(function (m) { return !state.nodes[m.id].achievedAt; })[0];
-        note.textContent = t('chance.energyBanked', { n: total, toGo: next ? toGo(next.at - fragments()) : '' });
-      }
-    } else {
-      var future = MILESTONES.filter(function (m) { return !state.nodes[m.id].achievedAt; })[0];
-      if (fragments() === 0) {
-        note.textContent = t('chance.noteFirst');
-      } else if (future) {
-        note.textContent = t('chance.noEnergyNext', { n: future.at - fragments(), stage: milestoneLabel(future) });
-      } else if (fragments() >= 18) {
-        note.textContent = t('chance.noEnergyCap');
-      } else {
-        note.textContent = t('chance.noEnergy');
-      }
-    }
+    note.textContent = phase === 'before' ? t('chance.noteBefore') : phase === 'ended' ? t('chance.noteEnded') : t('chance.dailyEnergy', { n: total });
 
     var fillPct = Math.min(100, fragments() / 28 * 100);
     $('#nm-fill').style.width = fillPct + '%';
@@ -1227,9 +1222,9 @@
     if (here) here.style.left = fillPct + '%';
     var tip = $('#nm-tooltip');
     if (tip) tip.hidden = true;
-    $('#nm-ticks').innerHTML = [6, 12, 18, 23].map(function (n) {
+    $('#nm-ticks').innerHTML = [18, 23].map(function (n) {
       var left = n / 28 * 100;
-      var text = t(n === SPECIAL.bonusAt ? 'chance.nmSpecialAt' : 'chance.nmLimitedAt', { n: n });
+      var text = t('chance.nmSpecialAt', { n: n });
       return '<span class="nm-tick' + (fragments() >= n ? ' is-past' : '') + '" style="left:' + left + '%" data-tip="' + escapeAttr(text) + '" tabindex="0" aria-label="' + escapeAttr(text) + '"></span>' +
         '<span class="nm-tick-label" style="left:' + left + '%">' + n + '</span>';
     }).join('');
@@ -1285,45 +1280,10 @@
     }
 
     var win = limitedWindow();
-    var next = MILESTONES.filter(function (m) { return !state.nodes[m.id].achievedAt; })[0];
+    return energy() > 0
+      ? { ready: true, kind: 'limited', remain: energy(), end: win.end, label: t('draw.limitedName'), sub: t('draw.dailyUntil', { t: countdownText(win.end) }) }
+      : { ready: false, kind: 'limited-noenergy', remain: 0, end: win.end, label: t('draw.limitedNoEnergy'), sub: t('draw.dailyNoEnergy') };
 
-    if (win.open) {
-      var sub = t('draw.limitedSub', {
-        t: countdownText(win.end),
-        date: fmtLong(win.end),
-        time: fmtClock(win.end)
-      });
-      if (energy() > 0) {
-        return { ready: true, kind: 'limited', remain: energy(), end: win.end, label: t('draw.limitedName'), sub: sub };
-      }
-      return {
-        ready: false, kind: 'limited-noenergy', remain: 0, end: win.end,
-        label: t('draw.limitedNoEnergy'),
-        sub: t('draw.limitedNoEnergySub', { t: countdownText(win.end) })
-      };
-    }
-
-    if (next) {
-      var left = Math.max(1, next.at - fragments());
-      if (win.expired) {
-        return {
-          ready: false, kind: 'limited-ended', end: win.end,
-          label: t('draw.limitedEnded'),
-          sub: t('draw.limitedNext', { n: left, pieces: next.at })
-        };
-      }
-      return {
-        ready: false, kind: 'limited-locked',
-        label: left === 1 ? t('draw.limitedLockedOne') : t('draw.limitedLocked', { n: left }),
-        sub: t('draw.limitedRules')
-      };
-    }
-
-    return {
-      ready: false, kind: 'limited-ended', end: win.end,
-      label: t('draw.limitedEnded'),
-      sub: t('draw.limitedEndedSub', { date: fmtLong(win.end), time: fmtClock(win.end) })
-    };
   }
 
   function updateGiftCard(kind, info) {
@@ -1442,8 +1402,6 @@
       sub.textContent = t('chance.shareBefore');
     } else if (state.share.day === dayKey(now())) {
       sub.textContent = t('chance.shareUsed');
-    } else if (fragments() >= 18) {
-      sub.textContent = t('chance.shareJoy');
     } else if (!town && !latestArt()) {
       sub.textContent = t('chance.shareDrawFirst');
     } else {
@@ -1570,39 +1528,49 @@
       }
     }
 
-    var actions;
-    if (specialOpenNow || limitedNew) {
-      actions = '<button type="button" class="btn btn-primary" id="result-draw">' + t(specialOpenNow ? 'result.draw' : 'result.drawLimited') + '</button>' +
-        '<button type="button" class="btn btn-ghost" data-close>' + t('result.later') + '</button>';
-    } else {
-      actions = '<button type="button" class="btn btn-primary" id="result-view">' + t('result.view') + '</button>' +
-        '<button type="button" class="btn btn-ghost" id="result-continue">' + t('result.continue') + '</button>' +
-        '<button type="button" class="btn btn-ghost" data-close>' + t('result.close') + '</button>';
+    var record = opts.task && state.completed[opts.task.id];
+    var artwork = record && record.art;
+    var regularReady = drawEntryState('limited').ready;
+    var specialReady = drawEntryState('special').ready;
+    var actions = '';
+    if (regularReady) {
+      actions += '<button type="button" class="btn btn-primary" id="result-regular-draw">' + t('result.regularDraw') + '</button>';
+    }
+    if (specialReady) {
+      actions += '<button type="button" class="btn ' + (regularReady ? 'btn-ghost' : 'btn-primary') + '" id="result-special-draw">' + t('result.specialDraw') + '</button>';
     }
 
     var html = '<div class="modal-head"><span class="modal-kicker">' + kicker + '</span><h2>' + title + '</h2></div>' +
+      (artwork ? '<div class="result-preview"><img src="' + escapeAttr(artwork) + '" alt="' + escapeAttr(taskName(opts.task)) + '"></div>' : '') +
       (lines ? '<div class="result-lines">' + lines + '</div>' : '') +
-      '<div class="modal-actions">' + actions + '</div>';
+      '<div class="modal-actions">' + actions + '</div>' +
+      (eventPhase() === 'live' ? '<button type="button" class="link-btn result-continue" id="result-continue">' + t('result.continue') + '</button>' : '') +
+      (artwork ? '<div class="free-social"><p>' + t('result.share') + ' <span id="result-share-reward">' + (canEarnShareChance() ? '<span class="result-share-reward">' + t('studio.reward') + '</span>' : '') + '</span></p>' +
+        '<div class="free-social-buttons"><button type="button" class="free-social-button" data-result-channel="Facebook"><span class="free-social-icon is-facebook" aria-hidden="true">f</span>Facebook</button>' +
+        '<button type="button" class="free-social-button" data-result-channel="X"><span class="free-social-icon is-x" aria-hidden="true">𝕏</span>X</button></div>' +
+        '<small>' + t('share.demoChannelNote') + '</small></div>' : '');
 
     var modal = openModal(html, { className: 'stage-notice result-modal', closable: true, label: title });
-    var view = $('#result-view', modal.modal);
-    var cont = $('#result-continue', modal.modal);
-    var draw = $('#result-draw', modal.modal);
+    var continueButton = $('#result-continue', modal.modal);
+    var regularDraw = $('#result-regular-draw', modal.modal);
+    var specialDraw = $('#result-special-draw', modal.modal);
 
-    if (view) view.addEventListener('click', function () {
-      modal.close();
-      if (opts.task) setTimeout(function () { openDoodle(opts.task.id); }, 200);
+    modal.modal.querySelectorAll('[data-result-channel]').forEach(function (button) {
+      button.addEventListener('click', function () {
+        openArtDemoChannel(button.getAttribute('data-result-channel'), artwork, taskName(opts.task), $('#result-share-reward', modal.modal));
+      });
     });
-    if (cont) cont.addEventListener('click', function () {
+    if (continueButton) continueButton.addEventListener('click', function () {
       modal.close();
       setTimeout(openFreeStudio, 220);
     });
-    if (draw) draw.addEventListener('click', function () {
+    if (regularDraw) regularDraw.addEventListener('click', function () {
       modal.close();
-      setTimeout(function () {
-        if (specialOpenNow) openSpecialDraw();
-        else if (limitedNew) openLimitedDraw();
-      }, 220);
+      setTimeout(function () { activateDrawEntry('limited'); }, 220);
+    });
+    if (specialDraw) specialDraw.addEventListener('click', function () {
+      modal.close();
+      setTimeout(function () { activateDrawEntry('special'); }, 220);
     });
   }
 
@@ -1632,9 +1600,24 @@
   function openFreeSaved(work) {
     var html = '<div class="modal-head"><span class="modal-kicker">' + t('free.kicker') + '</span>' +
       '<h2>' + t('free.savedTitle') + '</h2><p>' + t('free.savedCopy') + '</p></div>' +
+      '<div class="result-preview"><img src="' + escapeAttr(work.art) + '" alt="' + escapeAttr(t('works.freeTitle')) + '"></div>' +
       '<div class="modal-actions"><button type="button" class="btn btn-primary" id="free-view">' + t('free.view') + '</button>' +
-      '<button type="button" class="btn btn-ghost" data-close>' + t('free.keep') + '</button></div>';
+      '<button type="button" class="btn btn-ghost" data-close>' + t('free.keep') + '</button></div>' +
+      '<div class="free-social"><p>' + t('free.shareChannels') + '</p><div class="free-social-buttons">' +
+      '<button type="button" class="free-social-button" data-free-channel="Facebook"><span class="free-social-icon is-facebook" aria-hidden="true">f</span>Facebook</button>' +
+      '<button type="button" class="free-social-button" data-free-channel="X"><span class="free-social-icon is-x" aria-hidden="true">𝕏</span>X</button>' +
+      '</div><small>' + t('free.shareDemoNote') + '</small></div>';
     var modal = openModal(html, { className: 'modal--narrow', label: t('free.savedTitle') });
+    modal.modal.querySelectorAll('[data-free-channel]').forEach(function (button) {
+      button.addEventListener('click', function () {
+        var channelName = button.getAttribute('data-free-channel');
+        var html = '<div class="modal-head"><span class="modal-kicker">' + t('share.demoChannelKicker') + '</span>' +
+          '<h2>' + escapeAttr(channelName) + '</h2><p>' + t('free.shareDemoNote') + '</p></div>' +
+          '<div class="result-preview"><img src="' + escapeAttr(work.art) + '" alt="' + escapeAttr(t('works.freeTitle')) + '"></div>' +
+          '<div class="modal-actions"><button type="button" class="btn btn-primary" data-close>' + t('common.close') + '</button></div>';
+        openModal(html, { className: 'modal--narrow', label: channelName });
+      });
+    });
     var view = $('#free-view', modal.modal);
     if (view) view.addEventListener('click', function () {
       modal.close();
@@ -1702,7 +1685,11 @@
       resultEl.innerHTML = t('draw.spinning');
 
       var prize = weightedPrize('limited');
+      var startedDay = dayKey(now());
       window.XMASReel.spin(frame, pool, prize).then(function () {
+        if (dayKey(now()) !== startedDay || !limitedWindow().open || energy() <= 0) {
+          busy = false; modal.close(); renderAll(); toast(t('toast.limitedClosed')); return;
+        }
         var record = makePrizeRecord(prize, 'limited');
         state.prizes.unshift(record);
         state.energy = Math.max(0, energy() - 1);
@@ -1931,6 +1918,10 @@
 
     var mode = currentStudio.mode;
     var task = currentStudio.task;
+    if ((mode === 'daily' && taskStatus(task) !== 'today') || (mode === 'makeup' && (!canMakeupNow() || taskStatus(task) !== 'makeup'))) {
+      submitting = false; btn.disabled = false; btn.classList.remove('is-busy');
+      toast(t('makeup.limitReached')); renderAll(); return;
+    }
     var art = pad.toDataURL(480);
 
     if (mode === 'free') {
@@ -1968,8 +1959,8 @@
       makeup: mode === 'makeup',
       art: art
     };
-    if (mode === 'daily' && fragments() <= 18) state.energy = (state.energy || 0) + 1;
-    var opened = unlockNodes();
+    state.energy = energy() + 1;
+    var opened = [];
     syncSpecial();
     var energyGain = energy() > energyBefore;
     var specialGain = specialLimit() > specialLimitBefore;
@@ -2111,12 +2102,13 @@
     var code = keepsakeCode();
     var name = state.keepsake.name || (state.user ? state.user.name : t('keepsake.placeholderName'));
     var blessing = state.keepsake.blessing || blessingList()[0];
+    var lastArt = state.completed[TASKS[27].id] && state.completed[TASKS[27].id].art;
 
     var html =
       '<div class="modal-head"><span class="modal-kicker">' + t('keepsake.kicker') + '</span><h2>' + t('keepsake.title') + '</h2>' +
       '<p>' + t('keepsake.sub') + '</p></div>' +
       '<div class="keepsake-grid">' +
-      '<div class="keepsake-preview"><div class="kp-scene">' + ART.sceneSVG({ clean: true, fit: 'slice' }) + '</div>' +
+      '<div class="keepsake-preview"><div class="kp-scene" style="position:relative">' + ART.sceneSVG({ clean: true, fit: 'slice' }) + (lastArt ? '<div style="position:absolute;left:7.5%;top:57%;width:22%;height:31%;background:#563321;padding:2%;box-shadow:0 2px 5px #0009"><img alt="" src="' + escapeAttr(lastArt) + '" style="width:100%;height:100%;object-fit:contain;background:#fffaf0"></div>' : '') + '</div>' +
       '<div class="kp-body"><span class="kp-kicker">' + t('keepsake.cardKicker') + '</span>' +
       '<div class="kp-name" id="kp-name">' + escapeHtml(name) + '</div>' +
       '<p class="kp-blessing" id="kp-blessing">' + escapeHtml(blessing) + '</p>' +
@@ -2167,6 +2159,7 @@
           blessing: inputBless.value,
           code: code,
           pieces: fragments(),
+          art: state.completed[TASKS[27].id] && state.completed[TASKS[27].id].art,
           lang: I18N.current()
         });
       }).then(function (canvas) {
@@ -2209,7 +2202,24 @@
   /* ------------------------------------------------------------------ share */
 
   function canEarnShareChance() {
-    return eventPhase() === 'live' && state.share.day !== dayKey(now()) && fragments() < 18;
+    return eventPhase() === 'live' && state.share.day !== dayKey(now());
+  }
+
+  function openArtDemoChannel(channelName, artwork, artworkName, badge) {
+    var channelHtml = '<div class="modal-head"><span class="modal-kicker">' + t('share.demoChannelKicker') + '</span>' +
+      '<h2>' + escapeAttr(channelName) + '</h2><p>' + t('share.demoChannelNote') + '</p></div>' +
+      '<div class="result-preview"><img src="' + escapeAttr(artwork) + '" alt="' + escapeAttr(artworkName) + '"></div>' +
+      '<div class="modal-actions"><button type="button" class="btn btn-primary" data-close>' + t('common.close') + '</button></div>';
+    openModal(channelHtml, { className: 'modal--narrow', label: channelName });
+    if (canEarnShareChance()) {
+      state.share.day = dayKey(now());
+      state.share.count += 1;
+      state.energy = energy() + 1;
+      save();
+      renderAll();
+      if (badge) badge.innerHTML = '';
+      toast(t('share.claimed'), 'i-share');
+    }
   }
 
   function latestArt() {
@@ -2222,7 +2232,11 @@
     return best;
   }
 
-  function shareTarget(preferredTaskId) {
+  function shareTarget(preferredTaskId, preferredFreeId) {
+    if (preferredFreeId) {
+      var free = (state.freeWorks || []).filter(function (work) { return work.id === preferredFreeId; })[0];
+      return free && free.art ? { kind: 'free', id: free.id, rec: free } : null;
+    }
     if (preferredTaskId) {
       var preferred = state.completed[preferredTaskId];
       if (preferred && preferred.art) {
@@ -2235,9 +2249,9 @@
     return { kind: 'doodle', id: latest.id, task: BY_ID[latest.id], rec: latest.rec };
   }
 
-  function openShare(preferredTaskId) {
+  function openShare(preferredTaskId, preferredFreeId) {
     if (preferredTaskId && typeof preferredTaskId !== 'string') preferredTaskId = null;
-    var target = shareTarget(preferredTaskId);
+    var target = shareTarget(preferredTaskId, preferredFreeId);
     if (!target) {
       toast(t('share.noArt'), 'i-share');
       var studio = document.getElementById('studio');
@@ -2246,15 +2260,17 @@
     }
 
     var isTown = target.kind === 'town';
+    var isFree = target.kind === 'free';
     var sharedToday = state.share.day === dayKey(now());
-    var earn = canEarnShareChance();
-    var primaryLabel = earn ? t('share.claim') : (sharedToday ? t('share.again') : t('share.share'));
-    var shareNote = earn ? t('share.noteEarn') : (sharedToday ? t('share.noteUsed') : t('share.noteNoChance'));
+    var earn = target.kind === 'doodle' && canEarnShareChance();
+    var primaryLabel = earn ? t('share.claim') : (!isFree && sharedToday ? t('share.again') : t('share.share'));
+    var shareNote = isFree ? t('share.noteFreeNoChance') : (earn ? t('share.noteEarn') : (sharedToday ? t('share.noteUsed') : t('share.noteNoChance')));
 
     var title = isTown ? t('share.titleTown') : t('share.titleDoodle');
     var kicker = isTown ? t('share.kickerTown') : t('share.kickerDoodle');
     var subtitle = isTown
       ? t('share.subTown')
+      : isFree ? t('share.subFree', { date: fmtLong(new Date(target.rec.at)) })
       : t('share.subDoodle', { name: taskName(target.task), n: pad2(target.task.day), date: fmtLong(new Date(target.rec.at)) });
     var townNote = (!isTown && fragments() < 28) ? ' ' + t('share.townGate') : '';
 
@@ -2269,6 +2285,7 @@
       '<div class="share-fact"><b>' + totalChances() + '</b><span>' + t('share.chances') + '</span></div>' +
       '</div>' +
       '<button type="button" class="btn btn-primary btn-block" id="share-claim">' + primaryLabel + '</button>' +
+      '<button type="button" class="btn btn-ghost btn-block" id="share-demo" style="margin-top:8px">' + t('share.demoChannelOpen') + '</button>' +
       '<button type="button" class="btn btn-ghost btn-block" id="share-download" style="margin-top:8px">' + icon('i-download') + t('share.download') + '</button>' +
       '<p class="rules-fine">' + shareNote + townNote + ' ' + t('share.demoNote') + '</p>' +
       '</div></div>';
@@ -2283,14 +2300,16 @@
           name: state.user ? state.user.name : 'A Christmas maker',
           pieces: fragments(),
           code: state.keepsake.code || '',
+          art: state.completed[TASKS[27].id] && state.completed[TASKS[27].id].art,
           lang: I18N.current()
         });
       }
       return CARDS.renderDoodleCard(canvas, {
         name: state.user ? state.user.name : 'A Christmas maker',
         art: target.rec.art,
-        taskName: taskName(target.task),
-        day: target.task.day,
+        taskName: isFree ? t('works.freeTitle') : taskName(target.task),
+        day: isFree ? null : target.task.day,
+        isFree: isFree,
         dateLabel: fmtLong(new Date(target.rec.at)),
         pieces: fragments(),
         lang: I18N.current()
@@ -2303,20 +2322,26 @@
     });
 
     var claimBtn = $('#share-claim', modal.modal);
-    claimBtn.addEventListener('click', function () {
+    function runShare(simulated) {
       var wasEarn = earn;
+      var shareDay = dayKey(now());
       claimBtn.disabled = true;
+      var demoBtn = $('#share-demo', modal.modal);
+      demoBtn.disabled = true;
       claimBtn.textContent = t('share.opening');
-      shareCardFile(canvas, isTown, filename).then(function (result) {
-        if (result === 'cancelled') {
+      var action = simulated ? openDemoShareChannel() : Promise.race([shareCardFile(canvas, isTown, filename), new Promise(function (resolve) { setTimeout(function () { resolve('done'); }, 8000); })]);
+      action.then(function (result) {
+        if (result !== 'shared') {
+          if (result !== 'cancelled') toast(t('share.channelUnavailable'));
           claimBtn.disabled = false;
+          demoBtn.disabled = false;
           claimBtn.textContent = primaryLabel;
           return;
         }
-        if (wasEarn) {
+        if (wasEarn && dayKey(now()) === shareDay && canEarnShareChance()) {
           state.share.day = dayKey(now());
           state.share.count += 1;
-          state.energy = (state.energy || 0) + 1;
+          state.energy = energy() + 1;
           save();
           renderAll();
           modal.close();
@@ -2326,6 +2351,20 @@
           toast(t('share.thanks'), 'i-share');
         }
       });
+    }
+    claimBtn.addEventListener('click', function () { runShare(false); });
+    $('#share-demo', modal.modal).addEventListener('click', function () { runShare(true); });
+  }
+
+  function openDemoShareChannel() {
+    return new Promise(function (resolve) {
+      var choices = '<div class="modal-head"><span class="modal-kicker">' + t('share.demoChannelKicker') + '</span>' +
+        '<h2>' + t('share.demoChannelTitle') + '</h2><p>' + t('share.demoChannelNote') + '</p></div>' +
+        '<div class="modal-actions"><button type="button" class="btn btn-primary" id="demo-open-channel">' + t('share.demoChannelOpen') + '</button>' +
+        '<button type="button" class="btn btn-ghost" id="demo-cancel-channel">' + t('common.close') + '</button></div>';
+      var channel = openModal(choices, { className: 'modal--narrow', label: t('share.demoChannelTitle'), closable: false });
+      $('#demo-open-channel', channel.modal).addEventListener('click', function () { channel.close(); resolve('shared'); });
+      $('#demo-cancel-channel', channel.modal).addEventListener('click', function () { channel.close(); resolve('cancelled'); });
     });
   }
 
@@ -2342,8 +2381,7 @@
           return err && err.name === 'AbortError' ? 'cancelled' : 'done';
         });
       }
-      CARDS.download(canvas, filename || 'xppen-christmas-card.png');
-      return 'done';
+      return openDemoShareChannel();
     });
   }
 
@@ -2440,9 +2478,13 @@
     } else {
       html += '<div class="doodle-figure"><div class="doodle-empty">' + t('doodle.empty') + '</div></div>';
     }
-    html += '<div class="doodle-actions">' +
-      (rec.art ? '<button type="button" class="btn btn-ghost" id="doodle-download">' + icon('i-download') + t('doodle.download') + '</button>' : '') +
-      '<button type="button" class="btn btn-primary" id="doodle-share">' + icon('i-share') + t('doodle.share') + '</button></div>';
+    if (rec.art) {
+      html += '<div class="doodle-actions"><button type="button" class="btn btn-primary" id="doodle-download">' + icon('i-download') + t('doodle.download') + '</button></div>' +
+        '<div class="free-social"><p>' + t('result.share') + ' <span id="doodle-share-reward">' + (canEarnShareChance() ? '<span class="result-share-reward">' + t('studio.reward') + '</span>' : '') + '</span></p>' +
+        '<div class="free-social-buttons"><button type="button" class="free-social-button" data-doodle-channel="Facebook"><span class="free-social-icon is-facebook" aria-hidden="true">f</span>Facebook</button>' +
+        '<button type="button" class="free-social-button" data-doodle-channel="X"><span class="free-social-icon is-x" aria-hidden="true">𝕏</span>X</button></div>' +
+        '<small>' + t('share.demoChannelNote') + '</small></div>';
+    }
     var modal = openModal(html, { className: 'modal--narrow', label: taskName(task) });
     var dl = $('#doodle-download', modal.modal);
     if (dl) {
@@ -2453,10 +2495,12 @@
         a.click();
       });
     }
-    $('#doodle-share', modal.modal).addEventListener('click', function () {
-      modal.close();
-      setTimeout(function () { openShare(taskId); }, 200);
+    modal.modal.querySelectorAll('[data-doodle-channel]').forEach(function (button) {
+      button.addEventListener('click', function () {
+        openArtDemoChannel(button.getAttribute('data-doodle-channel'), rec.art, taskName(task), $('#doodle-share-reward', modal.modal));
+      });
     });
+
   }
 
   /* -------------------------------------------------------------------- hero */
@@ -2527,6 +2571,19 @@
     };
   }
 
+  // Demo-only artwork: a small self-contained illustration, never a user's saved drawing.
+  function demoArt(task) {
+    var label = escapeHtml(task.name || 'Christmas');
+    var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="480" height="300" viewBox="0 0 480 300">' +
+      '<rect width="480" height="300" fill="#fffaf0"/>' +
+      '<g fill="none" stroke="#158bc4" stroke-linecap="round" stroke-linejoin="round" stroke-width="9">' +
+      '<path d="M240 52v135M180 86l120 70M300 86l-120 70M240 52l-18 18m18-18 18 18M240 187l-18-18m18 18 18-18"/>' +
+      '<path d="M180 86l23 2m-23-2 9 21M300 86l-23 2m23-2-9 21M180 156l23-2m-23 2 9-21M300 156l-23-2m23 2-9-21"/>' +
+      '</g><text x="240" y="239" text-anchor="middle" font-family="sans-serif" font-size="20" fill="#334765">' + label + '</text>' +
+      '<text x="240" y="271" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#7889a6">DEMO SAMPLE</text></svg>';
+    return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+  }
+
   function scenarioTasks(s, days, opts) {
     opts = opts || {};
     for (var i = 1; i <= days; i++) {
@@ -2534,7 +2591,7 @@
       s.completed[t.id] = {
         at: new Date(taskOpenAt(t).getTime() + 11 * 3600 * 1000).toISOString(),
         makeup: false,
-        art: null
+        art: demoArt(t)
       };
     }
     if (typeof opts.energy === 'number') s.energy = opts.energy;
@@ -2559,94 +2616,49 @@
 
     if (name === 'fresh') {
       s.sim = '2026-12-03T10:30:00+08:00';
-    } else if (name === 'stage1') {
+    } else if (name === 'dailyReady' || name === 'dailyUsed' || name === 'shared') {
       s.sim = '2026-12-08T19:20:00+08:00';
-      scenarioTasks(s, 5, { energy: 5 });
-    } else if (name === 'stage2') {
-      s.sim = '2026-12-14T19:20:00+08:00';
-      scenarioTasks(s, 11, { energy: 5 });
-      demoWindow(s, 'stage1', '2026-12-08T11:00:00+08:00');
-    } else if (name === 'stage3') {
-      s.sim = '2026-12-20T19:20:00+08:00';
-      scenarioTasks(s, 17, { energy: 5 });
-      demoWindow(s, 'stage1', '2026-12-08T11:00:00+08:00');
-      demoWindow(s, 'stage2', '2026-12-14T11:00:00+08:00');
-      seedPrizesFor('stage1', 2, s);
-      seedPrizesFor('stage2', 2, s);
-    } else if (name === 'xmas18next') {
-      s.sim = '2026-12-25T12:00:00+08:00';
-      scenarioTasks(s, 17, { energy: 5 });
-      demoWindow(s, 'stage1', '2026-12-08T11:00:00+08:00');
-      demoWindow(s, 'stage2', '2026-12-14T11:00:00+08:00');
-    } else if (name === 'xmas23next') {
-      s.sim = '2026-12-25T12:00:00+08:00';
-      scenarioTasks(s, 22, { energy: 3 });
-      demoWindow(s, 'stage1', '2026-12-08T11:00:00+08:00');
-      demoWindow(s, 'stage2', '2026-12-14T11:00:00+08:00');
-      demoWindow(s, 'stage3', '2026-12-20T11:00:00+08:00');
+      scenarioTasks(s, 6, { energy: name === 'dailyUsed' ? 0 : name === 'shared' ? 2 : 1 });
+      if (name === 'dailyUsed') seedPrizesFor('regular', 1, s);
+      if (name === 'shared') { s.share.day = dayKey(new Date(s.sim)); s.share.count = 1; }
     } else if (name === 'expired') {
       s.sim = '2026-12-10T12:00:00+08:00';
-      scenarioTasks(s, 6, { energy: 5 });
-      demoWindow(s, 'stage1', '2026-12-08T11:00:00+08:00');
-    } else if (name === 'overlap') {
-      s.sim = '2026-12-27T10:00:00+08:00';
-      scenarioTasks(s, 11, { energy: 5 });
-      for (var i = 5; i < 11; i++) {
-        s.completed[TASKS[i].id].at = new Date('2026-12-26T' + (12 + i - 5) + ':00:00+08:00').toISOString();
-        s.completed[TASKS[i].id].makeup = true;
-      }
-      demoWindow(s, 'stage1', '2026-12-26T12:00:00+08:00');
-      s.ui.selectedId = TASKS[11].id;
-    } else if (name === 'noenergy') {
-      s.sim = '2026-12-08T12:00:00+08:00';
       scenarioTasks(s, 6, { energy: 0 });
-      demoWindow(s, 'stage1', '2026-12-08T11:00:00+08:00');
+    } else if (name === 'xmas18next') {
+      s.sim = '2026-12-25T12:00:00+08:00';
+      scenarioTasks(s, 17, { energy: 0 });
+    } else if (name === 'xmas23next') {
+      s.sim = '2026-12-25T12:00:00+08:00';
+      scenarioTasks(s, 22, { energy: 0 });
+    } else if (name === 'xmas') {
+      s.sim = '2026-12-25T12:00:00+08:00';
+      scenarioTasks(s, 17, { energy: 1 });
+      s.completed[TASKS[22].id] = { at: new Date('2026-12-25T11:00:00+08:00').toISOString(), makeup: false, art: demoArt(TASKS[22]) };
+    } else if (name === 'makeupAvailable' || name === 'makeupLimit') {
+      s.sim = '2026-12-20T19:20:00+08:00';
+      scenarioTasks(s, 12, { energy: name === 'makeupLimit' ? 3 : 0 });
+      if (name === 'makeupLimit') {
+        for (var i = 12; i < 15; i++) {
+          s.completed[TASKS[i].id] = { at: new Date('2026-12-20T' + (12 + i - 12) + ':00:00+08:00').toISOString(), makeup: true, art: demoArt(TASKS[i]) };
+        }
+      } else { s.ui.selectedId = TASKS[12].id; }
+    } else if (name === 'makeupUnlimited') {
+      s.sim = '2026-12-27T15:00:00+08:00';
+      scenarioTasks(s, 15, { energy: 4 });
+      for (var j = 15; j < 19; j++) {
+        s.completed[TASKS[j].id] = { at: new Date('2026-12-27T' + (10 + j - 15) + ':00:00+08:00').toISOString(), makeup: true, art: demoArt(TASKS[j]) };
+      }
+      s.ui.selectedId = TASKS[19].id;
+    } else if (name === 'cutoff') {
+      s.sim = '2026-12-31T09:30:00+08:00';
+      scenarioTasks(s, 5, { energy: 0 });
+      s.ui.selectedId = TASKS[5].id;
     } else if (name === 'almostcomplete') {
       s.sim = '2026-12-30T15:00:00+08:00';
       scenarioTasks(s, 27, { energy: 0 });
-      demoWindow(s, 'stage1', '2026-12-08T11:00:00+08:00');
-      demoWindow(s, 'stage2', '2026-12-14T11:00:00+08:00');
-      demoWindow(s, 'stage3', '2026-12-20T11:00:00+08:00');
-    } else if (name === 'cutoff') {
-      s.sim = '2026-12-31T09:30:00+08:00';
-      scenarioTasks(s, 5, { energy: 5 });
-      s.ui.selectedId = TASKS[5].id;
-    } else if (name === 'xmas') {
-      s.sim = '2026-12-25T12:00:00+08:00';
-      scenarioTasks(s, 17, { energy: 2 });
-      s.completed[TASKS[22].id] = { at: new Date('2026-12-25T11:00:00+08:00').toISOString(), makeup: false, art: null };
-      demoWindow(s, 'stage1', '2026-12-08T11:00:00+08:00');
-      demoWindow(s, 'stage2', '2026-12-14T11:00:00+08:00');
-      demoWindow(s, 'stage3', '2026-12-25T11:00:00+08:00');
-      s.special = { chances: 0, used: 0 };
-      seedPrizesFor('stage1', 2, s);
-      seedPrizesFor('stage2', 2, s);
-      seedPrizesFor('stage3', 2, s);
-    } else if (name === 'makeupstage') {
-      s.sim = '2026-12-27T15:00:00+08:00';
-      scenarioTasks(s, 5, { energy: 5 });
-      s.ui.selectedId = TASKS[5].id;
-    } else if (name === 'makeup') {
-      s.sim = '2026-12-27T15:00:00+08:00';
-      scenarioTasks(s, 20, { energy: 0 });
-      s.ui.selectedId = TASKS[20].id;
-      demoWindow(s, 'stage1', '2026-12-08T11:00:00+08:00');
-      demoWindow(s, 'stage2', '2026-12-14T11:00:00+08:00');
-      demoWindow(s, 'stage3', '2026-12-20T11:00:00+08:00');
-      s.special = { chances: 0, used: 1 };
-      seedPrizesFor('stage1', 2, s);
-      seedPrizesFor('stage2', 2, s);
-      seedPrizesFor('stage3', 2, s);
     } else if (name === 'complete') {
       s.sim = '2026-12-30T15:00:00+08:00';
       scenarioTasks(s, 28, { energy: 0 });
-      demoWindow(s, 'stage1', '2026-12-08T11:00:00+08:00');
-      demoWindow(s, 'stage2', '2026-12-14T11:00:00+08:00');
-      demoWindow(s, 'stage3', '2026-12-20T11:00:00+08:00');
-      s.special = { chances: 0, used: 2 };
-      seedPrizesFor('stage1', 2, s);
-      seedPrizesFor('stage2', 2, s);
-      seedPrizesFor('stage3', 2, s);
       s.keepsake.code = null;
       s.seen.complete = true;
     }
@@ -2654,6 +2666,7 @@
     closeAllModals();
     state = s;
     syncSimClock(state);
+    state.energyDay = dayKey(now());
     padTaskId = null;
     save();
     renderAll();
@@ -2821,7 +2834,7 @@
         if (st === 'locked') {
           toast(t('album.opensOn', { name: taskName(task), date: fmtShort(taskOpenAt(task)) }));
         } else if (st === 'missed') {
-          toast(t('album.missed'));
+          toast(t(now() >= MAKEUP_START ? 'makeup.limitReached' : 'album.missed'));
         } else {
           toast(t('album.closed'));
         }
@@ -2908,30 +2921,7 @@
       var act = e.target.closest('[data-demo]');
       if (!act) return;
       var kind = act.dataset.demo;
-      if (kind === 'piece') {
-        var next = TASKS.filter(function (t) { return !state.completed[t.id]; })[0];
-        if (!next) { toast(t('demo.allPieces')); return; }
-        state.completed[next.id] = { at: new Date(now()).toISOString(), makeup: false, art: null };
-        if (fragments() <= 18) state.energy = (state.energy || 0) + 1;
-        unlockNodes();
-        syncSpecial();
-        save();
-        state.ui.justSubmitted = null;
-        renderAll();
-        toast(t('demo.pieceToast', { name: taskName(next) }));
-      } else if (kind === 'chance') {
-        state.energy = (state.energy || 0) + 1;
-        save();
-        renderAll();
-        toast(t('demo.chanceToast'));
-      } else if (kind === 'finish-draws') {
-        state.energy = 0;
-        state.special.used = specialLimit();
-        save();
-        closeAllModals();
-        renderAll();
-        toast(t('demo.finishToast'));
-      } else if (kind === 'subscription-subscribed' || kind === 'subscription-unsubscribed') {
+      if (kind === 'subscription-subscribed' || kind === 'subscription-unsubscribed') {
         if (!state.user || !subscriptionKey()) { requireAuth(openDemo); return; }
         var subKey = subscriptionKey();
         var subPrevious = subscriptionRecord();
@@ -3021,7 +3011,7 @@
     updateToolState();
   }
 
-  setInterval(function () { if (!document.hidden && state) { updateDrawEntry(); updateSubscriptionEntry(); } }, 1000);
+  setInterval(function () { if (!document.hidden && state) { var oldDay = state.energyDay; energy(); if (oldDay !== state.energyDay) { save(); renderAll(); } else { updateDrawEntry(); updateSubscriptionEntry(); } } }, 1000);
 
   document.addEventListener('DOMContentLoaded', init);
 })();

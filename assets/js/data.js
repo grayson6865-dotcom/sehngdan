@@ -11,7 +11,7 @@
     endISO: '2026-12-31T10:00:00+08:00',
     specialOpenISO: '2026-12-25T00:00:00+08:00',
     specialCloseISO: '2026-12-26T00:00:00+08:00',
-    makeupStartISO: '2026-12-26T00:00:00+08:00',
+    makeupStartISO: '2026-12-18T00:00:00+08:00',
     startLabel: 'Dec 3, 2026 · 10:00',
     endLabel: 'Dec 31, 2026 · 10:00',
     tzLabel: 'UTC+8',
@@ -148,19 +148,19 @@
       title: 'Energy & town pieces',
       titleZh: '能量与小镇',
       body: '<p>Every <strong>daily</strong> drawing gives <strong>1 regular energy</strong> and lights <strong>1 piece</strong> of the town. Make-up drawings light a piece but add no energy. There are 28 pieces; this browser keeps your demo energy and pieces.</p>',
-      bodyZh: '<p>每完成一个<strong>每日</strong>任务，获得 <strong>1 点常规能量</strong>并点亮 <strong>1 块</strong>小镇碎片；补画点亮碎片但不增加能量。共 28 块；演示能量与碎片保存在当前浏览器。</p>'
+      bodyZh: '<p>每完成一个<strong>每日</strong>任务，获得 <strong>1 点能量</strong>并点亮 <strong>1 块</strong>小镇碎片；补画点亮碎片但不增加能量。共 28 块；演示能量与碎片保存在当前浏览器。</p>'
     },
     {
       title: 'Energy & limited draws',
       titleZh: '能量与限时抽奖',
       body: '<p><strong>1 regular energy = 1 limited draw.</strong> Each daily drawing adds 1 energy while the town has 18 or fewer lit pieces; from the 19th piece no more regular energy is added. Sharing once a day adds 1 energy before 18 pieces. Lighting <strong>6, 12 and 18</strong> pieces opens the limited draw <strong>once per threshold</strong>. Each opening lasts up to <strong>24 hours</strong> and ends no later than <strong>December 31, 10:00 (UTC+8)</strong>. If windows overlap, the later end time applies. There is one limited prize pool; no stage selection. Unused energy stays in your balance for a later window.</p><p>The complete town can only be shared once all <strong>28 pieces</strong> are lit.</p>',
-      bodyZh: '<p><strong>1 点常规能量 = 抽 1 次限时抽奖。</strong>小镇点亮 18 块及以前，每完成一个每日任务 +1 点常规能量；第 19 块起不再增加。18 块前每天首次分享 +1 点。点亮 <strong>6、12、18 块</strong>时，每个门槛各开启<strong>一次</strong>限时抽奖，每次最多开放 <strong>24 小时</strong>，最晚不超过 <strong>2026 年 12 月 31 日 10:00（UTC+8）</strong>。若窗口重叠，以较晚的结束时间为准。限时奖池只有一套，不再分阶段选择；未用完的常规能量保留到后续窗口。</p><p>完整小镇需点亮全部 <strong>28 块</strong>后才能分享。</p>'
+      bodyZh: '<p><strong>1 点能量 = 抽 1 次限时抽奖。</strong>小镇点亮 18 块及以前，每完成一个每日任务 +1 点能量；第 19 块起不再增加。18 块前每天首次分享 +1 点。点亮 <strong>6、12、18 块</strong>时，每个门槛各开启<strong>一次</strong>限时抽奖，每次最多开放 <strong>24 小时</strong>，最晚不超过 <strong>2026 年 12 月 31 日 10:00（UTC+8）</strong>。若窗口重叠，以较晚的结束时间为准。限时奖池只有一套，不再分阶段选择；未用完的能量保留到后续窗口。</p><p>完整小镇需点亮全部 <strong>28 块</strong>后才能分享。</p>'
     },
     {
       title: 'Christmas Day draw',
       titleZh: '圣诞日抽奖',
       body: '<p>The Christmas Day draw opens from <strong>December 25, 2026, 00:00 (inclusive)</strong> to <strong>December 26, 2026, 00:00 (exclusive), UTC+8</strong>. Lighting <strong>18 pieces</strong> gives <strong>1 special energy</strong>; <strong>23 pieces</strong> gives <strong>2 special energy</strong> in total. Each Christmas draw uses <strong>1 special energy</strong> and never deducts regular energy. The draw can be closed; unused special energy expires when the window closes. Make-up drawings start December 26 and cannot add special energy before this window closes.</p>',
-      bodyZh: '<p>圣诞日抽奖开放时间为 <strong>2026 年 12 月 25 日 00:00（含）至 12 月 26 日 00:00（不含，UTC+8）</strong>。点亮 <strong>18 块</strong>获得 <strong>1 点特殊能量</strong>；<strong>23 块</strong>累计获得 <strong>2 点特殊能量</strong>。每次圣诞日抽奖消耗 <strong>1 点特殊能量</strong>，不扣常规能量。抽奖可随时关闭；未使用的特殊能量在窗口结束时失效。补画从 12 月 26 日开始，无法在本窗口关闭前增加特殊能量。</p>'
+      bodyZh: '<p>圣诞日抽奖开放时间为 <strong>2026 年 12 月 25 日 00:00（含）至 12 月 26 日 00:00（不含，UTC+8）</strong>。点亮 <strong>18 块</strong>获得 <strong>1 点特殊能量</strong>；<strong>23 块</strong>累计获得 <strong>2 点特殊能量</strong>。每次圣诞日抽奖消耗 <strong>1 点特殊能量</strong>，不扣普通能量。抽奖可随时关闭；未使用的特殊能量在窗口结束时失效。补画从 12 月 26 日开始，无法在本窗口关闭前增加特殊能量。</p>'
     },
     {
       title: 'Make-up drawings',
@@ -187,6 +187,19 @@
       bodyZh: '<p>每位用户仅可使用一个账号，禁止多账号、恶意刷取或自动化提交。对于违规获得奖励，XPPen 有权调整或取消。我们仅通过 <strong>official@xp-pen.com</strong> 联系中奖用户，请注意甄别冒充邮件。如有疑问，请发送邮件至 official@xp-pen.com。</p><p class="rules-fine">个性化小镇纪念图为数字纪念奖励，不具备现金价值，不可兑换实物。</p>'
     }
   ];
+
+  // Revised rules supplied by the business on November 3.
+  RULES.forEach(function (rule) {
+    var revised = {
+      'Daily drawing': ['One new task opens each day. Each task can award one piece and one regular draw chance.', '每天开放一个新任务；每个任务首次完成获得对应碎片及 1 次普通抽奖机会。'],
+      'Energy & town pieces': ['Each completed daily or make-up task lights one piece and earns one regular draw chance.', '每日任务和补画首次完成时，各点亮对应碎片并获得 1 次普通抽奖机会。'],
+      'Energy & limited draws': ['Each chance is valid only on the day it is earned (UTC+8). The first successful drawing share each day adds one chance; make-up and subscription rewards are additional.', '普通抽奖机会仅在获得当天有效（UTC+8），每日首次成功分享画作额外获得 1 次；补画和订阅奖励另计。'],
+      'Christmas Day draw': ['On December 25 (UTC+8), reaching 18 pieces awards one chance and reaching 23 awards another, including pieces earned by make-up. Unused chances expire when the draw closes.', '12 月 25 日（UTC+8）达到 18 块获得 1 次，达到 23 块再获得 1 次；补画碎片计入。未使用的机会在大奖日结束后失效。'],
+      'Make-up drawings': ['December 18–25: up to 3 missed tasks per day. From December 26 until the activity ends: no daily limit. Each task earns a piece and one regular draw chance.', '12 月 18—25 日每天最多补画 3 个；12 月 26 日至活动结束不限每日数量。每个补画任务获得对应碎片和 1 次普通抽奖机会。']
+    }[rule.title];
+    if (revised) { rule.body = '<p>' + revised[0] + '</p>'; rule.bodyZh = '<p>' + revised[1] + '</p>'; }
+    if (rule.title === 'Energy & limited draws') { rule.title = 'Regular draw'; rule.titleZh = '抽奖'; }
+  });
 
   var CATEGORY_ORDER = ['Decor', 'Characters', 'Cozy', 'Town', 'Sky'];
 
