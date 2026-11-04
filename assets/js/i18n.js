@@ -1302,7 +1302,11 @@
     'prizes.claimSubmit': 'Save address', 'prizes.claimBack': 'Back',
     'prizes.claimDone': 'Shipping address saved (demo)',
     'prizes.claimRequired': 'Add a recipient, phone and full address.',
-    'prizes.claimSubmitted': 'Saved · {name}'
+    'prizes.claimSubmitted': 'Saved · {name}',
+    'prizes.status.address': 'Address needed', 'prizes.status.pending': 'Awaiting shipment', 'prizes.status.shipped': 'Shipped', 'prizes.status.completed': 'Completed',
+    'prizes.confirmReceipt': 'Confirm receipt', 'prizes.receiptDone': 'Receipt confirmed.',
+    'prizes.demoShip': 'Demo: ship prize', 'prizes.demoShipped': 'Demo shipment marked as shipped.',
+    'prizes.demoAutoReceipt': 'Demo: automatic confirmation', 'prizes.demoAutoDone': 'Demo automatic confirmation completed.'
   });
   Object.assign(DICT.zh, {
     'chance.dailyEnergy': '今日可用 {n} 次普通抽奖机会，未使用的机会于当天结束时失效（UTC+8）。',
@@ -1345,7 +1349,11 @@
     'prizes.claimSubmit': '提交收货信息', 'prizes.claimBack': '返回',
     'prizes.claimDone': '收货信息已提交（演示）',
     'prizes.claimRequired': '请填写收件人、手机号和完整地址',
-    'prizes.claimSubmitted': '已提交 · {name}'
+    'prizes.claimSubmitted': '已提交 · {name}',
+    'prizes.status.address': '待填写地址', 'prizes.status.pending': '待发货', 'prizes.status.shipped': '已发货', 'prizes.status.completed': '已完成',
+    'prizes.confirmReceipt': '确认收货', 'prizes.receiptDone': '已确认收货。',
+    'prizes.demoShip': '演示：运营发货', 'prizes.demoShipped': '演示发货完成。',
+    'prizes.demoAutoReceipt': '演示：定时确认收货', 'prizes.demoAutoDone': '已模拟定时确认收货。'
   });
 
   var lang = detect();

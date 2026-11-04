@@ -5059,7 +5059,11 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     'prizes.claimSubmit': 'Save address', 'prizes.claimBack': 'Back',
     'prizes.claimDone': 'Shipping address saved (demo)',
     'prizes.claimRequired': 'Add a recipient, phone and full address.',
-    'prizes.claimSubmitted': 'Saved · {name}'
+    'prizes.claimSubmitted': 'Saved · {name}',
+    'prizes.status.address': 'Address needed', 'prizes.status.pending': 'Awaiting shipment', 'prizes.status.shipped': 'Shipped', 'prizes.status.completed': 'Completed',
+    'prizes.confirmReceipt': 'Confirm receipt', 'prizes.receiptDone': 'Receipt confirmed.',
+    'prizes.demoShip': 'Demo: ship prize', 'prizes.demoShipped': 'Demo shipment marked as shipped.',
+    'prizes.demoAutoReceipt': 'Demo: automatic confirmation', 'prizes.demoAutoDone': 'Demo automatic confirmation completed.'
   });
   Object.assign(DICT.zh, {
     'chance.dailyEnergy': '今日可用 {n} 次普通抽奖机会，未使用的机会于当天结束时失效（UTC+8）。',
@@ -5102,7 +5106,11 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     'prizes.claimSubmit': '提交收货信息', 'prizes.claimBack': '返回',
     'prizes.claimDone': '收货信息已提交（演示）',
     'prizes.claimRequired': '请填写收件人、手机号和完整地址',
-    'prizes.claimSubmitted': '已提交 · {name}'
+    'prizes.claimSubmitted': '已提交 · {name}',
+    'prizes.status.address': '待填写地址', 'prizes.status.pending': '待发货', 'prizes.status.shipped': '已发货', 'prizes.status.completed': '已完成',
+    'prizes.confirmReceipt': '确认收货', 'prizes.receiptDone': '已确认收货。',
+    'prizes.demoShip': '演示：运营发货', 'prizes.demoShipped': '演示发货完成。',
+    'prizes.demoAutoReceipt': '演示：定时确认收货', 'prizes.demoAutoDone': '已模拟定时确认收货。'
   });
 
   var lang = detect();
@@ -9144,6 +9152,11 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     return 'ship';
   }
 
+  function physicalPrizeStatus(prize) {
+    if (!prize.claim || !prize.claim.name) return 'address';
+    return prize.fulfillmentStatus === 'shipped' || prize.fulfillmentStatus === 'completed' ? prize.fulfillmentStatus : 'pending';
+  }
+
   function prizesListHtml() {
     var list = state.prizes;
     if (!list.length) {
@@ -9162,9 +9175,18 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
           t('prizes.useCoupon') + icon('i-arrow') + '</button>' +
           '<span class="prize-btn-note">' + t('prizes.autoCopy') + '</span>';
       } else {
-        action = '<button type="button" class="prize-btn ' + (claimed ? 'is-ghost' : 'is-ship') + '" data-prize-act="claim" data-uid="' + p.uid + '">' +
-          (claimed ? t('prizes.editAddress') : t('prizes.fillAddress')) + '</button>' +
-          (claimed ? '<span class="prize-btn-note">' + t('prizes.claimSubmitted', { name: p.claim.name }) + '</span>' : '');
+        var status = physicalPrizeStatus(p);
+        action = '<span class="prize-row-status">' + t('prizes.status.' + status) + '</span>';
+        if (status === 'address' || status === 'pending') {
+          action += '<button type="button" class="prize-btn ' + (claimed ? 'is-ghost' : 'is-ship') + '" data-prize-act="claim" data-uid="' + p.uid + '">' +
+            (claimed ? t('prizes.editAddress') : t('prizes.fillAddress')) + '</button>';
+        } else if (status === 'shipped') {
+          action += '<button type="button" class="prize-btn is-ship" data-prize-act="confirm-receipt" data-uid="' + p.uid + '">' + t('prizes.confirmReceipt') + '</button>';
+        }
+        if (status === 'pending' || status === 'shipped') {
+          action += '<button type="button" class="prize-btn is-ghost" data-prize-act="' + (status === 'pending' ? 'demo-ship' : 'demo-auto-receipt') + '" data-uid="' + p.uid + '">' +
+            t(status === 'pending' ? 'prizes.demoShip' : 'prizes.demoAutoReceipt') + '</button>';
+        }
       }
       return '<div class="prize-row is-' + kind + '">' +
         '<div class="prize-row-icon">' + ART.prizeIcon(p.kind, p.label, p.rarity) + '</div>' +
@@ -9227,6 +9249,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       if (!rec.code) { toast(t('prizes.copyFail')); return; }
       copyText(rec.code);
     } else if (action === 'claim') {
+      if (prizeActionKind(rec) !== 'ship' || (physicalPrizeStatus(rec) !== 'address' && physicalPrizeStatus(rec) !== 'pending')) return;
       renderPrizesView(claimFormHtml(rec));
       setPrizesChrome(false);
       var nameInput = $('#claim-name');
@@ -9236,6 +9259,19 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       setPrizesChrome(true);
     } else if (action === 'submit-claim') {
       submitClaim(rec);
+    } else if (action === 'demo-ship' && prizeActionKind(rec) === 'ship' && physicalPrizeStatus(rec) === 'pending') {
+      rec.fulfillmentStatus = 'shipped';
+      rec.shippedAt = new Date(now()).toISOString();
+      save();
+      renderPrizesView(prizesListHtml());
+      toast(t('prizes.demoShipped'));
+    } else if ((action === 'confirm-receipt' || action === 'demo-auto-receipt') && prizeActionKind(rec) === 'ship' && physicalPrizeStatus(rec) === 'shipped') {
+      rec.fulfillmentStatus = 'completed';
+      rec.completedAt = new Date(now()).toISOString();
+      rec.completionMethod = action === 'confirm-receipt' ? 'user' : 'demo-auto';
+      save();
+      renderPrizesView(prizesListHtml());
+      toast(t(action === 'confirm-receipt' ? 'prizes.receiptDone' : 'prizes.demoAutoDone'));
     }
   }
 
@@ -9258,6 +9294,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
   }
 
   function submitClaim(rec) {
+    if (prizeActionKind(rec) !== 'ship' || (physicalPrizeStatus(rec) !== 'address' && physicalPrizeStatus(rec) !== 'pending')) return;
     var nameEl = $('#claim-name'), phoneEl = $('#claim-phone'), addrEl = $('#claim-address'), err = $('#claim-error');
     var name = (nameEl && nameEl.value || '').trim();
     var phone = (phoneEl && phoneEl.value || '').trim();
@@ -9267,6 +9304,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       return;
     }
     rec.claim = { name: name, phone: phone, address: address, at: new Date(now()).toISOString() };
+    rec.fulfillmentStatus = 'pending';
     save();
     renderPrizesView(prizesListHtml());
     setPrizesChrome(true);

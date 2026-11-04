@@ -2064,6 +2064,11 @@
     return 'ship';
   }
 
+  function physicalPrizeStatus(prize) {
+    if (!prize.claim || !prize.claim.name) return 'address';
+    return prize.fulfillmentStatus === 'shipped' || prize.fulfillmentStatus === 'completed' ? prize.fulfillmentStatus : 'pending';
+  }
+
   function prizesListHtml() {
     var list = state.prizes;
     if (!list.length) {
@@ -2082,9 +2087,18 @@
           t('prizes.useCoupon') + icon('i-arrow') + '</button>' +
           '<span class="prize-btn-note">' + t('prizes.autoCopy') + '</span>';
       } else {
-        action = '<button type="button" class="prize-btn ' + (claimed ? 'is-ghost' : 'is-ship') + '" data-prize-act="claim" data-uid="' + p.uid + '">' +
-          (claimed ? t('prizes.editAddress') : t('prizes.fillAddress')) + '</button>' +
-          (claimed ? '<span class="prize-btn-note">' + t('prizes.claimSubmitted', { name: p.claim.name }) + '</span>' : '');
+        var status = physicalPrizeStatus(p);
+        action = '<span class="prize-row-status">' + t('prizes.status.' + status) + '</span>';
+        if (status === 'address' || status === 'pending') {
+          action += '<button type="button" class="prize-btn ' + (claimed ? 'is-ghost' : 'is-ship') + '" data-prize-act="claim" data-uid="' + p.uid + '">' +
+            (claimed ? t('prizes.editAddress') : t('prizes.fillAddress')) + '</button>';
+        } else if (status === 'shipped') {
+          action += '<button type="button" class="prize-btn is-ship" data-prize-act="confirm-receipt" data-uid="' + p.uid + '">' + t('prizes.confirmReceipt') + '</button>';
+        }
+        if (status === 'pending' || status === 'shipped') {
+          action += '<button type="button" class="prize-btn is-ghost" data-prize-act="' + (status === 'pending' ? 'demo-ship' : 'demo-auto-receipt') + '" data-uid="' + p.uid + '">' +
+            t(status === 'pending' ? 'prizes.demoShip' : 'prizes.demoAutoReceipt') + '</button>';
+        }
       }
       return '<div class="prize-row is-' + kind + '">' +
         '<div class="prize-row-icon">' + ART.prizeIcon(p.kind, p.label, p.rarity) + '</div>' +
@@ -2147,6 +2161,7 @@
       if (!rec.code) { toast(t('prizes.copyFail')); return; }
       copyText(rec.code);
     } else if (action === 'claim') {
+      if (prizeActionKind(rec) !== 'ship' || (physicalPrizeStatus(rec) !== 'address' && physicalPrizeStatus(rec) !== 'pending')) return;
       renderPrizesView(claimFormHtml(rec));
       setPrizesChrome(false);
       var nameInput = $('#claim-name');
@@ -2156,6 +2171,19 @@
       setPrizesChrome(true);
     } else if (action === 'submit-claim') {
       submitClaim(rec);
+    } else if (action === 'demo-ship' && prizeActionKind(rec) === 'ship' && physicalPrizeStatus(rec) === 'pending') {
+      rec.fulfillmentStatus = 'shipped';
+      rec.shippedAt = new Date(now()).toISOString();
+      save();
+      renderPrizesView(prizesListHtml());
+      toast(t('prizes.demoShipped'));
+    } else if ((action === 'confirm-receipt' || action === 'demo-auto-receipt') && prizeActionKind(rec) === 'ship' && physicalPrizeStatus(rec) === 'shipped') {
+      rec.fulfillmentStatus = 'completed';
+      rec.completedAt = new Date(now()).toISOString();
+      rec.completionMethod = action === 'confirm-receipt' ? 'user' : 'demo-auto';
+      save();
+      renderPrizesView(prizesListHtml());
+      toast(t(action === 'confirm-receipt' ? 'prizes.receiptDone' : 'prizes.demoAutoDone'));
     }
   }
 
@@ -2178,6 +2206,7 @@
   }
 
   function submitClaim(rec) {
+    if (prizeActionKind(rec) !== 'ship' || (physicalPrizeStatus(rec) !== 'address' && physicalPrizeStatus(rec) !== 'pending')) return;
     var nameEl = $('#claim-name'), phoneEl = $('#claim-phone'), addrEl = $('#claim-address'), err = $('#claim-error');
     var name = (nameEl && nameEl.value || '').trim();
     var phone = (phoneEl && phoneEl.value || '').trim();
@@ -2187,6 +2216,7 @@
       return;
     }
     rec.claim = { name: name, phone: phone, address: address, at: new Date(now()).toISOString() };
+    rec.fulfillmentStatus = 'pending';
     save();
     renderPrizesView(prizesListHtml());
     setPrizesChrome(true);
