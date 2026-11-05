@@ -1536,6 +1536,9 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
 }
 .field input:focus { outline: none; border-color: var(--gold); background: rgba(247, 200, 105, .05); }
 .field-error { color: #ff9c92; font-size: 12px; margin: 0 0 12px; }
+.subscription-consent { display: flex; align-items: flex-start; gap: 10px; margin: 4px 0 16px; color: var(--muted); font-size: 13px; line-height: 1.5; cursor: pointer; }
+.subscription-consent input { flex: none; width: 16px; height: 16px; margin: 2px 0 0; accent-color: var(--gold); cursor: pointer; }
+
 .auth-form-wrap .btn-block { margin-top: 6px; padding: 15px; }
 .auth-fine { font-size: 10.5px; color: var(--muted-2); margin: 18px 0 0; line-height: 1.6; }
 #auth-demo { align-self: flex-start; margin-top: 8px; }
@@ -1888,6 +1891,8 @@ a.prize-btn { text-decoration: none; }
 .kp-foot { margin-top: auto; padding-top: 8px; border-top: 1px solid rgba(247, 200, 105, .14); display: flex; justify-content: space-between; gap: 8px; font-size: 7.5px; letter-spacing: .1em; text-transform: uppercase; color: rgba(196, 211, 234, .55); }
 .kp-foot b { color: rgba(247, 200, 105, .75); font-weight: 700; }
 
+.keepsake-code { margin: 0 0 14px; color: var(--muted); font-size: 12px; }
+.keepsake-code strong { color: var(--gold); letter-spacing: .04em; }
 .keepsake-form .field { margin-bottom: 12px; }
 .keepsake-form textarea {
   width: 100%;
@@ -3284,7 +3289,6 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
 .work-actions { display: flex; gap: 6px; margin-top: 6px; }
 .work-actions button { flex: 1; min-width: 0; padding: 6px 3px; border: 1px solid var(--stroke); border-radius: 8px; background: rgba(255,255,255,.05); color: var(--text); cursor: pointer; font: inherit; font-size: 11px; }
 .work-actions button:hover { border-color: var(--gold); }
-
 </style>
 </head>
 <body data-page-node-id="8VBautKgyjJiDHeApBt82M">
@@ -3468,7 +3472,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
                 <button class="tool-btn" id="tool-undo" type="button" data-page-node-id="EULYK1oNx4kwweDoiy1jU1"><svg class="i" data-page-node-id="1hESas4bYyNm3jwmQiEk9H"><use href="#i-undo" data-page-node-id="lSss8MTu8EkI72omzGn8Cg"/></svg><span data-i18n="tool.undo" data-page-node-id="FBHupAd7SgBLZ1yARK6ixU">Undo</span></button>
                 <button class="tool-btn" id="tool-clear" type="button" data-page-node-id="RNhndcYx40QJ6M0P6mTfra"><svg class="i" data-page-node-id="o2VSTGB8LA1D6mPxGzPIJy"><use href="#i-trash" data-page-node-id="usAxvxEH5LIz0pX1G6Ec1x"/></svg><span data-i18n="tool.clear" data-page-node-id="9LUDecboV6kyTD2lWvaQxi">Clear</span></button>
               </div>
-              <button class="tool-btn guide-toggle is-on" id="tool-guide" type="button" aria-pressed="true" data-page-node-id="PFPXRb9EbmusBt40eME5ql"><svg class="i" data-page-node-id="ceBNfnulSnufFV4hnM7Nkp"><use href="#i-sparkle" data-page-node-id="SsZEB3xHAlx5frCp6AkB86"/></svg><span data-i18n="tool.guide" data-page-node-id="HCSPU31KDgzRrYbqmPaOz7">Guide</span></button>
+              <button class="tool-btn guide-toggle" id="tool-guide" type="button" aria-pressed="false" data-page-node-id="PFPXRb9EbmusBt40eME5ql"><svg class="i" data-page-node-id="ceBNfnulSnufFV4hnM7Nkp"><use href="#i-sparkle" data-page-node-id="SsZEB3xHAlx5frCp6AkB86"/></svg><span data-i18n="tool.guide" data-page-node-id="HCSPU31KDgzRrYbqmPaOz7">Guide</span></button>
             </div>
 
             <button class="btn btn-primary btn-submit" id="submit-drawing" type="button" data-page-node-id="YBaHKEhvJGmDomL3IMlT9r">
@@ -3779,6 +3783,8 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'subscription.open': 'Subscribe',
       'subscription.modalCopy': 'Subscribe to receive 1 regular energy for the limited draw.',
       'subscription.email': 'Signed-in account email',
+      'subscription.consent': 'I agree to receive product updates, event news, and promotional emails from XPPen.',
+      'subscription.consentRequired': 'Please agree to receive emails before subscribing.',
       'subscription.demoNote': 'Demo only: no email is sent and no real subscription is created.',
       'subscription.submit': 'Subscribe and claim',
       'subscription.success': "You're Subscribed! You've Earned 1 Bonus Energy!",
@@ -4340,6 +4346,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'keepsake.lit': 'pieces lit',
       'keepsake.cardKicker': 'Christmas Town · 2026',
       'keepsake.piecesAll': '24 / 24 pieces',
+      'keepsake.codeLabel': 'Keepsake code',
 
       'complete.kicker': '24 / 24 pieces lit',
       'complete.title': 'The whole town is glowing.',
@@ -4408,6 +4415,8 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'subscription.open': '订阅邮件',
       'subscription.modalCopy': '订阅成功后获得 1 点能量，可用于限时抽奖。',
       'subscription.email': '当前登录账号邮箱',
+      'subscription.consent': '我同意接收 XPPen 的产品动态、活动资讯和推广邮件。',
+      'subscription.consentRequired': '请先勾选同意接收邮件。',
       'subscription.demoNote': '演示模式：不会发送邮件或创建真实订阅。',
       'subscription.submit': '订阅并领取',
       'subscription.success': '演示订阅成功，已获得 1 点能量。',
@@ -4965,6 +4974,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       'keepsake.lit': '块已点亮',
       'keepsake.cardKicker': '圣诞小镇 · 2026',
       'keepsake.piecesAll': '24 / 24 块',
+      'keepsake.codeLabel': '纪念图编码',
 
       'complete.kicker': '24 / 24 块已点亮',
       'complete.title': '整座小镇都亮了。',
@@ -5062,14 +5072,14 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     'prizes.viewCoins': 'View X-Coins', 'prizes.useCoupon': 'Use now', 'prizes.autoCopy': 'Tap the code to copy',
     'prizes.fillAddress': 'Add shipping address', 'prizes.editAddress': 'Edit address', 'prizes.codeLabel': 'Code',
     'prizes.coinsToast': '{n} is already in your account (demo).',
-    'prizes.claimTitle': 'Shipping address',
+    'prizes.claimTitle': 'Please Enter Your Personal Information',
     'prizes.claimSub': 'Demo only — nothing is shipped and no data leaves this browser.',
-    'prizes.claimName': 'Recipient', 'prizes.claimNamePh': 'Full name',
+    'prizes.claimFirst': 'First name', 'prizes.claimLast': 'Last name', 'prizes.claimEmail': 'Email address',
     'prizes.claimPhone': 'Phone', 'prizes.claimPhonePh': 'For delivery updates',
     'prizes.claimAddress': 'Address', 'prizes.claimAddressPh': 'Country/region, city, street and number',
-    'prizes.claimSubmit': 'Save address', 'prizes.claimBack': 'Back',
+    'prizes.claimSubmit': 'Save', 'prizes.claimBack': 'Back',
     'prizes.claimDone': 'Shipping address saved (demo)',
-    'prizes.claimRequired': 'Add a recipient, phone and full address.',
+    'prizes.claimRequired': 'Enter your first name, last name, a valid email address, phone and full address.',
     'prizes.claimSubmitted': 'Saved · {name}',
     'prizes.copyKicker': 'Copy manually', 'prizes.copyTitle': 'Your code',
     'prizes.copySub': 'Your browser blocked automatic copying. Select the code below and copy it.',
@@ -5111,14 +5121,14 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     'prizes.viewCoins': '查看积分', 'prizes.useCoupon': '立即使用', 'prizes.autoCopy': '券码点击可复制',
     'prizes.fillAddress': '填写收货地址', 'prizes.editAddress': '修改收货地址', 'prizes.codeLabel': '折扣码',
     'prizes.coinsToast': '{n} 已发放至当前账户（演示）',
-    'prizes.claimTitle': '填写收货地址',
+    'prizes.claimTitle': '请填写个人信息',
     'prizes.claimSub': '仅用于原型演示：不会真实发货，也不会把信息提交到任何服务器。',
-    'prizes.claimName': '收件人', 'prizes.claimNamePh': '请输入收货人姓名',
+    'prizes.claimFirst': '名', 'prizes.claimLast': '姓', 'prizes.claimEmail': '邮箱地址',
     'prizes.claimPhone': '手机号', 'prizes.claimPhonePh': '用于接收物流通知',
     'prizes.claimAddress': '详细地址', 'prizes.claimAddressPh': '国家/地区、城市、街道与门牌号',
-    'prizes.claimSubmit': '提交收货信息', 'prizes.claimBack': '返回',
+    'prizes.claimSubmit': '保存', 'prizes.claimBack': '返回',
     'prizes.claimDone': '收货信息已提交（演示）',
-    'prizes.claimRequired': '请填写收件人、手机号和完整地址',
+    'prizes.claimRequired': '请填写姓名、有效的邮箱地址、手机号和完整地址',
     'prizes.claimSubmitted': '已提交 · {name}',
     'prizes.copyKicker': '手动复制', 'prizes.copyTitle': '你的折扣码',
     'prizes.copySub': '浏览器阻止了自动复制。请选中下方折扣码后手动复制。',
@@ -7707,6 +7717,8 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     var html = '<div class="modal-head"><h2>' + t('subscription.title') + '</h2></div>' +
       '<form id="subscription-form" novalidate><label class="field"><span>' + t('subscription.email') + '</span>' +
       '<input id="subscription-email" type="email" readonly aria-readonly="true"></label>' +
+      '<label class="subscription-consent"><input id="subscription-consent" type="checkbox">' +
+      '<span>' + t('subscription.consent') + '</span></label>' +
       '<p class="field-error" id="subscription-error" role="alert" hidden></p>' +
       '<div class="modal-actions"><button class="btn btn-primary" type="submit">' + t('subscription.submit') + '</button></div></form>';
     var dialog = openModal(html, { className: 'modal--narrow', label: t('subscription.title') });
@@ -7715,6 +7727,9 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     input.value = state.user.email || '';
     $('#subscription-form', dialog.modal).addEventListener('submit', function (e) {
       e.preventDefault();
+      if (!$('#subscription-consent', dialog.modal).checked) {
+        error.textContent = t('subscription.consentRequired'); error.hidden = false; return;
+      }
       var email = state.user && state.user.email ? String(state.user.email).trim() : '';
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         error.textContent = t('subscription.accountEmailUnavailable'); error.hidden = false; return;
@@ -8012,7 +8027,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       var on = !$('#tool-guide').classList.contains('is-on');
       $('#tool-guide').classList.toggle('is-on', on);
       $('#tool-guide').setAttribute('aria-pressed', on ? 'true' : 'false');
-      $('#guide').classList.toggle('is-hidden', !on);
+      $('#guide').classList.toggle('is-hidden', on);
     });
 
     $('#submit-drawing').addEventListener('click', submitDrawing);
@@ -9290,7 +9305,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       if (prizeActionKind(rec) !== 'ship' || (physicalPrizeStatus(rec) !== 'address' && physicalPrizeStatus(rec) !== 'pending')) return;
       renderPrizesView(claimFormHtml(rec));
       setPrizesChrome(false);
-      var nameInput = $('#claim-name');
+      var nameInput = $('#claim-first');
       if (nameInput) setTimeout(function () { nameInput.focus(); }, 60);
     } else if (action === 'back') {
       renderPrizesView(prizesListHtml());
@@ -9317,9 +9332,12 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
     var c = rec.claim || {};
     return '<div class="claim-form">' +
       '<h3>' + t('prizes.claimTitle') + '</h3>' +
-      '<p class="claim-sub">' + t('prizes.claimSub') + '</p>' +
-      '<label class="field"><span>' + t('prizes.claimName') + '</span><input id="claim-name" maxlength="40" value="' +
-        escapeAttr(c.name || (state.user && state.user.name) || '') + '" placeholder="' + t('prizes.claimNamePh') + '"></label>' +
+      '<label class="field"><span>' + t('prizes.claimFirst') + '</span><input id="claim-first" maxlength="40" value="' +
+        escapeAttr(c.firstName || c.name || '') + '"></label>' +
+      '<label class="field"><span>' + t('prizes.claimLast') + '</span><input id="claim-last" maxlength="40" value="' +
+        escapeAttr(c.lastName || '') + '"></label>' +
+      '<label class="field"><span>' + t('prizes.claimEmail') + '</span><input id="claim-email" type="email" maxlength="254" value="' +
+        escapeAttr(c.email || (state.user && state.user.email) || '') + '"></label>' +
       '<label class="field"><span>' + t('prizes.claimPhone') + '</span><input id="claim-phone" type="tel" inputmode="tel" maxlength="24" value="' +
         escapeAttr(c.phone || '') + '" placeholder="' + t('prizes.claimPhonePh') + '"></label>' +
       '<label class="field"><span>' + t('prizes.claimAddress') + '</span><textarea id="claim-address" rows="2" maxlength="120" placeholder="' +
@@ -9333,15 +9351,16 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
 
   function submitClaim(rec) {
     if (prizeActionKind(rec) !== 'ship' || (physicalPrizeStatus(rec) !== 'address' && physicalPrizeStatus(rec) !== 'pending')) return;
-    var nameEl = $('#claim-name'), phoneEl = $('#claim-phone'), addrEl = $('#claim-address'), err = $('#claim-error');
-    var name = (nameEl && nameEl.value || '').trim();
-    var phone = (phoneEl && phoneEl.value || '').trim();
-    var address = (addrEl && addrEl.value || '').trim();
-    if (!name || !phone || !address || phone.replace(/[^0-9]/g, '').length < 6) {
+    var firstEl = $('#claim-first'), lastEl = $('#claim-last'), emailEl = $('#claim-email');
+    var phoneEl = $('#claim-phone'), addrEl = $('#claim-address'), err = $('#claim-error');
+    var first = (firstEl && firstEl.value || '').trim(), last = (lastEl && lastEl.value || '').trim();
+    var email = (emailEl && emailEl.value || '').trim();
+    var phone = (phoneEl && phoneEl.value || '').trim(), address = (addrEl && addrEl.value || '').trim();
+    if (!first || !last || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || !phone || !address || phone.replace(/[^0-9]/g, '').length < 6) {
       if (err) { err.hidden = false; err.textContent = t('prizes.claimRequired'); }
       return;
     }
-    rec.claim = { name: name, phone: phone, address: address, at: new Date(now()).toISOString() };
+    rec.claim = { name: first + ' ' + last, firstName: first, lastName: last, email: email, phone: phone, address: address, at: new Date(now()).toISOString() };
     rec.fulfillmentStatus = 'pending';
     save();
     renderPrizesView(prizesListHtml());
@@ -9454,12 +9473,13 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
       '<div class="modal-head"><span class="modal-kicker">' + t('keepsake.kicker') + '</span><h2>' + t('keepsake.title') + '</h2>' +
       '<p>' + t('keepsake.sub') + '</p></div>' +
       '<div class="keepsake-grid">' +
-      '<div class="keepsake-preview"><div class="kp-scene" style="position:relative">' + ART.sceneSVG({ clean: true, fit: 'slice' }) + (lastArt ? '<div style="position:absolute;left:7.5%;top:57%;width:22%;height:31%;background:#563321;padding:2%;box-shadow:0 2px 5px #0009"><img alt="" src="' + escapeAttr(lastArt) + '" style="width:100%;height:100%;object-fit:contain;background:#fffaf0"></div>' : '') + '</div>' +
+      '<div class="keepsake-preview"><div class="kp-scene" style="position:relative">' + ART.sceneSVG({ clean: true, fit: 'slice' }) + (lastArt ? '<div style="position:absolute;z-index:1;left:7.5%;top:57%;width:22%;height:31%;background:#563321;padding:2%;box-shadow:0 2px 5px #0009"><img alt="" src="' + escapeAttr(lastArt) + '" style="width:100%;height:100%;object-fit:contain;background:#fffaf0"></div>' : '') + '</div>' +
       '<div class="kp-body"><span class="kp-kicker">' + t('keepsake.cardKicker') + '</span>' +
       '<div class="kp-name" id="kp-name">' + escapeHtml(name) + '</div>' +
       '<p class="kp-blessing" id="kp-blessing">' + escapeHtml(blessing) + '</p>' +
       '<div class="kp-foot"><span>' + t('keepsake.piecesAll') + '</span><span id="kp-code">' + code + '</span></div></div></div>' +
       '<div class="keepsake-form">' +
+      '<p class="keepsake-code">' + t('keepsake.codeLabel') + '：<strong>' + escapeHtml(code) + '</strong></p>' +
       '<label class="field"><span>' + t('keepsake.name') + '</span><input id="kp-input-name" maxlength="18" value="' + escapeAttr(name) + '" placeholder="' + t('keepsake.placeholderName') + '"></label>' +
       '<label class="field"><span>' + t('keepsake.wish') + '</span><textarea id="kp-input-blessing" maxlength="80" placeholder="' + t('keepsake.placeholderWish') + '">' + escapeHtml(blessing) + '</textarea></label>' +
       '<div class="preset-chips" id="kp-presets">' + blessingList().map(function (b) {
@@ -9645,7 +9665,7 @@ body { background: linear-gradient(rgba(5, 8, 26, .94), rgba(5, 8, 26, .96)), ur
         return CARDS.renderShareCard(canvas, {
           name: state.user ? state.user.name : 'A Christmas maker',
           pieces: fragments(),
-          code: state.keepsake.code || '',
+          code: keepsakeCode(),
           art: state.completed[TASKS[23].id] && state.completed[TASKS[23].id].art,
           lang: I18N.current()
         });

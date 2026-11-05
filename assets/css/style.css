@@ -1523,6 +1523,9 @@ section[id] { scroll-margin-top: calc(var(--header-h) + 22px); }
 }
 .field input:focus { outline: none; border-color: var(--gold); background: rgba(247, 200, 105, .05); }
 .field-error { color: #ff9c92; font-size: 12px; margin: 0 0 12px; }
+.subscription-consent { display: flex; align-items: flex-start; gap: 10px; margin: 4px 0 16px; color: var(--muted); font-size: 13px; line-height: 1.5; cursor: pointer; }
+.subscription-consent input { flex: none; width: 16px; height: 16px; margin: 2px 0 0; accent-color: var(--gold); cursor: pointer; }
+
 .auth-form-wrap .btn-block { margin-top: 6px; padding: 15px; }
 .auth-fine { font-size: 10.5px; color: var(--muted-2); margin: 18px 0 0; line-height: 1.6; }
 #auth-demo { align-self: flex-start; margin-top: 8px; }
@@ -1875,6 +1878,8 @@ a.prize-btn { text-decoration: none; }
 .kp-foot { margin-top: auto; padding-top: 8px; border-top: 1px solid rgba(247, 200, 105, .14); display: flex; justify-content: space-between; gap: 8px; font-size: 7.5px; letter-spacing: .1em; text-transform: uppercase; color: rgba(196, 211, 234, .55); }
 .kp-foot b { color: rgba(247, 200, 105, .75); font-weight: 700; }
 
+.keepsake-code { margin: 0 0 14px; color: var(--muted); font-size: 12px; }
+.keepsake-code strong { color: var(--gold); letter-spacing: .04em; }
 .keepsake-form .field { margin-bottom: 12px; }
 .keepsake-form textarea {
   width: 100%;

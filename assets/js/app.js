@@ -596,6 +596,8 @@
     var html = '<div class="modal-head"><h2>' + t('subscription.title') + '</h2></div>' +
       '<form id="subscription-form" novalidate><label class="field"><span>' + t('subscription.email') + '</span>' +
       '<input id="subscription-email" type="email" readonly aria-readonly="true"></label>' +
+      '<label class="subscription-consent"><input id="subscription-consent" type="checkbox">' +
+      '<span>' + t('subscription.consent') + '</span></label>' +
       '<p class="field-error" id="subscription-error" role="alert" hidden></p>' +
       '<div class="modal-actions"><button class="btn btn-primary" type="submit">' + t('subscription.submit') + '</button></div></form>';
     var dialog = openModal(html, { className: 'modal--narrow', label: t('subscription.title') });
@@ -604,6 +606,9 @@
     input.value = state.user.email || '';
     $('#subscription-form', dialog.modal).addEventListener('submit', function (e) {
       e.preventDefault();
+      if (!$('#subscription-consent', dialog.modal).checked) {
+        error.textContent = t('subscription.consentRequired'); error.hidden = false; return;
+      }
       var email = state.user && state.user.email ? String(state.user.email).trim() : '';
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         error.textContent = t('subscription.accountEmailUnavailable'); error.hidden = false; return;
@@ -901,7 +906,7 @@
       var on = !$('#tool-guide').classList.contains('is-on');
       $('#tool-guide').classList.toggle('is-on', on);
       $('#tool-guide').setAttribute('aria-pressed', on ? 'true' : 'false');
-      $('#guide').classList.toggle('is-hidden', !on);
+      $('#guide').classList.toggle('is-hidden', on);
     });
 
     $('#submit-drawing').addEventListener('click', submitDrawing);
@@ -2179,7 +2184,7 @@
       if (prizeActionKind(rec) !== 'ship' || (physicalPrizeStatus(rec) !== 'address' && physicalPrizeStatus(rec) !== 'pending')) return;
       renderPrizesView(claimFormHtml(rec));
       setPrizesChrome(false);
-      var nameInput = $('#claim-name');
+      var nameInput = $('#claim-first');
       if (nameInput) setTimeout(function () { nameInput.focus(); }, 60);
     } else if (action === 'back') {
       renderPrizesView(prizesListHtml());
@@ -2206,9 +2211,12 @@
     var c = rec.claim || {};
     return '<div class="claim-form">' +
       '<h3>' + t('prizes.claimTitle') + '</h3>' +
-      '<p class="claim-sub">' + t('prizes.claimSub') + '</p>' +
-      '<label class="field"><span>' + t('prizes.claimName') + '</span><input id="claim-name" maxlength="40" value="' +
-        escapeAttr(c.name || (state.user && state.user.name) || '') + '" placeholder="' + t('prizes.claimNamePh') + '"></label>' +
+      '<label class="field"><span>' + t('prizes.claimFirst') + '</span><input id="claim-first" maxlength="40" value="' +
+        escapeAttr(c.firstName || c.name || '') + '"></label>' +
+      '<label class="field"><span>' + t('prizes.claimLast') + '</span><input id="claim-last" maxlength="40" value="' +
+        escapeAttr(c.lastName || '') + '"></label>' +
+      '<label class="field"><span>' + t('prizes.claimEmail') + '</span><input id="claim-email" type="email" maxlength="254" value="' +
+        escapeAttr(c.email || (state.user && state.user.email) || '') + '"></label>' +
       '<label class="field"><span>' + t('prizes.claimPhone') + '</span><input id="claim-phone" type="tel" inputmode="tel" maxlength="24" value="' +
         escapeAttr(c.phone || '') + '" placeholder="' + t('prizes.claimPhonePh') + '"></label>' +
       '<label class="field"><span>' + t('prizes.claimAddress') + '</span><textarea id="claim-address" rows="2" maxlength="120" placeholder="' +
@@ -2222,15 +2230,16 @@
 
   function submitClaim(rec) {
     if (prizeActionKind(rec) !== 'ship' || (physicalPrizeStatus(rec) !== 'address' && physicalPrizeStatus(rec) !== 'pending')) return;
-    var nameEl = $('#claim-name'), phoneEl = $('#claim-phone'), addrEl = $('#claim-address'), err = $('#claim-error');
-    var name = (nameEl && nameEl.value || '').trim();
-    var phone = (phoneEl && phoneEl.value || '').trim();
-    var address = (addrEl && addrEl.value || '').trim();
-    if (!name || !phone || !address || phone.replace(/[^0-9]/g, '').length < 6) {
+    var firstEl = $('#claim-first'), lastEl = $('#claim-last'), emailEl = $('#claim-email');
+    var phoneEl = $('#claim-phone'), addrEl = $('#claim-address'), err = $('#claim-error');
+    var first = (firstEl && firstEl.value || '').trim(), last = (lastEl && lastEl.value || '').trim();
+    var email = (emailEl && emailEl.value || '').trim();
+    var phone = (phoneEl && phoneEl.value || '').trim(), address = (addrEl && addrEl.value || '').trim();
+    if (!first || !last || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || !phone || !address || phone.replace(/[^0-9]/g, '').length < 6) {
       if (err) { err.hidden = false; err.textContent = t('prizes.claimRequired'); }
       return;
     }
-    rec.claim = { name: name, phone: phone, address: address, at: new Date(now()).toISOString() };
+    rec.claim = { name: first + ' ' + last, firstName: first, lastName: last, email: email, phone: phone, address: address, at: new Date(now()).toISOString() };
     rec.fulfillmentStatus = 'pending';
     save();
     renderPrizesView(prizesListHtml());
@@ -2343,12 +2352,13 @@
       '<div class="modal-head"><span class="modal-kicker">' + t('keepsake.kicker') + '</span><h2>' + t('keepsake.title') + '</h2>' +
       '<p>' + t('keepsake.sub') + '</p></div>' +
       '<div class="keepsake-grid">' +
-      '<div class="keepsake-preview"><div class="kp-scene" style="position:relative">' + ART.sceneSVG({ clean: true, fit: 'slice' }) + (lastArt ? '<div style="position:absolute;left:7.5%;top:57%;width:22%;height:31%;background:#563321;padding:2%;box-shadow:0 2px 5px #0009"><img alt="" src="' + escapeAttr(lastArt) + '" style="width:100%;height:100%;object-fit:contain;background:#fffaf0"></div>' : '') + '</div>' +
+      '<div class="keepsake-preview"><div class="kp-scene" style="position:relative">' + ART.sceneSVG({ clean: true, fit: 'slice' }) + (lastArt ? '<div style="position:absolute;z-index:1;left:7.5%;top:57%;width:22%;height:31%;background:#563321;padding:2%;box-shadow:0 2px 5px #0009"><img alt="" src="' + escapeAttr(lastArt) + '" style="width:100%;height:100%;object-fit:contain;background:#fffaf0"></div>' : '') + '</div>' +
       '<div class="kp-body"><span class="kp-kicker">' + t('keepsake.cardKicker') + '</span>' +
       '<div class="kp-name" id="kp-name">' + escapeHtml(name) + '</div>' +
       '<p class="kp-blessing" id="kp-blessing">' + escapeHtml(blessing) + '</p>' +
       '<div class="kp-foot"><span>' + t('keepsake.piecesAll') + '</span><span id="kp-code">' + code + '</span></div></div></div>' +
       '<div class="keepsake-form">' +
+      '<p class="keepsake-code">' + t('keepsake.codeLabel') + '：<strong>' + escapeHtml(code) + '</strong></p>' +
       '<label class="field"><span>' + t('keepsake.name') + '</span><input id="kp-input-name" maxlength="18" value="' + escapeAttr(name) + '" placeholder="' + t('keepsake.placeholderName') + '"></label>' +
       '<label class="field"><span>' + t('keepsake.wish') + '</span><textarea id="kp-input-blessing" maxlength="80" placeholder="' + t('keepsake.placeholderWish') + '">' + escapeHtml(blessing) + '</textarea></label>' +
       '<div class="preset-chips" id="kp-presets">' + blessingList().map(function (b) {
@@ -2534,7 +2544,7 @@
         return CARDS.renderShareCard(canvas, {
           name: state.user ? state.user.name : 'A Christmas maker',
           pieces: fragments(),
-          code: state.keepsake.code || '',
+          code: keepsakeCode(),
           art: state.completed[TASKS[23].id] && state.completed[TASKS[23].id].art,
           lang: I18N.current()
         });
