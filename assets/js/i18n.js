@@ -152,7 +152,7 @@
       'gate.endedCta': 'See my prizes',
       'gate.endedNote': 'The event closed on December 31, 10:00 UTC+8.',
       'gate.completeTitle': 'All 24 pieces are glowing',
-      'gate.completeCopy': 'The whole town is lit. Create your personalised keepsake, download it and share it.',
+      'gate.completeCopy': 'The whole town is lit up — come generate your exclusive commemorative image now!',
       'gate.completeCta': 'Create my keepsake',
       'gate.completeNote': '24 / 24 pieces · Christmas Town complete',
       'gate.caughtTitle': 'All caught up for today',
